@@ -44,8 +44,6 @@ namespace Detrav.Terometr.Windows
         Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong,TeraPlayer>();
         Dictionary<ulong, ulong> projectiles = new Dictionary<ulong, ulong>();
         TeraPlayer self = new TeraPlayer(0,"UNKNOWN");
-        Dictionary<ulong, TeraPlayer> dpsPlayers = new Dictionary<ulong, TeraPlayer>();
-        Dictionary<ulong, TeraPlayer> hpsPlayers = new Dictionary<ulong, TeraPlayer>();
 
         public void changeTitle(string str)
         {
@@ -129,8 +127,12 @@ namespace Detrav.Terometr.Windows
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
-            dpsPlayers.Clear();
-            hpsPlayers.Clear();
+            listDps.clear();
+            listHps.clear();
+            listDamage.clear();
+            listHeal.clear();
+            listDamageTaken.clear();
+            listHealTaken.clear();
             foreach(var pair in party)
             {
                 pair.Value.clear();
@@ -138,55 +140,40 @@ namespace Detrav.Terometr.Windows
             self.clear();
         }
 
-        bool valueNotPerSecond;
+        //bool valueNotPerSecond;
         public void doEvents()
         {
             switch (tabControl.SelectedIndex)
             {
                 case 0:
-                    {
-                        TeraPlayer player;
-                        
-                        foreach (var pair in party)
-                        {
-                            if (pair.Value.dps == null) continue;
-                            if (pair.Value.dps.perSecond <= 0) continue;
-                            if (!dpsPlayers.TryGetValue(pair.Key, out player))
-                                dpsPlayers.Add(pair.Key, pair.Value);
-                        }
-                        
-                    }
+                    foreach (var pair in party)
+                        if (pair.Value.damage > 0) listDps.addPlayer(pair.Value);
+                    listDps.updateDps(self.id);
                     break;
                 case 1:
-                    {
-                        TeraPlayer player;
-                        SortedList<double, TeraPlayer> hpss = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
-                        foreach (var pair in party)
-                        {
-                            if (pair.Value.hps == null) continue;
-                            if (pair.Value.hps.perSecond <= 0) continue;
-                            if (!hpsPlayers.TryGetValue(pair.Key, out player))
-                                hpsPlayers.Add(pair.Key, pair.Value);
-                        }
-                        double max = 0;
-                        foreach (var pair in hpsPlayers)
-                        {
-                            max = Math.Max(pair.Value.hps.perSecond, max);
-                            hpss.Add(pair.Value.hps.perSecond, pair.Value);
-                        }
-                        while (listBoxHps.Items.Count > hpss.Count) listBoxHps.Items.RemoveAt(0);
-                        while (listBoxHps.Items.Count < hpss.Count) listBoxHps.Items.Add(new PlayerBarElement());
-                        int i = 0;
-                        foreach (var pair in hpss)
-                        {
-                            (listBoxHps.Items[i] as PlayerBarElement).changeData(pair.Value.hps.perSecond / max * 100, pair.Value.name, pair.Value.hps.perSecond.ToString(), pair.Value.id == self.id);
-                            i++;
-                        }
-                    }
+                    foreach (var pair in party)
+                        if (pair.Value.damage > 0) listDamage.addPlayer(pair.Value);
+                    listDamage.updateDamage(self.id);
                     break;
                 case 2:
+                    foreach (var pair in party)
+                        if (pair.Value.heal > 0) listHps.addPlayer(pair.Value);
+                    listHps.updateHps(self.id);
                     break;
                 case 3:
+                    foreach (var pair in party)
+                        if (pair.Value.heal > 0) listHeal.addPlayer(pair.Value);
+                    listHps.updateHeal(self.id);
+                    break;
+                case 4:
+                    foreach (var pair in party)
+                        if (pair.Value.damageTaken > 0) listDamageTaken.addPlayer(pair.Value);
+                    listDamageTaken.updateDamageTaken(self.id);
+                    break;
+                case 5:
+                    foreach (var pair in party)
+                        if (pair.Value.healTaken > 0) listHealTaken.addPlayer(pair.Value);
+                    listHealTaken.updateHealTaken(self.id);
                     break;
             }
         }

@@ -11,54 +11,93 @@ namespace Detrav.Terometr.Core
     {
         public ulong id;
         public string name = "Unknown";
-        public DPSEngine dps;
-        public DPSEngine dtps;
-        public DPSEngine hps;
-        public DPSEngine htps;
+        public ulong damage;
+        public ulong heal;
+        public ulong damageTaken;
+        public ulong healTaken;
+        public double dps { get { return damage / elapsedTime.TotalSeconds; } }
+        public double hps { get { return heal / elapsedTime.TotalSeconds; } }
+        public TimeSpan elapsedTime
+        {
+            get
+            {
+                if (DateTime.Now - last > timeOut)
+                    return last + timeOut - first;
+                else return DateTime.Now - first;
+            }
+        }
+        public DateTime first = DateTime.MinValue;//Динамически расчитывается начальный удар - timeOut
+        public DateTime last = DateTime.MinValue;//Когда был последний удар
+        //public DateTime end = DateTime.MinValue;//Динамически расчитывается конецчный удар + timeOut
+        public TimeSpan timeOut = TimeSpan.FromSeconds(3.14);
+
+
+        public void addDamage(uint v)
+        {
+            DateTime now = DateTime.Now;
+            if (now - last > timeOut)
+            {
+                first += now - last - timeOut;
+                Logger.debug("First = {0}", first);
+            }
+            damage += v;
+            last = now;
+        }
+        public void addHeal(uint v)
+        {
+            DateTime now = DateTime.Now;
+            if (now - last > timeOut)
+            {
+                first += now - last - timeOut;
+                Logger.debug("First = {0}", first);
+            }
+            heal += v;
+            last = now;
+        }
 
         public TeraPlayer(ulong id,string name)
         {
             this.id = id;
             this.name = name;
         }
-        public void clear()
-        {
-            dps = null;
-            dtps = null;
-            hps = null;
-            htps = null;
-        }
+        
         public void makeSkill(uint v, ushort t)
         {
             if(v == 0) return;
-            Logger.debug("Make skull type {0}", t);
+            Logger.debug("Make skill type {0}", t);
             switch(t)
             {
                 case 1:
-                    if (dps == null) dps = new DPSEngine();
-                    dps.addValue(v);
+                    addDamage(v);
                     break;
                 case 2:
-                    if (hps == null) hps = new DPSEngine();
-                    hps.addValue(v);
+                    addHeal(v);
                     break;
             }
         }
         public void takeSkill(uint v,ushort t)
         {
             if (v == 0) return;
-            Logger.debug("Take skull type {0}", t);
+            Logger.debug("Take skill type {0}", t);
             switch (t)
             {
                 case 1:
-                    if (dtps == null) dtps = new DPSEngine();
-                    dtps.addValue(v);
+                    damageTaken += v;
                     break;
                 case 2:
-                    if (htps == null) htps = new DPSEngine();
-                    htps.addValue(v);
+                    healTaken += v;
                     break;
             }
+        }
+
+        internal void clear()
+        {
+            first = DateTime.MinValue;
+            last = DateTime.MinValue;
+            damage = 0;
+            heal = 0;
+            damageTaken = 0;
+            healTaken = 0;
         }
     }
 }

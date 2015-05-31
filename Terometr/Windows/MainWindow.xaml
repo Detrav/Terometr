@@ -1,6 +1,7 @@
 ﻿<Window x:Class="Detrav.Terometr.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:UserElements ="clr-namespace:Detrav.Terometr.UserElements"
         Height="300"
         Width="300"
         Style="{DynamicResource MainWindowStyle}"
@@ -89,16 +90,22 @@
                         Style="{DynamicResource tabControlStyle}"
                         SelectionChanged="tabControl_SelectionChanged">
                 <TabItem Header="ДПС">
-                    <ListBox x:Name="listBoxDps"></ListBox>
+                    <UserElements:ListBoxBars x:Name="listDps" />
+                </TabItem>
+                <TabItem Header="Нанесено урона">
+                    <UserElements:ListBoxBars x:Name="listDamage" />
                 </TabItem>
                 <TabItem Header="ХПС">
-                    <ListBox x:Name="listBoxHps"></ListBox>
+                    <UserElements:ListBoxBars x:Name="listHps" />
+                </TabItem>
+                <TabItem Header="Отхилино">
+                    <UserElements:ListBoxBars x:Name="listHeal" />
                 </TabItem>
                 <TabItem Header="Получено урона">
-                    <ListBox x:Name="listBoxDTps"></ListBox>
+                    <UserElements:ListBoxBars x:Name="listDamageTaken" />
                 </TabItem>
                 <TabItem Header="Получено хила">
-                    <ListBox x:Name="listBoxHTps"></ListBox>
+                    <UserElements:ListBoxBars x:Name="listHealTaken" />
                 </TabItem>
                 <TabItem Header="Настройки">
                     <ListBox x:Name="Settings">

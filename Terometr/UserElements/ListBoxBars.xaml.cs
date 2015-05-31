@@ -25,52 +25,103 @@ namespace Detrav.Terometr.UserElements
         {
             InitializeComponent();
         }
+        Dictionary<ulong, TeraPlayer> players = new Dictionary<ulong,TeraPlayer>();
 
-        public void updateDps(Dictionary<ulong, TeraPlayer> players,ulong selfId)
+        internal void updateDps(ulong selfId)
         {
-            SortedList<double, Vector3Str> dpss = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
+            SortedList<double, Vector3Str> list = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
             double max = 0;
             double sum = 0;
             foreach (var pair in players)
             {
-                sum += pair.Value.dps.perSecond;
-                max = Math.Max(pair.Value.dps.perSecond, max);
-                dpss.Add(pair.Value.dps.perSecond, new Vector3Str(pair.Value.name,pair.Value.dps.perSecond,pair.Value.id == selfId));
+                double dps = pair.Value.dps;
+                sum += dps;
+                max = Math.Max(dps, max);
+                list.Add(dps, new Vector3Str(pair.Value.name, dps, pair.Value.id == selfId));
             }
-            while (listBox.Items.Count > dpss.Count) listBox.Items.RemoveAt(0);
-            while (listBox.Items.Count < dpss.Count) listBox.Items.Add(new PlayerBarElement());
-            updateData(dpss, max, sum);
+            while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
+            updateData(list, max, sum);
         }
-        public void updateDamage(Dictionary<ulong, TeraPlayer> players, ulong selfId)
+        internal void updateDamage(ulong selfId)
         {
-            SortedList<double, TeraPlayer> dpss = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
+            SortedList<double, Vector3Str> list = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
             double max = 0;
+            double sum = 0;
             foreach (var pair in players)
             {
-                max = Math.Max(pair.Value.dps.perSecond, max);
-                dpss.Add(pair.Value.dps.perSecond, pair.Value);
+                double damage = pair.Value.damage;
+                sum += damage;
+                max = Math.Max(damage, max);
+                list.Add(damage, new Vector3Str(pair.Value.name, damage, pair.Value.id == selfId));
             }
-            while (listBox.Items.Count > dpss.Count) listBox.Items.RemoveAt(0);
-            while (listBox.Items.Count < dpss.Count) listBox.Items.Add(new PlayerBarElement());
-            int i = 0;
-            foreach (var pair in dpss)
-            {
-                (listBox.Items[i] as PlayerBarElement).changeData(
-                    pair.Value.dps.perSecond / max * 100,
-                    pair.Value.name,
-                    pair.Value.dps.perSecond.ToString(),
-                    pair.Value.id == selfId);
-                i++;
-            }
-
+            while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
+            updateData(list, max, sum);
         }
-        public void updateHps(Dictionary<ulong, TeraPlayer> players, ulong selfId) { }
-        public void updateHeal(Dictionary<ulong, TeraPlayer> players, ulong selfId) { }
-        public void updateDpsTaken(Dictionary<ulong, TeraPlayer> players, ulong selfId) { }
-        public void updateDamageTaken(Dictionary<ulong, TeraPlayer> players, ulong selfId) { }
-        public void updateHpsTaken(Dictionary<ulong, TeraPlayer> players, ulong selfId) { }
-        public void updateHealTaken(Dictionary<ulong, TeraPlayer> players, ulong selfId) { }
-
+        internal void updateHps(ulong selfId)
+        {
+            SortedList<double, Vector3Str> list = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
+            double max = 0;
+            double sum = 0;
+            foreach (var pair in players)
+            {
+                double hps = pair.Value.hps;
+                sum += hps;
+                max = Math.Max(hps, max);
+                list.Add(hps, new Vector3Str(pair.Value.name, hps, pair.Value.id == selfId));
+            }
+            while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
+            updateData(list, max, sum);
+        }
+        internal void updateHeal(ulong selfId) {
+            SortedList<double, Vector3Str> list = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
+            double max = 0;
+            double sum = 0;
+            foreach (var pair in players)
+            {
+                double heal = pair.Value.heal;
+                sum += heal;
+                max = Math.Max(heal, max);
+                list.Add(heal, new Vector3Str(pair.Value.name, heal, pair.Value.id == selfId));
+            }
+            while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
+            updateData(list, max, sum);
+        }
+        internal void updateDamageTaken(ulong selfId)
+        {
+            SortedList<double, Vector3Str> list = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
+            double max = 0;
+            double sum = 0;
+            foreach (var pair in players)
+            {
+                double damageT = pair.Value.damageTaken;
+                sum += damageT;
+                max = Math.Max(damageT, max);
+                list.Add(damageT, new Vector3Str(pair.Value.name, damageT, pair.Value.id == selfId));
+            }
+            while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
+            updateData(list, max, sum);
+        }
+        internal void updateHealTaken(ulong selfId)
+        {
+            SortedList<double, Vector3Str> list = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
+            double max = 0;
+            double sum = 0;
+            foreach (var pair in players)
+            {
+                double healT = pair.Value.healTaken;
+                sum += healT;
+                max = Math.Max(healT, max);
+                list.Add(healT, new Vector3Str(pair.Value.name, healT, pair.Value.id == selfId));
+            }
+            while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
+            updateData(list, max, sum);
+        }
         /// <summary>
         /// Comparer for comparing two keys, handling equality as beeing greater
         /// Use this Comparer e.g. with SortedLists or SortedDictionaries, that don't allow duplicate keys
@@ -92,8 +143,6 @@ namespace Detrav.Terometr.UserElements
 
             #endregion
         }
-
-
         private void updateData(SortedList<double,Vector3Str> list, double max,double sum)
         {
             int i = 0;
@@ -107,10 +156,21 @@ namespace Detrav.Terometr.UserElements
                 i++;
             }
         }
-
         private string generateRight(double val, double sum)
         {
-            
+            if(val<100000)
+            {
+                return String.Format("{0:0.00}({1}%)",val, (int)(val / sum * 100.0));
+            }
+            if(val<100000000)
+            {
+                return String.Format("{0:0.00}K({1}%)",val/1000, (int)(val / sum * 100.0));
+            }
+            if(val<100000000000)
+            {
+                return String.Format("{0:0.00}M({1}%)", val / 1000000, (int)(val / sum * 100.0));
+            }
+            return String.Format("{0:0.00}T({1}%)", val / 1000000000, (int)(val / sum * 100.0));
         }
         class Vector3Str
         {
@@ -123,6 +183,17 @@ namespace Detrav.Terometr.UserElements
                 this.right = right;
                 this.self = self;
             }
+        }
+
+        internal void addPlayer(TeraPlayer teraPlayer)
+        {
+            TeraPlayer player;
+            if(!players.TryGetValue(teraPlayer.id,out player)) players.Add(teraPlayer.id,teraPlayer);
+        }
+
+        internal void clear()
+        {
+            throw new NotImplementedException();
         }
     }
 }
