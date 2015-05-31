@@ -64,6 +64,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserElements\ListBoxBars.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserElements\PlayerBarElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +81,9 @@
     <Compile Include="Mod.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserElements\ListBoxBars.xaml.cs">
+      <DependentUpon>ListBoxBars.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserElements\PlayerBarElement.xaml.cs">
       <DependentUpon>PlayerBarElement.xaml</DependentUpon>

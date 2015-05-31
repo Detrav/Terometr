@@ -138,7 +138,7 @@ namespace Detrav.Terometr.Windows
             self.clear();
         }
 
-
+        bool valueNotPerSecond;
         public void doEvents()
         {
             switch (tabControl.SelectedIndex)
@@ -146,7 +146,7 @@ namespace Detrav.Terometr.Windows
                 case 0:
                     {
                         TeraPlayer player;
-                        SortedList<double, TeraPlayer> dpss = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
+                        
                         foreach (var pair in party)
                         {
                             if (pair.Value.dps == null) continue;
@@ -154,20 +154,7 @@ namespace Detrav.Terometr.Windows
                             if (!dpsPlayers.TryGetValue(pair.Key, out player))
                                 dpsPlayers.Add(pair.Key, pair.Value);
                         }
-                        double max = 0;
-                        foreach(var pair in dpsPlayers)
-                        {
-                            max = Math.Max(pair.Value.dps.perSecond,max);
-                            dpss.Add(pair.Value.dps.perSecond, pair.Value);
-                        }
-                        while (listBoxDps.Items.Count > dpss.Count) listBoxDps.Items.RemoveAt(0);
-                        while (listBoxDps.Items.Count < dpss.Count) listBoxDps.Items.Add(new PlayerBarElement());
-                        int i =0;
-                        foreach (var pair in dpss)
-                        {
-                            (listBoxDps.Items[i] as PlayerBarElement).changeData(pair.Value.dps.perSecond / max *100, pair.Value.name, pair.Value.dps.perSecond.ToString(), pair.Value.id == self.id);
-                            i++;
-                        }
+                        
                     }
                     break;
                 case 1:
@@ -204,29 +191,7 @@ namespace Detrav.Terometr.Windows
             }
         }
 
-        /// <summary>
-        /// Comparer for comparing two keys, handling equality as beeing greater
-        /// Use this Comparer e.g. with SortedLists or SortedDictionaries, that don't allow duplicate keys
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        public class DuplicateKeyComparer<TKey>
-                        :
-                     IComparer<TKey> where TKey : IComparable
-        {
-            #region IComparer<TKey> Members
 
-            public int Compare(TKey x, TKey y)
-            {
-                int result = x.CompareTo(y);
-
-                if (result == 0)
-                    return 1;   // Handle equality as beeing greater
-                else
-                    return result;
-            }
-
-            #endregion
-        }
 
 
         internal void opPacketArrival(object sender, PacketArrivalEventArgs e)
