@@ -42,8 +42,8 @@ namespace Detrav.Terometr.UserElements
                 case clr.sum: progressBar.Foreground = black; break;
                 default: progressBar.Foreground = blue; break; 
             }
-            if (progressValue > 100) progressBar.Value = 100;
-            else if (progressValue < 0) progressValue = 0;
+            if (progressValue > 100 || Double.IsInfinity(progressValue) || Double.IsNaN(progressValue)) progressBar.Value = 100;
+            else if (progressValue < 0 ) progressValue = 0;
             else progressBar.Value = progressValue;
             labelLeft.Content = left;
             labelRight.Content = right;
