@@ -8,7 +8,8 @@
         StateChanged="Window_StateChanged"
         Topmost="True"
         ShowInTaskbar="False"
-        Title = "Terometr - Дпс метр">
+        Title = "Terometr - Дпс метр"
+        MinHeight="20">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -39,35 +40,43 @@
                 <Image Source="pack://application:,,,/Terometr;component/assets/images/Bottom.png"
                        Margin="0" />
             </Button>
-            <Button HorizontalAlignment="Right"
+            <Button x:Name="buttonInfo"
+                HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Нашли баг?">
                 <Image Source="pack://application:,,,/Terometr;component/assets/images/Info.png"
                        Margin="0" />
             </Button>
-            <Button HorizontalAlignment="Right"
+            <Button x:Name="buttonForward"
+                HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
-                    ToolTip="Далее">
+                    ToolTip="Далее"
+                    Click="buttonForward_Click">
                 <Image Source="pack://application:,,,/Terometr;component/assets/images/Forward.png"
                        Margin="0" />
             </Button>
-            <Button HorizontalAlignment="Right"
+            <Button x:Name="buttonBack"
+                HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
-                    ToolTip="Назад">
+                    ToolTip="Назад"
+                    Click="buttonBack_Click">
                 <Image Source="pack://application:,,,/Terometr;component/assets/images/Back.png"
                        Margin="0" />
             </Button>
-            <Button HorizontalAlignment="Right"
+            <Button x:Name="buttonNew"
+                HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
-                    ToolTip="Очистить">
+                    ToolTip="Очистить"
+                    Click="buttonNew_Click">
                 <Image Source="pack://application:,,,/Terometr;component/assets/images/New.png"
                        Margin="0" />
             </Button>
-            <Button HorizontalAlignment="Right"
+            <Button x:Name="buttonBubble"
+                HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Написать в час">
@@ -77,7 +86,8 @@
         </DockPanel>
         <Grid Grid.Row="1">
             <TabControl x:Name="tabControl"
-                        Style="{DynamicResource tabControlStyle}">
+                        Style="{DynamicResource tabControlStyle}"
+                        SelectionChanged="tabControl_SelectionChanged">
                 <TabItem Header="ДПС">
                     <ListBox x:Name="listBoxDps"></ListBox>
                 </TabItem>
