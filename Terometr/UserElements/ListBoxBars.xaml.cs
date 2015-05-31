@@ -197,12 +197,12 @@ namespace Detrav.Terometr.UserElements
             int procent = (int)(val / sum * 100.0);
             if (procent < 0) procent = 0;
             else if (procent > 100) procent = 100;
-            
-            if(val<1000)
+
+            if (res < 1000)
             {
                 return String.Format("{0:0.00}{1}({2}%)", res, kilos[num], procent);
             }
-            if(val<10000)
+            if (res < 10000)
             {
                 return String.Format("{0:0.0}{1}({2}%)", res, kilos[num], procent);
             }
