@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Detrav.TeraApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,22 +11,15 @@ namespace Detrav.Terometr.Core
     {
         public ulong id;
         public string name = "Unknown";
-        public bool inParty;
         public DPSEngine dps;
         public DPSEngine dtps;
         public DPSEngine hps;
         public DPSEngine htps;
 
-        public TeraPlayer(ulong id,string name, bool inParty)
+        public TeraPlayer(ulong id,string name)
         {
             this.id = id;
             this.name = name;
-            this.inParty = inParty;
-        }
-        public bool updateStatus(bool inParty)
-        {
-            this.inParty = inParty;
-            return this.inParty;
         }
         public void clear()
         {
@@ -37,6 +31,7 @@ namespace Detrav.Terometr.Core
         public void makeSkill(uint v, ushort t)
         {
             if(v == 0) return;
+            Logger.debug("Make skull type {0}", t);
             switch(t)
             {
                 case 1:
@@ -52,6 +47,7 @@ namespace Detrav.Terometr.Core
         public void takeSkill(uint v,ushort t)
         {
             if (v == 0) return;
+            Logger.debug("Take skull type {0}", t);
             switch (t)
             {
                 case 1:

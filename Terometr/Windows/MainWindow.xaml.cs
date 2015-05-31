@@ -1,7 +1,9 @@
-﻿using Detrav.TeraApi.Events;
+﻿using Detrav.TeraApi;
+using Detrav.TeraApi.Events;
 using Detrav.TeraApi.OpCodes;
 using Detrav.TeraApi.OpCodes.P2904;
 using Detrav.Terometr.Core;
+using Detrav.Terometr.UserElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,7 +43,9 @@ namespace Detrav.Terometr.Windows
 
         Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong,TeraPlayer>();
         Dictionary<ulong, ulong> projectiles = new Dictionary<ulong, ulong>();
-        TeraPlayer self = new TeraPlayer(0,"UNKNOWN",true);
+        TeraPlayer self = new TeraPlayer(0,"UNKNOWN");
+        Dictionary<ulong, TeraPlayer> dpsPlayers = new Dictionary<ulong, TeraPlayer>();
+        Dictionary<ulong, TeraPlayer> hpsPlayers = new Dictionary<ulong, TeraPlayer>();
 
         public void changeTitle(string str)
         {
@@ -125,6 +129,8 @@ namespace Detrav.Terometr.Windows
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
+            dpsPlayers.Clear();
+            hpsPlayers.Clear();
             foreach(var pair in party)
             {
                 pair.Value.clear();
@@ -139,17 +145,57 @@ namespace Detrav.Terometr.Windows
             {
                 case 0:
                     {
+                        TeraPlayer player;
                         SortedList<double, TeraPlayer> dpss = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
                         foreach (var pair in party)
                         {
-                            if (!pair.Value.inParty) continue;
                             if (pair.Value.dps == null) continue;
                             if (pair.Value.dps.perSecond <= 0) continue;
+                            if (!dpsPlayers.TryGetValue(pair.Key, out player))
+                                dpsPlayers.Add(pair.Key, pair.Value);
+                        }
+                        double max = 0;
+                        foreach(var pair in dpsPlayers)
+                        {
+                            max = Math.Max(pair.Value.dps.perSecond,max);
                             dpss.Add(pair.Value.dps.perSecond, pair.Value);
+                        }
+                        while (listBoxDps.Items.Count > dpss.Count) listBoxDps.Items.RemoveAt(0);
+                        while (listBoxDps.Items.Count < dpss.Count) listBoxDps.Items.Add(new PlayerBarElement());
+                        int i =0;
+                        foreach (var pair in dpss)
+                        {
+                            (listBoxDps.Items[i] as PlayerBarElement).changeData(pair.Value.dps.perSecond / max *100, pair.Value.name, pair.Value.dps.perSecond.ToString(), pair.Value.id == self.id);
+                            i++;
                         }
                     }
                     break;
                 case 1:
+                    {
+                        TeraPlayer player;
+                        SortedList<double, TeraPlayer> hpss = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
+                        foreach (var pair in party)
+                        {
+                            if (pair.Value.hps == null) continue;
+                            if (pair.Value.hps.perSecond <= 0) continue;
+                            if (!hpsPlayers.TryGetValue(pair.Key, out player))
+                                hpsPlayers.Add(pair.Key, pair.Value);
+                        }
+                        double max = 0;
+                        foreach (var pair in hpsPlayers)
+                        {
+                            max = Math.Max(pair.Value.hps.perSecond, max);
+                            hpss.Add(pair.Value.hps.perSecond, pair.Value);
+                        }
+                        while (listBoxHps.Items.Count > hpss.Count) listBoxHps.Items.RemoveAt(0);
+                        while (listBoxHps.Items.Count < hpss.Count) listBoxHps.Items.Add(new PlayerBarElement());
+                        int i = 0;
+                        foreach (var pair in hpss)
+                        {
+                            (listBoxHps.Items[i] as PlayerBarElement).changeData(pair.Value.hps.perSecond / max * 100, pair.Value.name, pair.Value.hps.perSecond.ToString(), pair.Value.id == self.id);
+                            i++;
+                        }
+                    }
                     break;
                 case 2:
                     break;
@@ -189,18 +235,21 @@ namespace Detrav.Terometr.Windows
             {
                 case OpCode2904.S_LOGIN:
                     var s_login = (S_LOGIN)PacketCreator.create(e.packet);
-                    self = new TeraPlayer(s_login.id, s_login.name, true);
+                    self = new TeraPlayer(s_login.id, s_login.name);
                     party.Add(self.id, self);
                     break;
                 case OpCode2904.S_PARTY_MEMBER_LIST:
+                    Logger.debug("S_PARTY_MEMBER_LIST");
                     var s_party_list = (S_PARTY_MEMBER_LIST)PacketCreator.create(e.packet);
+                    party.Clear();
                     foreach(var p in s_party_list.players)
                     {
-                        party.Clear();
-                        party.Add(p.id, new TeraPlayer(p.id, p.name, true));
+                        Logger.debug("AddtoParty {0}", p.name);
+                        party.Add(p.id, new TeraPlayer(p.id, p.name));
                     }
                     break;
                 case OpCode2904.S_LEAVE_PARTY:
+                    Logger.debug("S_LEAVE_PARTY");
                     party.Clear();
                     party.Add(self.id, self);
                     break;
@@ -211,6 +260,7 @@ namespace Detrav.Terometr.Windows
                     {
                         if (pair.Value.name == s_leave_member.name)
                         {
+                            Logger.debug("S_LEAVE_PARTY_MEMBER", s_leave_member.name);
                             tempPlayer = pair.Key;
                             break;
                         }
@@ -219,6 +269,7 @@ namespace Detrav.Terometr.Windows
                         party.Remove(tempPlayer);
                     break;
                 case OpCode2904.S_SPAWN_PROJECTILE:
+                    
                     var s_spawn_proj = (S_SPAWN_PROJECTILE)PacketCreator.create(e.packet);
                     projectiles.Add(s_spawn_proj.id, s_spawn_proj.idPlayer);
                     break;
@@ -245,6 +296,7 @@ namespace Detrav.Terometr.Windows
                             }
                             if(p!=null)
                             {
+                                Logger.debug("Player Attack {0}", p.name);
                                 p.makeSkill(skill.damage, skill.dType);
                                 return;
                             }

@@ -30,6 +30,7 @@ namespace Detrav.Terometr
         public void load(ITeraClient parent)
         {
             window = new MainWindow();
+            window.close = false;
             this.parent = parent;
             parent.onPacketArrival += parent_onPacketArrival;
             parent.onTick += parent_onTick;
