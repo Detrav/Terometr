@@ -43,6 +43,7 @@ namespace Detrav.Terometr.Windows
 
         Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong,TeraPlayer>();
         Dictionary<ulong, ulong> projectiles = new Dictionary<ulong, ulong>();
+        Dictionary<ulong, ulong> npcs = new Dictionary<ulong, ulong>();
         TeraPlayer self = new TeraPlayer(0,"UNKNOWN");
 
         public void changeTitle(string str)
@@ -230,8 +231,23 @@ namespace Detrav.Terometr.Windows
                     if (projectiles.Keys.Contains(s_despawn_proj.id))
                         projectiles.Remove(s_despawn_proj.id);
                     break;
+                case OpCode2904.S_SPAWN_NPC:
+                    var s_spawn_npc = (S_SPAWN_NPC)PacketCreator.create(e.packet);
+                    if (s_spawn_npc.parentId > 0)
+                        if (party.Keys.Contains(s_spawn_npc.parentId))
+                            if (!npcs.Keys.Contains(s_spawn_npc.id))
+                                npcs.Add(s_spawn_npc.id, s_spawn_npc.parentId);
+                    break;
+                case OpCode2904.S_DESPAWN_NPC:
+                    var s_despawn_npc = (S_DESPAWN_NPC)PacketCreator.create(e.packet);
+                    if (npcs.Keys.Contains(s_despawn_npc.id))
+                        npcs.Remove(s_despawn_npc.id);
+                    break;
                 case OpCode2904.S_EACH_SKILL_RESULT:
                     {
+                        /*
+                         * Теперь проверяем так, если атакует Прожетил, то чекает нпс, если чекнули нпс то чекаем игрока, нужно вынесты в отдельные функции
+                         */
                         var skill = (S_EACH_SKILL_RESULT)PacketCreator.create(e.packet);
                         #region ИгрокАтакует
                         {
