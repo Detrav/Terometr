@@ -74,6 +74,7 @@
     </Page>
     <Compile Include="Core\DPSEngine.cs" />
     <Compile Include="Core\TeraPlayer.cs" />
+    <Compile Include="Mod.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
     </Compile>

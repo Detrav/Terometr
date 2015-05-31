@@ -1,4 +1,7 @@
-﻿using Detrav.Terometr.Core;
+﻿using Detrav.TeraApi.Events;
+using Detrav.TeraApi.OpCodes;
+using Detrav.TeraApi.OpCodes.P2904;
+using Detrav.Terometr.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,10 +37,10 @@ namespace Detrav.Terometr.Windows
             down = ToImage("Detrav.Terometr.assets.images.Bottom.png");
             up = ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
-            
         }
 
         Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong,TeraPlayer>();
+        Dictionary<ulong, ulong> projectiles = new Dictionary<ulong, ulong>();
         TeraPlayer self = new TeraPlayer(0,"UNKNOWN",true);
 
         public void changeTitle(string str)
@@ -179,5 +182,98 @@ namespace Detrav.Terometr.Windows
             #endregion
         }
 
+
+        internal void opPacketArrival(object sender, PacketArrivalEventArgs e)
+        {
+            switch((OpCode2904)e.packet.opCode)
+            {
+                case OpCode2904.S_LOGIN:
+                    var s_login = (S_LOGIN)PacketCreator.create(e.packet);
+                    self = new TeraPlayer(s_login.id, s_login.name, true);
+                    party.Add(self.id, self);
+                    break;
+                case OpCode2904.S_PARTY_MEMBER_LIST:
+                    var s_party_list = (S_PARTY_MEMBER_LIST)PacketCreator.create(e.packet);
+                    foreach(var p in s_party_list.players)
+                    {
+                        party.Clear();
+                        party.Add(p.id, new TeraPlayer(p.id, p.name, true));
+                    }
+                    break;
+                case OpCode2904.S_LEAVE_PARTY:
+                    party.Clear();
+                    party.Add(self.id, self);
+                    break;
+                case OpCode2904.S_LEAVE_PARTY_MEMBER:
+                    var s_leave_member = (S_LEAVE_PARTY_MEMBER)PacketCreator.create(e.packet);
+                    ulong tempPlayer = 0;
+                    foreach(var pair in party)
+                    {
+                        if (pair.Value.name == s_leave_member.name)
+                        {
+                            tempPlayer = pair.Key;
+                            break;
+                        }
+                    }
+                    if (tempPlayer > 0)
+                        party.Remove(tempPlayer);
+                    break;
+                case OpCode2904.S_SPAWN_PROJECTILE:
+                    var s_spawn_proj = (S_SPAWN_PROJECTILE)PacketCreator.create(e.packet);
+                    projectiles.Add(s_spawn_proj.id, s_spawn_proj.idPlayer);
+                    break;
+                case OpCode2904.S_DESPAWN_PROJECTILE:
+                    var s_despawn_proj = (S_DESPAWN_PROJECTILE)PacketCreator.create(e.packet);
+                    if (projectiles.Keys.Contains(s_despawn_proj.id))
+                        projectiles.Remove(s_despawn_proj.id);
+                    break;
+                case OpCode2904.S_EACH_SKILL_RESULT:
+                    {
+                        var skill = (S_EACH_SKILL_RESULT)PacketCreator.create(e.packet);
+                        #region ИгрокАтакует
+                        {
+                            ulong projectile;
+                            if (!projectiles.TryGetValue(skill.idWho, out projectile)) projectile = 0;
+                            TeraPlayer p;
+                            if (projectile > 0)
+                            {
+                                if (!party.TryGetValue(projectile, out p)) p = null;
+                            }
+                            else
+                            {
+                                if (!party.TryGetValue(skill.idWho, out p)) p = null;
+                            }
+                            if(p!=null)
+                            {
+                                p.makeSkill(skill.damage, skill.dType);
+                                return;
+                            }
+                        }
+                        #endregion ИгрокАтакует
+                        #region ИгрокаАтакуют
+                        {
+                            ulong projectile;
+                            if (!projectiles.TryGetValue(skill.idTarget, out projectile)) projectile = 0;
+                            TeraPlayer p;
+                            if (projectile > 0)
+                            {
+                                if (!party.TryGetValue(projectile, out p)) p = null;
+                            }
+                            else
+                            {
+                                if (!party.TryGetValue(skill.idTarget, out p)) p = null;
+                            }
+                            if (p != null)
+                            {
+                                p.takeSkill(skill.damage, skill.dType);
+                                return;
+                            }
+                        }
+                        #endregion ИгрокаАтакуют
+                    }
+                    break;
+            }
+            //TeraApi.OpCodes.
+        }
     }
 }
