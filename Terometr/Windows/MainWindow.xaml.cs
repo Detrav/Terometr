@@ -52,11 +52,11 @@ namespace Detrav.Terometr.Windows
             this.UpdateLayout();
         }
 
-        public bool close = false;
+        public bool close = true;
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //e.Cancel = !close;
+            e.Cancel = !close;
             this.Hide();
         }
 

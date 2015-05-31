@@ -193,7 +193,7 @@ namespace Detrav.Terometr.UserElements
 
             int num = 0;
             double res = val;
-            while (val >= 100000) { res /= 1000.0; num++; }
+            while (res >= 100000) { res /= 1000.0; num++; }
             int procent = (int)(val / sum * 100.0);
             if (procent < 0) procent = 0;
             else if (procent > 100) procent = 100;
