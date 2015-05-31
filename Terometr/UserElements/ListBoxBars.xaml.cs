@@ -193,7 +193,7 @@ namespace Detrav.Terometr.UserElements
 
         internal void clear()
         {
-            throw new NotImplementedException();
+            players.Clear();
         }
     }
 }
