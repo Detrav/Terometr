@@ -53,6 +53,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Themes\ElementsStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\MainWindowStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserElements\PlayerBarElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -61,6 +69,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Core\DPSEngine.cs" />
+    <Compile Include="Core\TeraPlayer.cs" />
+    <Compile Include="Themes\MainWindowStyle.xaml.cs">
+      <DependentUpon>MainWindowStyle.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserElements\PlayerBarElement.xaml.cs">
       <DependentUpon>PlayerBarElement.xaml</DependentUpon>
     </Compile>
@@ -100,7 +113,17 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="assets\images\New.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\images\Back.png" />
+    <EmbeddedResource Include="assets\images\Bottom.png" />
+    <EmbeddedResource Include="assets\images\Bubble.png" />
+    <EmbeddedResource Include="assets\images\Forward.png" />
+    <EmbeddedResource Include="assets\images\Info.png" />
+    <EmbeddedResource Include="assets\images\Top.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
