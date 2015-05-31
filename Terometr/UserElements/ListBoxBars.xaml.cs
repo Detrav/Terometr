@@ -156,21 +156,48 @@ namespace Detrav.Terometr.UserElements
                 i++;
             }
         }
+        static string[] kilos = new string[] { "", "K", "M", "B", "T", "q", "Q", "s", "S", "O", "N", "d" };
         private string generateRight(double val, double sum)
         {
-            if(val<100000)
+            /*
+             * 100.00                       100    100.00
+             * 1000.0                     1 000    1000.0
+             * 100.00K                   10 000    10000
+             * 
+             * 1000.0K                  100 000    100.00K
+             * 100.00M                1 000 000    1000.0K
+             *                       10 000 000    10000K
+             *                       
+             *                      100 000 000    100.00M
+             *                    1 000 000 000    1000.0M
+             *                   10 000 000 000    10000M
+             *                  100 000 000 000
+             *                1 000 000 000 000
+             *               10 000 000 000 000
+             *              100 000 000 000 000
+             *            1 000 000 000 000 000
+             *           10 000 000 000 000 000
+             *          100 000 000 000 000 000
+             *        1 000 000 000 000 000 000
+             *       10 000 000 000 000 000 000
+             *      100 000 000 000 000 000 000
+             *    1 000 000 000 000 000 000 000
+             *   10 000 000 000 000 000 000 000
+             */
+
+            int num = 0;
+            double res = val;
+            while (val >= 100000) { res /= 1000.0; num++; }
+            
+            if(val<1000)
             {
-                return String.Format("{0:0.00}({1}%)",val, (int)(val / sum * 100.0));
+                return String.Format("{0:0.00}{1}({2}%)",res,kilos[num], (int)(val / sum * 100.0));
             }
-            if(val<100000000)
+            if(val<10000)
             {
-                return String.Format("{0:0.00}K({1}%)",val/1000, (int)(val / sum * 100.0));
+                return String.Format("{0:0.0}{1}({2}%)", res, kilos[num], (int)(val / sum * 100.0));
             }
-            if(val<100000000000)
-            {
-                return String.Format("{0:0.00}M({1}%)", val / 1000000, (int)(val / sum * 100.0));
-            }
-            return String.Format("{0:0.00}T({1}%)", val / 1000000000, (int)(val / sum * 100.0));
+            else return String.Format("{0:0}{1}({2}%)", res, kilos[num], (int)(val / sum * 100.0));
         }
         class Vector3Str
         {
