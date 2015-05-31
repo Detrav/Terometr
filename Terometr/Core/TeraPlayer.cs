@@ -23,13 +23,16 @@ namespace Detrav.Terometr.Core
             {
                 if (DateTime.Now - last > timeOut)
                     return last + timeOut - first;
-                else return DateTime.Now - first;
+                else if (DateTime.Now - first< min)
+                    return min;
+                return DateTime.Now - first;
             }
         }
         public DateTime first = DateTime.MinValue;//Динамически расчитывается начальный удар - timeOut
         public DateTime last = DateTime.MinValue;//Когда был последний удар
         //public DateTime end = DateTime.MinValue;//Динамически расчитывается конецчный удар + timeOut
-        public TimeSpan timeOut = TimeSpan.FromSeconds(3.14);
+        public TimeSpan timeOut = TimeSpan.FromSeconds(5.01);
+        public TimeSpan min = TimeSpan.FromSeconds(1);
 
 
         public void addDamage(uint v)
@@ -37,7 +40,7 @@ namespace Detrav.Terometr.Core
             DateTime now = DateTime.Now;
             if (now - last > timeOut)
             {
-                first += now - last - timeOut;
+                first += now - last;
                 Logger.debug("First = {0}", first);
             }
             damage += v;
@@ -48,7 +51,7 @@ namespace Detrav.Terometr.Core
             DateTime now = DateTime.Now;
             if (now - last > timeOut)
             {
-                first += now - last - timeOut;
+                first += now - last;
                 Logger.debug("First = {0}", first);
             }
             heal += v;
