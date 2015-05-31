@@ -25,21 +25,29 @@ namespace Detrav.Terometr.UserElements
             InitializeComponent();
             green = (Brush)br.ConvertFrom("#FF10AE00");
             blue = (Brush)br.ConvertFrom("#FF1000AE");
+            black = (Brush)br.ConvertFrom("#FF000000");
         }
 
         BrushConverter br = new BrushConverter();
         Brush green;
         Brush blue;
+        Brush black;
         
 
-        public void changeData(double progressValue,string left,string right, bool me = false)
+        public void changeData(double progressValue,string left,string right, clr me)
         {
-            if (me) progressBar.Foreground = green;
-            else progressBar.Foreground = blue;
+            switch (me)
+            {
+                case clr.me: progressBar.Foreground = green; break;
+                case clr.sum: progressBar.Foreground = black; break;
+                default: progressBar.Foreground = blue; break; 
+            }
             try { progressBar.Value = progressValue; }
             catch { };
             labelLeft.Content = left;
             labelRight.Content = right;
         }
+
+        public enum clr { me,other,sum }
     }
 }

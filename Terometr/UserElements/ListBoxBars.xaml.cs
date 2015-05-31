@@ -37,8 +37,9 @@ namespace Detrav.Terometr.UserElements
                 double dps = pair.Value.dps;
                 sum += dps;
                 max = Math.Max(dps, max);
-                list.Add(dps, new Vector3Str(pair.Value.name, dps, pair.Value.id == selfId));
+                list.Add(dps, new Vector3Str(pair.Value.name, dps, (pair.Value.id == selfId? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
             }
+            list.Add(0, new Vector3Str("Всего", sum, PlayerBarElement.clr.sum));
             while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             updateData(list, max, sum);
@@ -53,8 +54,9 @@ namespace Detrav.Terometr.UserElements
                 double damage = pair.Value.damage;
                 sum += damage;
                 max = Math.Max(damage, max);
-                list.Add(damage, new Vector3Str(pair.Value.name, damage, pair.Value.id == selfId));
+                list.Add(damage, new Vector3Str(pair.Value.name, damage, (pair.Value.id == selfId ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
             }
+            list.Add(0, new Vector3Str("Всего", sum, PlayerBarElement.clr.sum));
             while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             updateData(list, max, sum);
@@ -69,8 +71,9 @@ namespace Detrav.Terometr.UserElements
                 double hps = pair.Value.hps;
                 sum += hps;
                 max = Math.Max(hps, max);
-                list.Add(hps, new Vector3Str(pair.Value.name, hps, pair.Value.id == selfId));
+                list.Add(hps, new Vector3Str(pair.Value.name, hps, (pair.Value.id == selfId ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
             }
+            list.Add(0, new Vector3Str("Всего", sum, PlayerBarElement.clr.sum));
             while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             updateData(list, max, sum);
@@ -84,8 +87,9 @@ namespace Detrav.Terometr.UserElements
                 double heal = pair.Value.heal;
                 sum += heal;
                 max = Math.Max(heal, max);
-                list.Add(heal, new Vector3Str(pair.Value.name, heal, pair.Value.id == selfId));
+                list.Add(heal, new Vector3Str(pair.Value.name, heal, (pair.Value.id == selfId ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
             }
+            list.Add(0, new Vector3Str("Всего", sum, PlayerBarElement.clr.sum));
             while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             updateData(list, max, sum);
@@ -100,8 +104,9 @@ namespace Detrav.Terometr.UserElements
                 double damageT = pair.Value.damageTaken;
                 sum += damageT;
                 max = Math.Max(damageT, max);
-                list.Add(damageT, new Vector3Str(pair.Value.name, damageT, pair.Value.id == selfId));
+                list.Add(damageT, new Vector3Str(pair.Value.name, damageT, (pair.Value.id == selfId ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
             }
+            list.Add(0, new Vector3Str("Всего", sum, PlayerBarElement.clr.sum));
             while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             updateData(list, max, sum);
@@ -116,8 +121,9 @@ namespace Detrav.Terometr.UserElements
                 double healT = pair.Value.healTaken;
                 sum += healT;
                 max = Math.Max(healT, max);
-                list.Add(healT, new Vector3Str(pair.Value.name, healT, pair.Value.id == selfId));
+                list.Add(healT, new Vector3Str(pair.Value.name, healT, (pair.Value.id == selfId ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
             }
+            list.Add(0, new Vector3Str("Всего", sum, PlayerBarElement.clr.sum));
             while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             updateData(list, max, sum);
@@ -203,8 +209,8 @@ namespace Detrav.Terometr.UserElements
         {
             public string left;
             public double right;
-            public bool self;
-            public Vector3Str(string left, double right, bool self)
+            public PlayerBarElement.clr self;
+            public Vector3Str(string left, double right, PlayerBarElement.clr self)
             {
                 this.left = left;
                 this.right = right;
