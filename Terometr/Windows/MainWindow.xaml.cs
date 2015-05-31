@@ -163,7 +163,7 @@ namespace Detrav.Terometr.Windows
                 case 3:
                     foreach (var pair in party)
                         if (pair.Value.heal > 0) listHeal.addPlayer(pair.Value);
-                    listHps.updateHeal(self.id);
+                    listHeal.updateHeal(self.id);
                     break;
                 case 4:
                     foreach (var pair in party)
@@ -269,6 +269,7 @@ namespace Detrav.Terometr.Windows
                             //}
                             if (p != null)
                             {
+                                Logger.debug("Player Take Attack {0}", p.name);
                                 p.takeSkill(skill.damage, skill.dType);
                                 //return;
                             }
