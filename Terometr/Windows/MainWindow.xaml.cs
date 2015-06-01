@@ -50,8 +50,8 @@ namespace Detrav.Terometr.Windows
 
         public void changeTitle(string str)
         {
-            //this.Title = str;
-            this.Title = String.Format("Terometr - {0} - {1}", self.name, str);
+            this.Title = str;
+            //this.Title = String.Format("Terometr - {0} - {1}", self.name, str);
             this.UpdateLayout();
         }
 
