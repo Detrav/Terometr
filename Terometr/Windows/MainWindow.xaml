@@ -45,7 +45,8 @@
                 HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
-                    ToolTip="Нашли баг?">
+                    ToolTip="Нашли баг?"
+                    Click="buttonInfo_Click">
                 <Image Source="pack://application:,,,/Terometr;component/assets/images/Info.png"
                        Margin="0" />
             </Button>
@@ -80,7 +81,8 @@
                 HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
-                    ToolTip="Написать в час">
+                    ToolTip="Скопировать, написание в чат будет палится"
+                    Click="buttonBubble_Click">
                 <Image Source="pack://application:,,,/Terometr;component/assets/images/Bubble.png"
                        Margin="0" />
             </Button>

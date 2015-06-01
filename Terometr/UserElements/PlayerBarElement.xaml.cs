@@ -50,5 +50,10 @@ namespace Detrav.Terometr.UserElements
         }
 
         public enum clr { me,other,sum }
+
+        public string getText()
+        {
+            return String.Format("{0} - {1}", labelLeft.Content, labelRight.Content);
+        }
     }
 }

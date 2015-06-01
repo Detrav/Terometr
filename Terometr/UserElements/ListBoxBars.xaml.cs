@@ -231,5 +231,15 @@ namespace Detrav.Terometr.UserElements
         {
             players.Clear();
         }
+
+        public PlayerBarElement[] getList()
+        {
+            List<PlayerBarElement> list = new List<PlayerBarElement>();
+            foreach(var el in listBox.Items)
+            {
+                list.Add(el as PlayerBarElement);
+            }
+            return list.ToArray();
+        }
     }
 }

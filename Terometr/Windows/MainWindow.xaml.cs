@@ -59,6 +59,7 @@ namespace Detrav.Terometr.Windows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            saveCurrentConfig();
             e.Cancel = !close;
             this.Hide();
         }
@@ -328,6 +329,35 @@ namespace Detrav.Terometr.Windows
                 hided = this.hided
             };
             config.savePlayer(self.name, localConfig);
+        }
+
+        private void buttonInfo_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(@"https://github.com/Detrav/Terometr", "Вам ко мне на GitHub!");
+        }
+
+        private void buttonBubble_Click(object sender, RoutedEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            PlayerBarElement [] list = null;
+            switch(tabControl.SelectedIndex)
+            {
+                case 0: list = listDps.getList(); break;
+                case 1: list = listDamage.getList(); break;
+                case 2: list = listHps.getList(); break;
+                case 3: list = listHeal.getList(); break;
+                case 4: list = listDamageTaken.getList(); break;
+                case 5: list = listHealTaken.getList(); break;
+            }
+            if (list == null) return;
+            sb.AppendFormat("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
+            foreach(var el in list)
+            {
+                sb.Append(el.getText()); sb.Append(Environment.NewLine);
+            }
+            sb.Append("Постоянные обновления на:"); sb.Append(Environment.NewLine);
+            sb.Append(@"https://github.com/Detrav/Terometr");
+            MessageBox.Show(sb.ToString());
         }
     }
 }
