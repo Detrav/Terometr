@@ -29,12 +29,12 @@ namespace Detrav.Terometr
 
         public void load(ITeraClient parent)
         {
-            window = new MainWindow();
+            window = new MainWindow(localConfigManager);
             window.close = false;
             this.parent = parent;
             parent.onPacketArrival += parent_onPacketArrival;
             parent.onTick += parent_onTick;
-            show();
+            //show();
         }
 
         void parent_onTick(object sender, EventArgs e)
@@ -75,9 +75,10 @@ namespace Detrav.Terometr
             }
         }*/
 
-
+        IConfigManager localConfigManager;
         public void init(IConfigManager configManager, IAssetManager assetManager)
         {
+            localConfigManager = configManager;
             //PacketStructureManager.assets = assetManager;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Detrav.TeraApi;
 using Detrav.TeraApi.Events;
+using Detrav.TeraApi.Interfaces;
 using Detrav.TeraApi.OpCodes;
 using Detrav.TeraApi.OpCodes.P2904;
 using Detrav.Terometr.Core;
@@ -28,7 +29,7 @@ namespace Detrav.Terometr.Windows
     {
         BitmapImage down;
         BitmapImage up;
-        public MainWindow()
+        public MainWindow(IConfigManager config)
         {
             InitializeComponent();
             ((buttonBubble as Button).Content as Image).Source = ToImage("Detrav.Terometr.assets.images.Bubble.png");
@@ -39,6 +40,7 @@ namespace Detrav.Terometr.Windows
             down = ToImage("Detrav.Terometr.assets.images.Bottom.png");
             up = ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
+            this.config = config;
         }
 
         Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong,TeraPlayer>();
@@ -48,8 +50,8 @@ namespace Detrav.Terometr.Windows
 
         public void changeTitle(string str)
         {
-            this.Title = str;
-            //this.Title = String.Format("Terometr - {0} - Дпс метр", str);
+            //this.Title = str;
+            this.Title = String.Format("Terometr - {0} - {1}", self.name, str);
             this.UpdateLayout();
         }
 
@@ -187,9 +189,11 @@ namespace Detrav.Terometr.Windows
             switch((OpCode2904)e.packet.opCode)
             {
                 case OpCode2904.S_LOGIN:
+                    saveCurrentConfig();
                     var s_login = (S_LOGIN)PacketCreator.create(e.packet);
                     self = new TeraPlayer(s_login.id, s_login.name);
                     party.Add(self.id, self);
+                    login();
                     break;
                 case OpCode2904.S_PARTY_MEMBER_LIST:
                     Logger.debug("S_PARTY_MEMBER_LIST");
@@ -280,6 +284,50 @@ namespace Detrav.Terometr.Windows
                     break;
             }
             //TeraApi.OpCodes.
+        }
+
+        IConfigManager config;
+        Config localConfig = null;
+        void login()
+        {
+            if (localConfig == null)
+            {
+                localConfig = new Config()
+                {
+                    left = Left,
+                    top = Top,
+                    height = Height,
+                    width = Width,
+                    prevHeight = prevSize,
+                    hided = this.hided
+                };
+            }
+            var conf = config.loadPlayer(self.name, localConfig.GetType());
+            if (conf == null) config.savePlayer(self.name, localConfig);
+            else localConfig = conf as Config;
+
+            Left = localConfig.left;
+            Top = localConfig.top;
+            Height = localConfig.height;
+            Width = localConfig.width;
+            prevSize = localConfig.prevHeight;
+            hided = localConfig.hided;
+            Show();
+        }
+
+        void saveCurrentConfig()
+        {
+            if (localConfig == null) return;
+            localConfig = new Config()
+            {
+                left = Left,
+                top = Top,
+                height = Height,
+                width = Width,
+                prevHeight = prevSize,
+                hided = this.hided
+            };
+            config.savePlayer(self.name, localConfig);
         }
     }
 }
