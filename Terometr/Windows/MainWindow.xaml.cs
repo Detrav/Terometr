@@ -251,17 +251,11 @@ namespace Detrav.Terometr.Windows
                         var skill = (S_EACH_SKILL_RESULT)PacketCreator.create(e.packet);
                         #region ИгрокАтакует
                         {
-                            ulong projectile;
-                            if (!projectiles.TryGetValue(skill.idWho, out projectile)) projectile = 0;
+                            ulong projectile;//Если нету прожектила то просто ищем по скилу, который присваеваем прожектилу
+                            if (!projectiles.TryGetValue(skill.idWho, out projectile)) projectile = skill.idWho;
                             TeraPlayer p;
-                            if (projectile > 0)
-                            {
-                                if (!party.TryGetValue(projectile, out p)) p = null;
-                            }
-                            else
-                            {
-                                if (!party.TryGetValue(skill.idWho, out p)) p = null;
-                            }
+                            if (!npcs.TryGetValue(projectile, out projectile)) projectile = skill.idWho;
+                            if (!party.TryGetValue(projectile, out p)) p = null;
                             if (p != null)
                             {
                                 Logger.debug("Player Attack {0}", p.name);
