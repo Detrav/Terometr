@@ -272,22 +272,13 @@ namespace Detrav.Terometr.Windows
                         #endregion ИгрокАтакует
                         #region ИгрокаАтакуют
                         {
-                            //ulong projectile;
-                            //if (!projectiles.TryGetValue(skill.idWho, out projectile)) projectile = 0;
+
                             TeraPlayer p;
-                            //if (projectile > 0)
-                            //{
-                            //    if (!party.TryGetValue(projectile, out p)) p = null;
-                            //}
-                            //else
-                            //{
                             if (!party.TryGetValue(skill.idTarget, out p)) p = null;
-                            //}
                             if (p != null)
                             {
                                 Logger.debug("Player Take Attack {0}", p.name);
                                 p.takeSkill(skill.damage, skill.dType);
-                                //return;
                             }
                         }
                         #endregion ИгрокаАтакуют
