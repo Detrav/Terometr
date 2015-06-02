@@ -42,9 +42,6 @@ namespace Detrav.Terometr.Windows
             ((buttonHide as Button).Content as Image).Source = up;
         }
 
-        Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong,TeraPlayer>();
-        Dictionary<ulong, ulong> projectiles = new Dictionary<ulong, ulong>();
-        Dictionary<ulong, ulong> npcs = new Dictionary<ulong, ulong>();
         TeraPlayer self = new TeraPlayer(0,"UNKNOWN");
 
         public void changeTitle(string str)
@@ -130,7 +127,8 @@ namespace Detrav.Terometr.Windows
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
-            listDps.clear();
+            Repository.R.clear();
+            /*listDps.clear();
             listHps.clear();
             listDamage.clear();
             listHeal.clear();
@@ -140,44 +138,21 @@ namespace Detrav.Terometr.Windows
             {
                 pair.Value.clear();
             }
-            self.clear();
+            self.clear();*/
         }
 
         //bool valueNotPerSecond;
         public void doEvents()
         {
+            Repository.R.doEvents();
             switch (tabControl.SelectedIndex)
             {
-                case 0:
-                    foreach (var pair in party)
-                        if (pair.Value.damage > 0) listDps.addPlayer(pair.Value);
-                    listDps.updateDps(self.id);
-                    break;
-                case 1:
-                    foreach (var pair in party)
-                        if (pair.Value.damage > 0) listDamage.addPlayer(pair.Value);
-                    listDamage.updateDamage(self.id);
-                    break;
-                case 2:
-                    foreach (var pair in party)
-                        if (pair.Value.heal > 0) listHps.addPlayer(pair.Value);
-                    listHps.updateHps(self.id);
-                    break;
-                case 3:
-                    foreach (var pair in party)
-                        if (pair.Value.heal > 0) listHeal.addPlayer(pair.Value);
-                    listHeal.updateHeal(self.id);
-                    break;
-                case 4:
-                    foreach (var pair in party)
-                        if (pair.Value.damageTaken > 0) listDamageTaken.addPlayer(pair.Value);
-                    listDamageTaken.updateDamageTaken(self.id);
-                    break;
-                case 5:
-                    foreach (var pair in party)
-                        if (pair.Value.healTaken > 0) listHealTaken.addPlayer(pair.Value);
-                    listHealTaken.updateHealTaken(self.id);
-                    break;
+                case 0: listDps.updateData(Repository.R.dpsList, Repository.R.dpsMax, Repository.R.dpsSum); break;
+                case 1: listDamage.updateData(Repository.R.damageList, Repository.R.damageMax, Repository.R.damageSum); break;
+                case 2: listHps.updateData(Repository.R.hpsList, Repository.R.hpsMax, Repository.R.hpsSum); break;
+                case 3: listHeal.updateData(Repository.R.healList, Repository.R.healMax, Repository.R.healSum); break;
+                case 4: listDamageTaken.updateData(Repository.R.damageTakenList, Repository.R.damageTakenMax, Repository.R.damageTakenSum); break;
+                case 5: listHealTaken.updateData(Repository.R.healTakenList, Repository.R.healTakenMax, Repository.R.healTakenSum); break;
             }
         }
 
@@ -186,105 +161,7 @@ namespace Detrav.Terometr.Windows
 
         internal void opPacketArrival(object sender, PacketArrivalEventArgs e)
         {
-            switch((OpCode2904)e.packet.opCode)
-            {
-                case OpCode2904.S_LOGIN:
-                    saveCurrentConfig();
-                    var s_login = (S_LOGIN)PacketCreator.create(e.packet);
-                    self = new TeraPlayer(s_login.id, s_login.name);
-                    party.Add(self.id, self);
-                    login();
-                    break;
-                case OpCode2904.S_PARTY_MEMBER_LIST:
-                    Logger.debug("S_PARTY_MEMBER_LIST");
-                    var s_party_list = (S_PARTY_MEMBER_LIST)PacketCreator.create(e.packet);
-                    party.Clear();
-                    foreach(var p in s_party_list.players)
-                    {
-                        Logger.debug("AddtoParty {0}", p.name);
-                        party.Add(p.id, new TeraPlayer(p.id, p.name));
-                    }
-                    break;
-                case OpCode2904.S_LEAVE_PARTY:
-                    Logger.debug("S_LEAVE_PARTY");
-                    party.Clear();
-                    party.Add(self.id, self);
-                    break;
-                case OpCode2904.S_LEAVE_PARTY_MEMBER:
-                    var s_leave_member = (S_LEAVE_PARTY_MEMBER)PacketCreator.create(e.packet);
-                    ulong tempPlayer = 0;
-                    foreach(var pair in party)
-                    {
-                        if (pair.Value.name == s_leave_member.name)
-                        {
-                            Logger.debug("S_LEAVE_PARTY_MEMBER", s_leave_member.name);
-                            tempPlayer = pair.Key;
-                            break;
-                        }
-                    }
-                    if (tempPlayer > 0)
-                        party.Remove(tempPlayer);
-                    break;
-                case OpCode2904.S_SPAWN_PROJECTILE:
-                    
-                    var s_spawn_proj = (S_SPAWN_PROJECTILE)PacketCreator.create(e.packet);
-                    projectiles.Add(s_spawn_proj.id, s_spawn_proj.idPlayer);
-                    break;
-                case OpCode2904.S_DESPAWN_PROJECTILE:
-                    var s_despawn_proj = (S_DESPAWN_PROJECTILE)PacketCreator.create(e.packet);
-                    if (projectiles.Keys.Contains(s_despawn_proj.id))
-                        projectiles.Remove(s_despawn_proj.id);
-                    break;
-                case OpCode2904.S_SPAWN_NPC:
-                    var s_spawn_npc = (S_SPAWN_NPC)PacketCreator.create(e.packet);
-                    if (s_spawn_npc.parentId > 0)
-                        if (party.Keys.Contains(s_spawn_npc.parentId))
-                            if (!npcs.Keys.Contains(s_spawn_npc.id))
-                                npcs.Add(s_spawn_npc.id, s_spawn_npc.parentId);
-                    break;
-                case OpCode2904.S_DESPAWN_NPC:
-                    var s_despawn_npc = (S_DESPAWN_NPC)PacketCreator.create(e.packet);
-                    if (npcs.Keys.Contains(s_despawn_npc.id))
-                        npcs.Remove(s_despawn_npc.id);
-                    break;
-                case OpCode2904.S_EACH_SKILL_RESULT:
-                    {
-                        /*
-                         * Теперь проверяем так, если атакует Прожетил, то чекает нпс, если чекнули нпс то чекаем игрока, нужно вынесты в отдельные функции
-                         */
-                        var skill = (S_EACH_SKILL_RESULT)PacketCreator.create(e.packet);
-                        #region ИгрокАтакует
-                        {
-                            ulong projectile;//Если нету прожектила то просто ищем по скилу, который присваеваем прожектилу
-                            if (!projectiles.TryGetValue(skill.idWho, out projectile)) projectile = skill.idWho;
-                            ulong npc;
-                            TeraPlayer p = null;
-                            if (!npcs.TryGetValue(projectile, out npc)) npc = 0;
-                            if(npc == 0) if (!party.TryGetValue(projectile, out p)) p = null;
-                            if (p == null) if (!party.TryGetValue(npc, out p)) p = null;
-                            if (p != null)
-                            {
-                                Logger.debug("Player Attack {0}", p.name);
-                                p.makeSkill(skill.damage, skill.dType);
-                                //return;
-                            }
-                        }
-                        #endregion ИгрокАтакует
-                        #region ИгрокаАтакуют
-                        {
-
-                            TeraPlayer p;
-                            if (!party.TryGetValue(skill.idTarget, out p)) p = null;
-                            if (p != null)
-                            {
-                                Logger.debug("Player Take Attack {0}", p.name);
-                                p.takeSkill(skill.damage, skill.dType);
-                            }
-                        }
-                        #endregion ИгрокаАтакуют
-                    }
-                    break;
-            }
+           
             //TeraApi.OpCodes.
         }
 
@@ -333,14 +210,15 @@ namespace Detrav.Terometr.Windows
                 case 5: list = listHealTaken.getList(); break;
             }
             if (list == null) return;
-            sb.AppendFormat("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
+            //sb.AppendFormat("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
+            string title = String.Format("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
             foreach(var el in list)
             {
                 sb.Append(el.getText()); sb.Append(Environment.NewLine);
             }
             sb.Append("Постоянные обновления на:"); sb.Append(Environment.NewLine);
             sb.Append(@"https://github.com/Detrav/Terometr");
-            MessageBox.Show(sb.ToString());
+            MessageBox.Show(sb.ToString(), title);
         }
     }
 }

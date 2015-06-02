@@ -25,9 +25,9 @@ namespace Detrav.Terometr.UserElements
         {
             InitializeComponent();
         }
-        Dictionary<ulong, TeraPlayer> players = new Dictionary<ulong,TeraPlayer>();
+        //Dictionary<ulong, TeraPlayer> players = new Dictionary<ulong,TeraPlayer>();
 
-        internal void updateDps(ulong selfId)
+        /*internal void updateDps(ulong selfId)
         {
             SortedList<double, Vector3Str> list = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
             double max = 0;
@@ -127,30 +127,14 @@ namespace Detrav.Terometr.UserElements
             while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             updateData(list, max, sum);
-        }
-        /// <summary>
-        /// Comparer for comparing two keys, handling equality as beeing greater
-        /// Use this Comparer e.g. with SortedLists or SortedDictionaries, that don't allow duplicate keys
-        /// </summary>
-        /// <typeparam name="TKey"></typeparam>
-        public class DuplicateKeyComparer<TKey>:IComparer<TKey> where TKey : IComparable
+        }*/
+
+      
+        
+        internal void updateData(SortedList<double,Vector3Str> list, double max,double sum)
         {
-            #region IComparer<TKey> Members
-
-            public int Compare(TKey x, TKey y)
-            {
-                int result = y.CompareTo(x);
-
-                if (result == 0)
-                    return 1;   // Handle equality as beeing greater
-                else
-                    return result;
-            }
-
-            #endregion
-        }
-        private void updateData(SortedList<double,Vector3Str> list, double max,double sum)
-        {
+            while (listBox.Items.Count > list.Count) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count) listBox.Items.Add(new PlayerBarElement());
             int i = 0;
             foreach (var pair in list)
             {
@@ -208,29 +192,18 @@ namespace Detrav.Terometr.UserElements
             }
             return String.Format("{0:0}{1}({2}%)", res, kilos[num], procent);
         }
-        class Vector3Str
-        {
-            public string left;
-            public double right;
-            public PlayerBarElement.clr self;
-            public Vector3Str(string left, double right, PlayerBarElement.clr self)
-            {
-                this.left = left;
-                this.right = right;
-                this.self = self;
-            }
-        }
 
-        internal void addPlayer(TeraPlayer teraPlayer)
+
+       /* internal void addPlayer(TeraPlayer teraPlayer)
         {
             TeraPlayer player;
             if(!players.TryGetValue(teraPlayer.id,out player)) players.Add(teraPlayer.id,teraPlayer);
-        }
+        }*/
 
-        internal void clear()
+        /*internal void clear()
         {
             players.Clear();
-        }
+        }*/
 
         public PlayerBarElement[] getList()
         {
