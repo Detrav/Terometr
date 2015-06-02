@@ -113,9 +113,22 @@ namespace Detrav.Terometr.Core
 
         private void updateParty(TeraPlayer[] teraPlayer)
         {
-            party.Clear();
+            Dictionary<ulong, TeraPlayer> tempPlayers = new Dictionary<ulong, TeraPlayer>();
             foreach (var p in teraPlayer)
-                party.Add(p.id, p);
+            {
+                TeraPlayer player;
+                if (party.TryGetValue(p.id, out player))
+                {
+                    tempPlayers.Add(p.id, player);
+                    continue;
+                }
+                tempPlayers.Add(p.id, p);
+            }
+            party.Clear();
+            foreach(var p in tempPlayers)
+            {
+                party.Add(p.Key, p.Value);
+            }
         }
 
         private void updateParty(TeraPlayer self)
