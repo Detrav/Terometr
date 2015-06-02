@@ -147,7 +147,9 @@
     <EmbeddedResource Include="assets\images\Info.png" />
     <EmbeddedResource Include="assets\images\Top.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="assets\player_class_images\gunner.png" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="assets\player_class_images\archer.png" />
     <EmbeddedResource Include="assets\player_class_images\berserker.png" />
