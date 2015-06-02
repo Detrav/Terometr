@@ -163,6 +163,7 @@ namespace Detrav.Terometr.Windows
             prevSize = Config.c.prevHeight;
             hided = Config.c.hided;
             Show();
+            Repository.R.clear();
         }
 
         void saveCurrentConfig()

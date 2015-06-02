@@ -44,26 +44,22 @@ namespace Detrav.Terometr.Core
             {
                 if (pair.Value.damage > 0)
                 {
-                    if (!playersSnapShot.ContainsKey(pair.Key))
-                        playersSnapShot.Add(pair.Key, pair.Value);
+                    playersSnapShot[pair.Key] = pair.Value;
                     continue;
                 }
                 if (pair.Value.heal > 0)
                 {
-                    if (!playersSnapShot.ContainsKey(pair.Key))
-                        playersSnapShot.Add(pair.Key, pair.Value);
+                    playersSnapShot[pair.Key] = pair.Value;
                     continue;
                 }
                 if (pair.Value.damageTaken > 0)
                 {
-                    if (!playersSnapShot.ContainsKey(pair.Key))
-                        playersSnapShot.Add(pair.Key, pair.Value);
+                    playersSnapShot[pair.Key] = pair.Value;
                     continue;
                 }
                 if (pair.Value.healTaken > 0)
                 {
-                    if (!playersSnapShot.ContainsKey(pair.Key))
-                        playersSnapShot.Add(pair.Key, pair.Value);
+                    playersSnapShot[pair.Key] = pair.Value;
                     continue;
                 }
             }
