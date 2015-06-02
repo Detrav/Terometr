@@ -29,7 +29,42 @@ namespace Detrav.Terometr.Core
 
         private void skillResult(ulong who, ulong target, uint damage, ushort type)
         {
-            
+            /*
+             * Проверяем если есть такой игрок с ай ди, то делаем что нужно и выходим
+             * Проверяем если есть такой ловушк с ай ди, то ищем НПС или игрока
+             * Проверяем если находим НПС ищем игрока
+             */
+            TeraPlayer p;
+            ulong projectile; ulong npc;
+            if(projectiles.TryGetValue(who,out projectile))
+            {
+                if(npcs.TryGetValue(projectile,out npc))
+                {
+                    if (party.TryGetValue(npc, out p))
+                        p.makeSkill(damage, type);
+                }
+                else
+                {
+                    if (party.TryGetValue(projectile, out p))
+                        p.makeSkill(damage, type);
+                }
+            }
+            else
+            {
+                if(npcs.TryGetValue(who,out npc))
+                {
+                    if (party.TryGetValue(npc, out p))
+                        p.makeSkill(damage, type);
+                }
+                else
+                {
+                    if (party.TryGetValue(who, out p))
+                        p.makeSkill(damage, type);
+                }
+            }
+
+            if (party.TryGetValue(target, out p))
+                p.takeSkill(damage, type);
         }
 
         private void removeNpc(ulong id)
