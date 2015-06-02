@@ -29,7 +29,7 @@ namespace Detrav.Terometr.Windows
     {
         BitmapImage down;
         BitmapImage up;
-        public MainWindow(IConfigManager config)
+        public MainWindow()
         {
             InitializeComponent();
             ((buttonBubble as Button).Content as Image).Source = ToImage("Detrav.Terometr.assets.images.Bubble.png");
@@ -40,7 +40,6 @@ namespace Detrav.Terometr.Windows
             down = ToImage("Detrav.Terometr.assets.images.Bottom.png");
             up = ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
-            this.config = config;
         }
 
         Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong,TeraPlayer>();
@@ -287,48 +286,30 @@ namespace Detrav.Terometr.Windows
             //TeraApi.OpCodes.
         }
 
-        IConfigManager config;
-        Config localConfig = null;
+        //IConfigManager config;
+        //Config localConfig = null;
         void login()
         {
-            if (localConfig == null)
-            {
-                localConfig = new Config()
-                {
-                    left = Left,
-                    top = Top,
-                    height = Height,
-                    width = Width,
-                    prevHeight = prevSize,
-                    hided = this.hided
-                };
-            }
-            var conf = config.loadPlayer(self.name, localConfig.GetType());
-            if (conf == null) config.savePlayer(self.name, localConfig);
-            else localConfig = conf as Config;
-
-            Left = localConfig.left;
-            Top = localConfig.top;
-            Height = localConfig.height;
-            Width = localConfig.width;
-            prevSize = localConfig.prevHeight;
-            hided = localConfig.hided;
+            Config.load(self.name);
+            Left = Config.c.left;
+            Top = Config.c.top;
+            Height = Config.c.height;
+            Width = Config.c.width;
+            prevSize = Config.c.prevHeight;
+            hided = Config.c.hided;
             Show();
         }
 
         void saveCurrentConfig()
         {
-            if (localConfig == null) return;
-            localConfig = new Config()
-            {
-                left = Left,
-                top = Top,
-                height = Height,
-                width = Width,
-                prevHeight = prevSize,
-                hided = this.hided
-            };
-            config.savePlayer(self.name, localConfig);
+
+            Config.c.left = Left;
+            Config.c.top = Top;
+            Config.c.height = Height;
+            Config.c.width = Width;
+            Config.c.prevHeight = prevSize;
+            Config.c.hided = hided;
+            Config.save(self.name);
         }
 
         private void buttonInfo_Click(object sender, RoutedEventArgs e)

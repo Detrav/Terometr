@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi.Interfaces;
+using Detrav.Terometr.Core;
 using Detrav.Terometr.Windows;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace Detrav.Terometr
 
         public void load(ITeraClient parent)
         {
-            window = new MainWindow(localConfigManager);
+            window = new MainWindow();
             window.close = false;
             this.parent = parent;
             parent.onPacketArrival += parent_onPacketArrival;
@@ -75,10 +76,11 @@ namespace Detrav.Terometr
             }
         }*/
 
-        IConfigManager localConfigManager;
+        //IConfigManager localConfigManager;
         public void init(IConfigManager configManager, IAssetManager assetManager)
         {
-            localConfigManager = configManager;
+            Config.setConfigManager(configManager);
+            //localConfigManager = configManager;
             //PacketStructureManager.assets = assetManager;
         }
     }
