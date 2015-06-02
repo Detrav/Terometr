@@ -2,7 +2,6 @@
 using Detrav.TeraApi.Events;
 using Detrav.TeraApi.Interfaces;
 using Detrav.TeraApi.OpCodes;
-using Detrav.TeraApi.OpCodes.P2904;
 using Detrav.Terometr.Core;
 using Detrav.Terometr.UserElements;
 using System;
@@ -161,7 +160,10 @@ namespace Detrav.Terometr.Windows
 
         internal void opPacketArrival(object sender, PacketArrivalEventArgs e)
         {
-           
+            switch(Repository.R.P2904(sender,e))
+            {
+                case OpCode2904.S_LOGIN: self = Repository.R.getSelf(); login(); break;
+            }
             //TeraApi.OpCodes.
         }
 
