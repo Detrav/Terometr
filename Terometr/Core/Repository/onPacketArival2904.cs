@@ -19,7 +19,7 @@ namespace Detrav.Terometr.Core
                 case OpCode2904.S_LOGIN:
                     Logger.debug("S_LOGIN");
                     var s_login = (S_LOGIN)PacketCreator.create(e.packet);
-                    setSelf(s_login.id, s_login.name);
+                    setSelf(s_login.id, s_login.name,s_login.playerClass);
                     updateParty(self);
                     return OpCode2904.S_LOGIN;
                 case OpCode2904.S_PARTY_MEMBER_LIST:

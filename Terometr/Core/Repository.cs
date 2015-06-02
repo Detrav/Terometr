@@ -24,7 +24,7 @@ namespace Detrav.Terometr.Core
         TeraPlayer self = new TeraPlayer(0, "UNKNOWN", TeraApi.Enums.PlayerClass.Empty);
 
         public TeraPlayer getSelf() { return self; }
-        public void setSelf(ulong id, string name) { self.id = id; self.name = name; }
+        public void setSelf(ulong id, string name, TeraApi.Enums.PlayerClass playerClass) { self.id = id; self.name = name; self.playerClass = playerClass; }
 
 
         private void skillResult(ulong who, ulong target, uint damage, ushort type)
