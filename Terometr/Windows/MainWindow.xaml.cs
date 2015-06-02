@@ -257,9 +257,11 @@ namespace Detrav.Terometr.Windows
                         {
                             ulong projectile;//Если нету прожектила то просто ищем по скилу, который присваеваем прожектилу
                             if (!projectiles.TryGetValue(skill.idWho, out projectile)) projectile = skill.idWho;
-                            TeraPlayer p;
-                            if (!npcs.TryGetValue(projectile, out projectile)) projectile = skill.idWho;
-                            if (!party.TryGetValue(projectile, out p)) p = null;
+                            ulong npc;
+                            TeraPlayer p = null;
+                            if (!npcs.TryGetValue(projectile, out npc)) npc = 0;
+                            if(npc == 0) if (!party.TryGetValue(projectile, out p)) p = null;
+                            if (p == null) if (!party.TryGetValue(npc, out p)) p = null;
                             if (p != null)
                             {
                                 Logger.debug("Player Attack {0}", p.name);
