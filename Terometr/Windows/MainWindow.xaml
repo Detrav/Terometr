@@ -91,22 +91,22 @@
             <TabControl x:Name="tabControl"
                         Style="{DynamicResource tabControlStyle}"
                         SelectionChanged="tabControl_SelectionChanged">
-                <TabItem Header="ДПС">
+                <TabItem Header="УВС">
                     <UserElements:ListBoxBars x:Name="listDps" />
                 </TabItem>
-                <TabItem Header="Нанесено урона">
+                <TabItem Header="Урон">
                     <UserElements:ListBoxBars x:Name="listDamage" />
                 </TabItem>
-                <TabItem Header="ХПС">
+                <TabItem Header="ЛВС">
                     <UserElements:ListBoxBars x:Name="listHps" />
                 </TabItem>
-                <TabItem Header="Отхилино">
+                <TabItem Header="Лечение">
                     <UserElements:ListBoxBars x:Name="listHeal" />
                 </TabItem>
-                <TabItem Header="Получено урона">
+                <TabItem Header="Пол. урона">
                     <UserElements:ListBoxBars x:Name="listDamageTaken" />
                 </TabItem>
-                <TabItem Header="Получено хила">
+                <TabItem Header="Пол. леч.">
                     <UserElements:ListBoxBars x:Name="listHealTaken" />
                 </TabItem>
                 <TabItem Header="Настройки">
