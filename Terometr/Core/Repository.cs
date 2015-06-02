@@ -8,6 +8,7 @@ namespace Detrav.Terometr.Core
 {
     partial class Repository
     {
+        
         static private Repository instance;
         static public Repository R
         {

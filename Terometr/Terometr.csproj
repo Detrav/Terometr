@@ -88,6 +88,7 @@
     <Compile Include="Core\Repository\onPacketArival2904.cs" />
     <Compile Include="Core\Repository.cs" />
     <Compile Include="Core\Repository\PritableData.cs" />
+    <Compile Include="Core\Repository\Saver.cs" />
     <Compile Include="Core\TeraPlayer.cs" />
     <Compile Include="Core\Vector3Str.cs" />
     <Compile Include="Mod.cs" />

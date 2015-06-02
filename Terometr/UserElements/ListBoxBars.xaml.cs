@@ -147,7 +147,7 @@ namespace Detrav.Terometr.UserElements
             }
         }
         static string[] kilos = new string[] { "", "K", "M", "B", "T", "q", "Q", "s", "S", "O", "N", "d" };
-        private string generateRight(double val, double sum)
+        public static string generateRight(double val, double sum)
         {
             /*
              * 100.00                       100    100.00
