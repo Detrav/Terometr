@@ -19,8 +19,8 @@ namespace Detrav.Terometr.Core
                 return config;
             }
         }
-        public double top = NaN;
-        public double left = NaN;
+        public double top = Double.NaN;
+        public double left = Double.NaN;
         public double width = 100;
         public double height = 100;
         public bool hided = false;
