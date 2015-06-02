@@ -58,10 +58,11 @@ namespace Detrav.Terometr.Core
             last = now;
         }
 
-        public TeraPlayer(ulong id,string name)
+        public TeraPlayer(ulong id,string name,Detrav.TeraApi.Enums.PlayerClass playerClass)
         {
             this.id = id;
             this.name = name;
+            this.playerClass = playerClass;
         }
         
         public void makeSkill(uint v, ushort t)
@@ -102,5 +103,7 @@ namespace Detrav.Terometr.Core
             damageTaken = 0;
             healTaken = 0;
         }
+
+        public TeraApi.Enums.PlayerClass playerClass { get; set; }
     }
 }

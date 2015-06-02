@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace Detrav.Terometr
 {
@@ -82,6 +83,22 @@ namespace Detrav.Terometr
             Config.setConfigManager(configManager);
             //localConfigManager = configManager;
             //PacketStructureManager.assets = assetManager;
+        }
+
+        public static BitmapImage ToImage(string filename)
+        {
+            System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
+            using (System.IO.Stream resFilestream = a.GetManifestResourceStream(filename))
+            {
+                if (resFilestream == null) return null;
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad; // here
+                image.StreamSource = resFilestream;
+                image.EndInit();
+                return image;
+
+            }
         }
     }
 }

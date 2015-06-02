@@ -142,7 +142,7 @@ namespace Detrav.Terometr.UserElements
                     pair.Value.right / max * 100,
                     pair.Value.left,
                     generateRight(pair.Value.right,sum),
-                    pair.Value.self);
+                    pair.Value.self,pair.Value.playerClass);
                 i++;
             }
         }

@@ -21,6 +21,7 @@
                      Background="Transparent"
                      BorderBrush="Transparent" />
         <DockPanel>
+            <Image x:Name="imageClass" Width="16" Height="16" Margin="0" />
             <Label x:Name="labelLeft"
                 Content="Left"
                    Style="{DynamicResource labelStyle}"

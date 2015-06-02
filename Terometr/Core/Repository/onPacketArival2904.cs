@@ -28,7 +28,7 @@ namespace Detrav.Terometr.Core
                     List<TeraPlayer> players = new List<TeraPlayer>();
                     foreach(var p in s_party_list.players)
                     {
-                        players.Add(new TeraPlayer(p.id, p.name));
+                        players.Add(new TeraPlayer(p.id, p.name,p.playerClass));
                     }
                     updateParty(players.ToArray());
                     return OpCode2904.S_PARTY_MEMBER_LIST;

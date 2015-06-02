@@ -39,7 +39,7 @@ namespace Detrav.Terometr.Core
                 {
                     dpsSum += dps;
                     dpsMax = Math.Max(dps, dpsMax);
-                    dpsList.Add(dps, new Vector3Str(pair.Value.name, dps, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
+                    dpsList.Add(dps, new Vector3Str(pair.Value.name, dps, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other),pair.Value.playerClass));
                 }
 
                 double damage = pair.Value.damage;
@@ -47,7 +47,7 @@ namespace Detrav.Terometr.Core
                 {
                     damageSum += damage;
                     damageMax = Math.Max(damage, damageMax);
-                    damageList.Add(damage, new Vector3Str(pair.Value.name, damage, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
+                    damageList.Add(damage, new Vector3Str(pair.Value.name, damage, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other),pair.Value.playerClass));
                 }
 
                 double hps = pair.Value.hps;
@@ -55,7 +55,7 @@ namespace Detrav.Terometr.Core
                 {
                     hpsSum += hps;
                     hpsMax = Math.Max(hps, hpsMax);
-                    hpsList.Add(hps, new Vector3Str(pair.Value.name, hps, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
+                    hpsList.Add(hps, new Vector3Str(pair.Value.name, hps, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other),pair.Value.playerClass));
                 }
 
                 double heal = pair.Value.heal;
@@ -63,7 +63,7 @@ namespace Detrav.Terometr.Core
                 {
                     healSum += heal;
                     healMax = Math.Max(heal, healMax);
-                    healList.Add(heal, new Vector3Str(pair.Value.name, heal, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
+                    healList.Add(heal, new Vector3Str(pair.Value.name, heal, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass));
                 }
 
                 double damageTaken = pair.Value.damageTaken;
@@ -71,7 +71,7 @@ namespace Detrav.Terometr.Core
                 {
                     damageTakenSum += damageTaken;
                     damageTakenMax = Math.Max(damageTaken, damageTakenMax);
-                    damageTakenList.Add(damageTaken, new Vector3Str(pair.Value.name, damageTaken, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
+                    damageTakenList.Add(damageTaken, new Vector3Str(pair.Value.name, damageTaken, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass));
                 }
 
                 double healTaken = pair.Value.healTaken;
@@ -79,16 +79,16 @@ namespace Detrav.Terometr.Core
                 {
                     healTakenSum += healTaken;
                     healTakenMax = Math.Max(healTaken, healTakenMax);
-                    healTakenList.Add(healTaken, new Vector3Str(pair.Value.name, healTaken, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other)));
+                    healTakenList.Add(healTaken, new Vector3Str(pair.Value.name, healTaken, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass));
                 }
             }
 
-            dpsList.Add(0, new Vector3Str("Всего", dpsSum, PlayerBarElement.clr.sum));
-            damageList.Add(0, new Vector3Str("Всего", damageSum, PlayerBarElement.clr.sum));
-            hpsList.Add(0, new Vector3Str("Всего", hpsSum, PlayerBarElement.clr.sum));
-            healList.Add(0, new Vector3Str("Всего", healSum, PlayerBarElement.clr.sum));
-            damageTakenList.Add(0, new Vector3Str("Всего", damageTakenSum, PlayerBarElement.clr.sum));
-            healTakenList.Add(0, new Vector3Str("Всего", healTakenSum, PlayerBarElement.clr.sum));
+            dpsList.Add(0, new Vector3Str("Всего", dpsSum, PlayerBarElement.clr.sum, TeraApi.Enums.PlayerClass.Empty));
+            damageList.Add(0, new Vector3Str("Всего", damageSum, PlayerBarElement.clr.sum, TeraApi.Enums.PlayerClass.Empty));
+            hpsList.Add(0, new Vector3Str("Всего", hpsSum, PlayerBarElement.clr.sum, TeraApi.Enums.PlayerClass.Empty));
+            healList.Add(0, new Vector3Str("Всего", healSum, PlayerBarElement.clr.sum, TeraApi.Enums.PlayerClass.Empty));
+            damageTakenList.Add(0, new Vector3Str("Всего", damageTakenSum, PlayerBarElement.clr.sum, TeraApi.Enums.PlayerClass.Empty));
+            healTakenList.Add(0, new Vector3Str("Всего", healTakenSum, PlayerBarElement.clr.sum, TeraApi.Enums.PlayerClass.Empty));
         }
 
         public class DuplicateKeyComparer<TKey> : IComparer<TKey> where TKey : IComparable

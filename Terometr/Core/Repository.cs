@@ -21,7 +21,7 @@ namespace Detrav.Terometr.Core
         Dictionary<ulong, TeraPlayer> party = new Dictionary<ulong, TeraPlayer>();
         Dictionary<ulong, ulong> projectiles = new Dictionary<ulong, ulong>();
         Dictionary<ulong, ulong> npcs = new Dictionary<ulong, ulong>();
-        TeraPlayer self = new TeraPlayer(0, "UNKNOWN");
+        TeraPlayer self = new TeraPlayer(0, "UNKNOWN", TeraApi.Enums.PlayerClass.Empty);
 
         public TeraPlayer getSelf() { return self; }
         public void setSelf(ulong id, string name) { self.id = id; self.name = name; }

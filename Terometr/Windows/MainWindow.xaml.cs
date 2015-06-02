@@ -31,17 +31,17 @@ namespace Detrav.Terometr.Windows
         public MainWindow()
         {
             InitializeComponent();
-            ((buttonBubble as Button).Content as Image).Source = ToImage("Detrav.Terometr.assets.images.Bubble.png");
-            ((buttonNew as Button).Content as Image).Source = ToImage("Detrav.Terometr.assets.images.New.png");
-            ((buttonBack as Button).Content as Image).Source = ToImage("Detrav.Terometr.assets.images.Back.png");
-            ((buttonForward as Button).Content as Image).Source = ToImage("Detrav.Terometr.assets.images.Forward.png");
-            ((buttonInfo as Button).Content as Image).Source = ToImage("Detrav.Terometr.assets.images.Info.png");
-            down = ToImage("Detrav.Terometr.assets.images.Bottom.png");
-            up = ToImage("Detrav.Terometr.assets.images.Top.png");
+            ((buttonBubble as Button).Content as Image).Source = Mod.ToImage("Detrav.Terometr.assets.images.Bubble.png");
+            ((buttonNew as Button).Content as Image).Source = Mod.ToImage("Detrav.Terometr.assets.images.New.png");
+            ((buttonBack as Button).Content as Image).Source = Mod.ToImage("Detrav.Terometr.assets.images.Back.png");
+            ((buttonForward as Button).Content as Image).Source = Mod.ToImage("Detrav.Terometr.assets.images.Forward.png");
+            ((buttonInfo as Button).Content as Image).Source = Mod.ToImage("Detrav.Terometr.assets.images.Info.png");
+            down = Mod.ToImage("Detrav.Terometr.assets.images.Bottom.png");
+            up = Mod.ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
         }
 
-        TeraPlayer self = new TeraPlayer(0,"UNKNOWN");
+        TeraPlayer self = new TeraPlayer(0,"UNKNOWN", TeraApi.Enums.PlayerClass.Empty);
 
         public void changeTitle(string str)
         {
@@ -81,22 +81,6 @@ namespace Detrav.Terometr.Windows
             Height = 16;
             hided = true;
             ((buttonHide as Button).Content as Image).Source = down;
-        }
-
-        public BitmapImage ToImage(string filename)
-        {
-            System.Reflection.Assembly a = System.Reflection.Assembly.GetExecutingAssembly();
-            using (System.IO.Stream resFilestream = a.GetManifestResourceStream(filename))
-            {
-                if (resFilestream == null) return null;
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad; // here
-                image.StreamSource = resFilestream;
-                image.EndInit();
-                return image;
-
-            }
         }
 
         private void buttonForward_Click(object sender, RoutedEventArgs e)
