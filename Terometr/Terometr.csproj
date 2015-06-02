@@ -147,6 +147,18 @@
     <EmbeddedResource Include="assets\images\Info.png" />
     <EmbeddedResource Include="assets\images\Top.png" />
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="assets\player_class_images\archer.png" />
+    <EmbeddedResource Include="assets\player_class_images\berserker.png" />
+    <EmbeddedResource Include="assets\player_class_images\lancer.png" />
+    <EmbeddedResource Include="assets\player_class_images\mystic.png" />
+    <EmbeddedResource Include="assets\player_class_images\priest.png" />
+    <EmbeddedResource Include="assets\player_class_images\reaper.png" />
+    <EmbeddedResource Include="assets\player_class_images\slayer.png" />
+    <EmbeddedResource Include="assets\player_class_images\sorcerer.png" />
+    <EmbeddedResource Include="assets\player_class_images\warrior.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>"$(SolutionDir)SetAttrOfCSharpByGit.exe" "start" "$(SolutionDir)\" "$(ProjectDir)Properties\AssemblyInfo.cs"
