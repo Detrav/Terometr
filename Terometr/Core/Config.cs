@@ -19,12 +19,12 @@ namespace Detrav.Terometr.Core
                 return config;
             }
         }
-        public double top;
-        public double left;
-        public double width;
-        public double height;
-        public bool hided;
-        public double prevHeight;
+        public double top = NaN;
+        public double left = NaN;
+        public double width = 100;
+        public double height = 100;
+        public bool hided = false;
+        public double prevHeight = 100;
 
         public static void setConfigManager(IConfigManager cfgManager)
         {
