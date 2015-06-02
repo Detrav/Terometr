@@ -9,18 +9,26 @@ namespace Detrav.Terometr.Core
 {
     partial class Repository
     {
+        public Dictionary<ulong, TeraPlayer> playersSnapShot = new Dictionary<ulong, TeraPlayer>();
+
         public SortedList<double, Vector3Str> dpsList = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
-        public double dpsMax; public double dpsSum;
+        public double dpsMax;
+        public double dpsSum;
         public SortedList<double, Vector3Str> damageList = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
-        public double damageMax; public double damageSum;
+        public double damageMax;
+        public double damageSum;
         public SortedList<double, Vector3Str> hpsList = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
-        public double hpsMax; public double hpsSum;
+        public double hpsMax; 
+        public double hpsSum;
         public SortedList<double, Vector3Str> healList = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
-        public double healMax; public double healSum;
+        public double healMax; 
+        public double healSum;
         public SortedList<double, Vector3Str> damageTakenList = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
-        public double damageTakenMax; public double damageTakenSum;
+        public double damageTakenMax; 
+        public double damageTakenSum;
         public SortedList<double, Vector3Str> healTakenList = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
-        public double healTakenMax; public double healTakenSum;
+        public double healTakenMax; 
+        public double healTakenSum;
 
         internal void doEvents()
         {
@@ -33,6 +41,34 @@ namespace Detrav.Terometr.Core
             healTakenList.Clear(); healTakenMax = 0; healTakenSum = 0;
 
             foreach (var pair in party)
+            {
+                if (pair.Value.damage > 0)
+                {
+                    if (!playersSnapShot.ContainsKey(pair.Key))
+                        playersSnapShot.Add(pair.Key, pair.Value);
+                    continue;
+                }
+                if (pair.Value.heal > 0)
+                {
+                    if (!playersSnapShot.ContainsKey(pair.Key))
+                        playersSnapShot.Add(pair.Key, pair.Value);
+                    continue;
+                }
+                if (pair.Value.damageTaken > 0)
+                {
+                    if (!playersSnapShot.ContainsKey(pair.Key))
+                        playersSnapShot.Add(pair.Key, pair.Value);
+                    continue;
+                }
+                if (pair.Value.healTaken > 0)
+                {
+                    if (!playersSnapShot.ContainsKey(pair.Key))
+                        playersSnapShot.Add(pair.Key, pair.Value);
+                    continue;
+                }
+            }
+
+            foreach (var pair in playersSnapShot)
             {
                 double dps = pair.Value.dps;
                 if (dps > 0)
