@@ -74,7 +74,9 @@ namespace Detrav.Terometr.Core
 
         private void addNpc(ulong id, ulong parent)
         {
-            if (party.ContainsKey(parent)) npcs.Add(id, parent);
+            if (party.ContainsKey(parent))
+                if (!npcs.ContainsKey(id))
+                    npcs.Add(id, parent);
         }
 
         private void removeProjectile(ulong id)
@@ -84,7 +86,8 @@ namespace Detrav.Terometr.Core
 
         private void addProjectile(ulong id, ulong parent)
         {
-            projectiles.Add(id, parent);
+            if (!projectiles.ContainsKey(id))
+                projectiles.Add(id, parent);
         }
 
         private void leaveFromParty(ulong id)
