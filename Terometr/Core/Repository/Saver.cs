@@ -18,6 +18,7 @@ namespace Detrav.Terometr.Core
             {
                 string file = String.Format("{0}_{1}.txt", self.name, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff"));
                 string folder = assetManager.getMyFolder();
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
                 //id,class,name,dps,damage,hps,heal,damageTaken,healTaken
                 TableWriter tw = new TableWriter(9);
                 tw.addRow("Id", "Class", "Name", "Dps", "Damage", "Hps", "Heal", "Damage Taken", "Heal Taken");
