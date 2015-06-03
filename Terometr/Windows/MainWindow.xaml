@@ -16,6 +16,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Terometr;component/Themes/MainWindowStyle.xaml" />
                 <ResourceDictionary Source="/Terometr;component/Themes/ElementsStyle.xaml" />
+                <ResourceDictionary Source="/Terometr;component/Themes/DataGridStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -108,6 +109,54 @@
                 </TabItem>
                 <TabItem Header="Пол. леч.">
                     <UserElements:ListBoxBars x:Name="listHealTaken" />
+                </TabItem>
+                <TabItem Header="Сумарно">
+                    <DataGrid x:Name="dataGrid"
+                              
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              CanUserSortColumns="True"
+                              IsReadOnly="True"
+                              AutoGenerateColumns="False"
+                              VerticalAlignment="Stretch"
+                              SelectionMode="Single"
+                              Background="Transparent"
+                              RowBackground="Transparent"
+                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                              ScrollViewer.VerticalScrollBarVisibility="Visible">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="C">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Width="32"
+                                               Height="32"
+                                               Source="{Binding image}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Имя"
+                                                Width="Auto"
+                                                Binding="{Binding name}" />
+                            <DataGridTextColumn Header="УВС"
+                                                Width="Auto"
+                                                Binding="{Binding dps}" />
+                            <DataGridTextColumn Header="Урон"
+                                                Width="Auto"
+                                                Binding="{Binding damage}" />
+                            <DataGridTextColumn Header="ЛВС"
+                                                Width="Auto"
+                                                Binding="{Binding hps}" />
+                            <DataGridTextColumn Header="Лечение"
+                                                Width="Auto"
+                                                Binding="{Binding heal}" />
+                            <DataGridTextColumn Header="Пол. урона"
+                                                Width="Auto"
+                                                Binding="{Binding damageTaken}" />
+                            <DataGridTextColumn Header="Пол. леч."
+                                                Width="Auto"
+                                                Binding="{Binding healTaken}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </TabItem>
                 <TabItem Header="Настройки">
                     <ListBox x:Name="Settings">

@@ -141,6 +141,7 @@ namespace Detrav.Terometr.Core
 
         public void clear()
         {
+            save();
             playersSnapShot.Clear();
             foreach(var pair in party)
             {

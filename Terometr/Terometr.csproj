@@ -71,6 +71,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Themes\DataGridStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserElements\ListBoxBars.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -84,6 +88,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Core\Config.cs" />
+    <Compile Include="Core\DataGridPlayer.cs" />
     <Compile Include="Core\DPSEngine.cs" />
     <Compile Include="Core\Repository\onPacketArival2904.cs" />
     <Compile Include="Core\Repository.cs" />

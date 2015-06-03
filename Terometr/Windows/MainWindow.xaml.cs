@@ -185,6 +185,7 @@ namespace Detrav.Terometr.Windows
 
         private void buttonBubble_Click(object sender, RoutedEventArgs e)
         {
+            Repository.R.save();
             StringBuilder sb = new StringBuilder();
             PlayerBarElement [] list = null;
             switch(tabControl.SelectedIndex)
