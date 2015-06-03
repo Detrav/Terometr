@@ -1,4 +1,5 @@
-﻿using Detrav.TeraApi.Interfaces;
+﻿using Detrav.TeraApi.Enums;
+using Detrav.TeraApi.Interfaces;
 using Detrav.Terometr.UserElements;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,16 @@ namespace Detrav.Terometr.Core
                         ListBoxBars.generateRight(p.damageTaken, damageTakenSum),
                         ListBoxBars.generateRight(p.healTaken, healTakenSum));
                 }
+                tw.addRow(
+                        0,
+                        PlayerClass.Empty,
+                        "Всего",
+                        ListBoxBars.generateRight(dpsSum, dpsSum),
+                        ListBoxBars.generateRight(damageSum, damageSum),
+                        ListBoxBars.generateRight(hpsSum, hpsSum),
+                        ListBoxBars.generateRight(healSum, healSum),
+                        ListBoxBars.generateRight(damageTakenSum, damageTakenSum),
+                        ListBoxBars.generateRight(healTakenSum, healTakenSum));
                 using (TextWriter textWriter = new StreamWriter(Path.Combine(folder, file)))
                 {
                     return tw.writeToStream(textWriter);
