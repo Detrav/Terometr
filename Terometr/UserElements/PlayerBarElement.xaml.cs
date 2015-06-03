@@ -34,15 +34,15 @@ namespace Detrav.Terometr.UserElements
         Brush blue;
         Brush black;
 
-        static BitmapImage archer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.archer.png");
-        static BitmapImage berserker = Mod.ToImage("Detrav.Terometr.assets.player_class_images.berserker.png");
-        static BitmapImage lancer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.lancer.png");
-        static BitmapImage mystic = Mod.ToImage("Detrav.Terometr.assets.player_class_images.mystic.png");
-        static BitmapImage priest = Mod.ToImage("Detrav.Terometr.assets.player_class_images.priest.png");
-        static BitmapImage reaper = Mod.ToImage("Detrav.Terometr.assets.player_class_images.reaper.png");
-        static BitmapImage slayer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.slayer.png");
-        static BitmapImage sorcerer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.sorcerer.png");
-        static BitmapImage warrior = Mod.ToImage("Detrav.Terometr.assets.player_class_images.warrior.png");
+        public static BitmapImage archer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.archer.png");
+        public static BitmapImage berserker = Mod.ToImage("Detrav.Terometr.assets.player_class_images.berserker.png");
+        public static BitmapImage lancer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.lancer.png");
+        public static BitmapImage mystic = Mod.ToImage("Detrav.Terometr.assets.player_class_images.mystic.png");
+        public static BitmapImage priest = Mod.ToImage("Detrav.Terometr.assets.player_class_images.priest.png");
+        public static BitmapImage reaper = Mod.ToImage("Detrav.Terometr.assets.player_class_images.reaper.png");
+        public static BitmapImage slayer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.slayer.png");
+        public static BitmapImage sorcerer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.sorcerer.png");
+        public static BitmapImage warrior = Mod.ToImage("Detrav.Terometr.assets.player_class_images.warrior.png");
         
 
         public void changeData(double progressValue,string left,string right, clr me, PlayerClass playerClass)
