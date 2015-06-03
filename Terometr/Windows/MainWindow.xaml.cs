@@ -187,6 +187,21 @@ namespace Detrav.Terometr.Windows
         private void buttonBubble_Click(object sender, RoutedEventArgs e)
         {
             Repository.R.save();
+            if(tabControl.SelectedIndex == 6 )
+            {
+                //testы
+                var Test = new DataGridPlayer[]
+            {
+                new DataGridPlayer(TeraApi.Enums.PlayerClass.Empty,"test1"),
+                new DataGridPlayer(TeraApi.Enums.PlayerClass.Archer,"test2"),
+                new DataGridPlayer(TeraApi.Enums.PlayerClass.Archer,"test3"),
+                new DataGridPlayer(TeraApi.Enums.PlayerClass.Berserker,"test4"),
+                new DataGridPlayer(TeraApi.Enums.PlayerClass.Mystic,"test5")
+            };
+                dataGrid.ItemsSource = null;
+                dataGrid.ItemsSource = Test;
+                return;
+            }
             StringBuilder sb = new StringBuilder();
             PlayerBarElement [] list = null;
             switch(tabControl.SelectedIndex)
