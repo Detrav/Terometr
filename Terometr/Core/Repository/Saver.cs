@@ -12,7 +12,7 @@ namespace Detrav.Terometr.Core
     partial class Repository
     {
         public IAssetManager assetManager { get; set; }
-        public void save()
+        public string save()
         {
             if (assetManager != null)
             {
@@ -37,7 +37,7 @@ namespace Detrav.Terometr.Core
                 }
                 using (TextWriter textWriter = new StreamWriter(Path.Combine(folder, file)))
                 {
-                    tw.writeToStream(textWriter);
+                    return tw.writeToStream(textWriter);
                 }
             }
         }

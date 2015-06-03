@@ -32,7 +32,7 @@ namespace Detrav.Terometr.Core
             table.Add(row);
         }
 
-        public void writeToStream(TextWriter tw)
+        public string writeToStream(TextWriter tw)
         {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < widths.Length; i++)
@@ -43,8 +43,14 @@ namespace Detrav.Terometr.Core
                 sb.Append("|");
             }
             string format = sb.ToString();
+            StringBuilder result = new StringBuilder();
             foreach (var el in table)
+            {
                 tw.WriteLine(format, el);
+                result.AppendFormat(format, el);
+                result.Append(Environment.NewLine);
+            }
+            return result.ToString();
         }
     }
 }
