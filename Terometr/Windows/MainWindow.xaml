@@ -124,13 +124,14 @@
                               Background="Transparent"
                               RowBackground="Transparent"
                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                              ScrollViewer.VerticalScrollBarVisibility="Visible">
+                              ScrollViewer.VerticalScrollBarVisibility="Visible"
+                              GridLinesVisibility="None">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="C">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Width="32"
-                                               Height="32"
+                                        <Image Width="16"
+                                               Height="16"
                                                Source="{Binding image}" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
