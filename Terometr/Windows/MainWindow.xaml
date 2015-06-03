@@ -110,7 +110,7 @@
                 <TabItem Header="Пол. леч.">
                     <UserElements:ListBoxBars x:Name="listHealTaken" />
                 </TabItem>
-                <TabItem Header="Сумарно">
+                <TabItem Header="Суммарно">
                     <DataGrid x:Name="dataGrid"
                               
                               CanUserAddRows="False"
