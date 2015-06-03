@@ -40,6 +40,8 @@ namespace Detrav.Terometr.Core
                     tw.writeToStream(textWriter);
                 }
             }
-        }        
+        }
+
+        DataGridPlayer[] getAllArrayDataGridPlayer();
     }
 }

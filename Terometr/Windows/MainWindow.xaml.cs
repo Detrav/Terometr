@@ -136,6 +136,7 @@ namespace Detrav.Terometr.Windows
                 case 3: listHeal.updateData(Repository.R.healList, Repository.R.healMax, Repository.R.healSum); break;
                 case 4: listDamageTaken.updateData(Repository.R.damageTakenList, Repository.R.damageTakenMax, Repository.R.damageTakenSum); break;
                 case 5: listHealTaken.updateData(Repository.R.healTakenList, Repository.R.healTakenMax, Repository.R.healTakenSum); break;
+                case 6: dataGrid.ItemsSource = null; dataGrid.ItemsSource = Repository.R.getAllArrayDataGridPlayer(); break;
             }
         }
 

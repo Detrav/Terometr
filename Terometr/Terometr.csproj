@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{A798E0AA-5914-4B39-A96E-F402EB2EBC09}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Detrav.Terometr</RootNamespace>
     <AssemblyName>Terometr</AssemblyName>
@@ -34,8 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
+    <StartupObject>Detrav.Terometr.Windows.App</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
@@ -59,10 +58,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Windows\App.xaml">
+    <ApplicationDefinition Include="Windows\App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </None>
+    </ApplicationDefinition>
     <Page Include="Themes\ElementsStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

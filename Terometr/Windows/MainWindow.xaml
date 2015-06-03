@@ -112,7 +112,8 @@
                 </TabItem>
                 <TabItem Header="Суммарно">
                     <DataGrid x:Name="dataGrid"
-                              
+                              BorderBrush="Transparent"
+                              Margin="0"
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
                               CanUserSortColumns="True"
