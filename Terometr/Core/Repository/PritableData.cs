@@ -141,6 +141,7 @@ namespace Detrav.Terometr.Core
         }
 
         public Dictionary<ulong, DataGridPlayer> playersDataGrid = new Dictionary<ulong, DataGridPlayer>();
+        public DataGridPlayer summary = new DataGridPlayer(TeraApi.Enums.PlayerClass.Empty, "Всего");
         public DataGridPlayer[] getAllArrayDataGridPlayer()
         {
             foreach(var pair in playersSnapShot)
@@ -154,6 +155,8 @@ namespace Detrav.Terometr.Core
                 }
                 player.update(p.dps, p.damage, p.hps, p.heal, p.damageTaken, p.healTaken);
             }
+            playersDataGrid[ulong.MaxValue] = summary;
+            summary.update(dpsSum, (ulong)damageSum, hpsSum, (ulong)healSum, (ulong)damageTakenSum, (ulong)healTakenSum);
             return playersDataGrid.Values.ToArray();
         }
     }
