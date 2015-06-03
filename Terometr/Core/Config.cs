@@ -33,14 +33,14 @@ namespace Detrav.Terometr.Core
 
         public static void save(string playerName)
         {
-            if (configManager == null)
+            if (configManager != null)
             {
                 if (config != null) configManager.savePlayer(playerName, config);
             }
         }
         public static void load(string playerName)
         {
-            if (configManager == null)
+            if (configManager != null)
             {
                 var conf = configManager.loadPlayer(playerName, typeof(Config));
                 if (conf == null) config = new Config();
