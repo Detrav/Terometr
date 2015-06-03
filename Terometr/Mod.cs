@@ -81,6 +81,7 @@ namespace Detrav.Terometr
         public void init(IConfigManager configManager, IAssetManager assetManager)
         {
             Config.setConfigManager(configManager);
+            Repository.R.assetManager = assetManager;
             //localConfigManager = configManager;
             //PacketStructureManager.assets = assetManager;
         }
