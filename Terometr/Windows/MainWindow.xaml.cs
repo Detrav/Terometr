@@ -186,39 +186,32 @@ namespace Detrav.Terometr.Windows
 
         private void buttonBubble_Click(object sender, RoutedEventArgs e)
         {
-            Repository.R.save();
-            if(tabControl.SelectedIndex == 6 )
-            {
-                //testы
-                var Test = new DataGridPlayer[]
-            {
-                new DataGridPlayer(TeraApi.Enums.PlayerClass.Empty,"test1"),
-                new DataGridPlayer(TeraApi.Enums.PlayerClass.Archer,"test2"),
-                new DataGridPlayer(TeraApi.Enums.PlayerClass.Archer,"test3"),
-                new DataGridPlayer(TeraApi.Enums.PlayerClass.Berserker,"test4"),
-                new DataGridPlayer(TeraApi.Enums.PlayerClass.Mystic,"test5")
-            };
-                dataGrid.ItemsSource = null;
-                dataGrid.ItemsSource = Test;
-                return;
-            }
+            string result = Repository.R.save();
             StringBuilder sb = new StringBuilder();
-            PlayerBarElement [] list = null;
-            switch(tabControl.SelectedIndex)
-            {
-                case 0: list = listDps.getList(); break;
-                case 1: list = listDamage.getList(); break;
-                case 2: list = listHps.getList(); break;
-                case 3: list = listHeal.getList(); break;
-                case 4: list = listDamageTaken.getList(); break;
-                case 5: list = listHealTaken.getList(); break;
-            }
-            if (list == null) return;
-            //sb.AppendFormat("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
             string title = String.Format("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
-            foreach(var el in list)
+            if (tabControl.SelectedIndex == 6)
             {
-                sb.Append(el.getText()); sb.Append(Environment.NewLine);
+                sb.Append(result);
+            }
+            else
+            {
+                PlayerBarElement[] list = null;
+                switch (tabControl.SelectedIndex)
+                {
+                    case 0: list = listDps.getList(); break;
+                    case 1: list = listDamage.getList(); break;
+                    case 2: list = listHps.getList(); break;
+                    case 3: list = listHeal.getList(); break;
+                    case 4: list = listDamageTaken.getList(); break;
+                    case 5: list = listHealTaken.getList(); break;
+                }
+                if (list == null) return;
+                //sb.AppendFormat("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
+                
+                foreach (var el in list)
+                {
+                    sb.Append(el.getText()); sb.Append(Environment.NewLine);
+                }
             }
             sb.Append("Постоянные обновления на:"); sb.Append(Environment.NewLine);
             sb.Append(@"https://github.com/Detrav/Terometr");
