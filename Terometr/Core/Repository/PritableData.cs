@@ -139,5 +139,22 @@ namespace Detrav.Terometr.Core
 
             #endregion
         }
+
+        public Dictionary<ulong, DataGridPlayer> playersDataGrid = new Dictionary<ulong, DataGridPlayer>();
+        public DataGridPlayer[] getAllArrayDataGridPlayer()
+        {
+            foreach(var pair in playersSnapShot)
+            {
+                TeraPlayer p = pair.Value;
+                DataGridPlayer player;
+                if (!playersDataGrid.TryGetValue(pair.Key, out player))
+                {
+                    player = new DataGridPlayer(p.playerClass, p.name);
+                    playersDataGrid[pair.Key] = player;
+                }
+                player.update(p.dps, p.damage, p.hps, p.heal, p.damageTaken, p.healTaken);
+            }
+            return playersDataGrid.Values.ToArray();
+        }
     }
 }
