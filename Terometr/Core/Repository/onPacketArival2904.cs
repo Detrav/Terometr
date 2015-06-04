@@ -14,7 +14,7 @@ namespace Detrav.Terometr.Core
     {
         public OpCode2904 P2904(object sender, PacketArrivalEventArgs e)
         {
-             switch((OpCode2904)e.packet.opCode)
+            switch((OpCode2904)e.packet.opCode)
             {
                 case OpCode2904.S_LOGIN:
                     Logger.debug("S_LOGIN");
