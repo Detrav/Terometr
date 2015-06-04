@@ -38,6 +38,8 @@ namespace Detrav.Terometr
             //parent.onPacketArrival += parent_onPacketArrival;
             parent.onLogin += parent_onLogin;
             parent.onNewPartyList += R.parent_onNewPartyList;
+            parent.onMakeSkillResult += R.parent_onMakeSkillResult;
+            parent.onTakeSkillResult += R.parent_onTakeSkillResult;
             parent.onTick += parent_onTick;
             //show();
         }

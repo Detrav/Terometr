@@ -55,5 +55,23 @@ namespace Detrav.Terometr.Core
             party.Clear();
             party.Add(self.player.id,self);
         }
+
+        public void parent_onTakeSkillResult(object sender, TeraApi.Events.SkillResultEventArgs e)
+        {
+            DpsPlayer player;
+            if(party.TryGetValue(e.player.id,out player))
+            {
+                player.takeSkill(e.damage, e.type);
+            }
+        }
+
+        public void parent_onMakeSkillResult(object sender, TeraApi.Events.SkillResultEventArgs e)
+        {
+            DpsPlayer player;
+            if (party.TryGetValue(e.player.id, out player))
+            {
+                player.makeSkill(e.damage, e.type);
+            }
+        }
     }
 }
