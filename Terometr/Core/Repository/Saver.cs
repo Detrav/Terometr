@@ -17,7 +17,7 @@ namespace Detrav.Terometr.Core
         {
             if (assetManager != null)
             {
-                string file = String.Format("{0}_{1}.txt", self.name, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff"));
+                string file = String.Format("{0}_{1}.txt", self.player.name, DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss_fff"));
                 string folder = assetManager.getMyFolder();
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
                 //id,class,name,dps,damage,hps,heal,damageTaken,healTaken
@@ -25,11 +25,11 @@ namespace Detrav.Terometr.Core
                 tw.addRow("Id", "Class", "Name", "Dps", "Damage", "Hps", "Heal", "Damage Taken", "Heal Taken");
                 foreach (var pl in playersSnapShot)
                 {
-                    TeraPlayer p = pl.Value;
+                    DpsPlayer p = pl.Value;
                     tw.addRow(
-                        p.id,
-                        p.playerClass,
-                        p.name,
+                        p.player.id,
+                        p.player.playerClass,
+                        p.player.name,
                         ListBoxBars.generateRight(p.dps, dpsSum),
                         ListBoxBars.generateRight(p.damage, damageSum),
                         ListBoxBars.generateRight(p.hps, hpsSum),

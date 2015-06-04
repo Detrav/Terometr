@@ -90,12 +90,11 @@
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\DataGridPlayer.cs" />
     <Compile Include="Core\DPSEngine.cs" />
-    <Compile Include="Core\Repository\onPacketArival2904.cs" />
     <Compile Include="Core\Repository.cs" />
     <Compile Include="Core\Repository\PritableData.cs" />
     <Compile Include="Core\Repository\Saver.cs" />
     <Compile Include="Core\TableWriter.cs" />
-    <Compile Include="Core\TeraPlayer.cs" />
+    <Compile Include="Core\DpsPlayer.cs" />
     <Compile Include="Core\Vector3Str.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">

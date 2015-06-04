@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi;
+using Detrav.TeraApi.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,9 @@ using System.Threading.Tasks;
 
 namespace Detrav.Terometr.Core
 {
-    class TeraPlayer
+    class DpsPlayer
     {
-        public ulong id;
-        public string name = "Unknown";
+        public TeraPlayer player;
         public ulong damage;
         public ulong heal;
         public ulong damageTaken;
@@ -58,11 +58,9 @@ namespace Detrav.Terometr.Core
             last = now;
         }
 
-        public TeraPlayer(ulong id,string name,Detrav.TeraApi.Enums.PlayerClass playerClass)
+        public DpsPlayer(TeraPlayer player)
         {
-            this.id = id;
-            this.name = name;
-            this.playerClass = playerClass;
+            this.player = player;
         }
         
         public void makeSkill(uint v, ushort t)
@@ -103,7 +101,5 @@ namespace Detrav.Terometr.Core
             damageTaken = 0;
             healTaken = 0;
         }
-
-        public TeraApi.Enums.PlayerClass playerClass { get; set; }
     }
 }

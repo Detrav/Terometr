@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi;
+using Detrav.TeraApi.Core;
 using Detrav.TeraApi.Events;
 using Detrav.TeraApi.Interfaces;
 using Detrav.TeraApi.OpCodes;
@@ -28,7 +29,8 @@ namespace Detrav.Terometr.Windows
     {
         BitmapImage down;
         BitmapImage up;
-        public MainWindow()
+        Repository R;
+        internal MainWindow(Repository R)
         {
             InitializeComponent();
             ((buttonBubble as Button).Content as Image).Source = Mod.ToImage("Detrav.Terometr.assets.images.Bubble.png");
@@ -39,9 +41,10 @@ namespace Detrav.Terometr.Windows
             down = Mod.ToImage("Detrav.Terometr.assets.images.Bottom.png");
             up = Mod.ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
+            this.R = R;
         }
 
-        TeraPlayer self = new TeraPlayer(0,"UNKNOWN", TeraApi.Enums.PlayerClass.Empty);
+        DpsPlayer self = new DpsPlayer(new TeraPlayer(0,"Unknown"));
 
         public void changeTitle(string str)
         {
@@ -110,7 +113,7 @@ namespace Detrav.Terometr.Windows
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
-            Repository.R.clear();
+            R.clear();
             /*listDps.clear();
             listHps.clear();
             listDamage.clear();
@@ -127,36 +130,27 @@ namespace Detrav.Terometr.Windows
         //bool valueNotPerSecond;
         public void doEvents()
         {
-            Repository.R.doEvents();
+            R.doEvents();
             switch (tabControl.SelectedIndex)
             {
-                case 0: listDps.updateData(Repository.R.dpsList, Repository.R.dpsMax, Repository.R.dpsSum); break;
-                case 1: listDamage.updateData(Repository.R.damageList, Repository.R.damageMax, Repository.R.damageSum); break;
-                case 2: listHps.updateData(Repository.R.hpsList, Repository.R.hpsMax, Repository.R.hpsSum); break;
-                case 3: listHeal.updateData(Repository.R.healList, Repository.R.healMax, Repository.R.healSum); break;
-                case 4: listDamageTaken.updateData(Repository.R.damageTakenList, Repository.R.damageTakenMax, Repository.R.damageTakenSum); break;
-                case 5: listHealTaken.updateData(Repository.R.healTakenList, Repository.R.healTakenMax, Repository.R.healTakenSum); break;
-                case 6: dataGrid.ItemsSource = null; dataGrid.ItemsSource = Repository.R.getAllArrayDataGridPlayer(); break;
+                case 0: listDps.updateData(R.dpsList, R.dpsMax, R.dpsSum); break;
+                case 1: listDamage.updateData(R.damageList, R.damageMax, R.damageSum); break;
+                case 2: listHps.updateData(R.hpsList, R.hpsMax, R.hpsSum); break;
+                case 3: listHeal.updateData(R.healList, R.healMax, R.healSum); break;
+                case 4: listDamageTaken.updateData(R.damageTakenList, R.damageTakenMax, R.damageTakenSum); break;
+                case 5: listHealTaken.updateData(R.healTakenList, R.healTakenMax, R.healTakenSum); break;
+                case 6: dataGrid.ItemsSource = null; dataGrid.ItemsSource = R.getAllArrayDataGridPlayer(); break;
             }
         }
 
 
 
-
-        internal void opPacketArrival(object sender, PacketArrivalEventArgs e)
-        {
-            switch(Repository.R.P2904(sender,e))
-            {
-                case OpCode2904.S_LOGIN: self = Repository.R.getSelf(); login(); break;
-            }
-            //TeraApi.OpCodes.
-        }
 
         //IConfigManager config;
         //Config localConfig = null;
-        void login()
+        public void login()
         {
-            Config.load(self.name);
+            Config.load(self.player.name);
             Left = Config.c.left;
             Top = Config.c.top;
             Height = Config.c.height;
@@ -164,7 +158,7 @@ namespace Detrav.Terometr.Windows
             prevSize = Config.c.prevHeight;
             hided = Config.c.hided;
             Show();
-            Repository.R.clear();
+            R.clear();
         }
 
         void saveCurrentConfig()
@@ -176,7 +170,7 @@ namespace Detrav.Terometr.Windows
             Config.c.width = Width;
             Config.c.prevHeight = prevSize;
             Config.c.hided = hided;
-            Config.save(self.name);
+            Config.save(self.player.name);
         }
 
         private void buttonInfo_Click(object sender, RoutedEventArgs e)
@@ -186,9 +180,9 @@ namespace Detrav.Terometr.Windows
 
         private void buttonBubble_Click(object sender, RoutedEventArgs e)
         {
-            string result = Repository.R.save();
+            string result = R.save();
             StringBuilder sb = new StringBuilder();
-            string title = String.Format("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
+            string title = String.Format("Terometr - {0} - {1}", self.player.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
             if (tabControl.SelectedIndex == 6)
             {
                 sb.Append(result);

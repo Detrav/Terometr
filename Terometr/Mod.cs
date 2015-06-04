@@ -14,6 +14,7 @@ namespace Detrav.Terometr
     {
         MainWindow window;
         ITeraClient parent;
+        Repository R;
 
         public void changeVisible()
         {
@@ -31,22 +32,25 @@ namespace Detrav.Terometr
 
         public void load(ITeraClient parent)
         {
-            window = new MainWindow();
+            window = new MainWindow(R);
             window.close = false;
             this.parent = parent;
-            parent.onPacketArrival += parent_onPacketArrival;
+            //parent.onPacketArrival += parent_onPacketArrival;
+            parent.onLogin += parent_onLogin;
+            parent.onNewPartyList += R.parent_onNewPartyList;
             parent.onTick += parent_onTick;
             //show();
+        }
+
+        void parent_onLogin(object sender, TeraApi.Events.Self.LoginEventArgs e)
+        {
+            R.parent_onLogin(sender, e);
+            window.login();
         }
 
         void parent_onTick(object sender, EventArgs e)
         {
             window.doEvents();
-        }
-
-        void parent_onPacketArrival(object sender, TeraApi.Events.PacketArrivalEventArgs e)
-        {
-            window.opPacketArrival(sender, e);
         }
 
         public void show()
@@ -81,7 +85,8 @@ namespace Detrav.Terometr
         public void init(IConfigManager configManager, IAssetManager assetManager)
         {
             Config.setConfigManager(configManager);
-            Repository.R.assetManager = assetManager;
+            R = new Repository();
+            R.assetManager = assetManager;
             //localConfigManager = configManager;
             //PacketStructureManager.assets = assetManager;
         }

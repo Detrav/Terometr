@@ -9,7 +9,7 @@ namespace Detrav.Terometr.Core
 {
     partial class Repository
     {
-        public Dictionary<ulong, TeraPlayer> playersSnapShot = new Dictionary<ulong, TeraPlayer>();
+        public Dictionary<ulong, DpsPlayer> playersSnapShot = new Dictionary<ulong, DpsPlayer>();
 
         public SortedList<double, Vector3Str> dpsList = new SortedList<double, Vector3Str>(new DuplicateKeyComparer<double>());
         public double dpsMax;
@@ -71,7 +71,7 @@ namespace Detrav.Terometr.Core
                 {
                     dpsSum += dps;
                     dpsMax = Math.Max(dps, dpsMax);
-                    dpsList.Add(dps, new Vector3Str(pair.Value.name, dps, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other),pair.Value.playerClass));
+                    dpsList.Add(dps, new Vector3Str(pair.Value.player.name, dps, (pair.Value.player.id == self.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass));
                 }
 
                 double damage = pair.Value.damage;
@@ -79,7 +79,7 @@ namespace Detrav.Terometr.Core
                 {
                     damageSum += damage;
                     damageMax = Math.Max(damage, damageMax);
-                    damageList.Add(damage, new Vector3Str(pair.Value.name, damage, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other),pair.Value.playerClass));
+                    damageList.Add(damage, new Vector3Str(pair.Value.player.name, damage, (pair.Value.player.id == self.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass));
                 }
 
                 double hps = pair.Value.hps;
@@ -87,7 +87,7 @@ namespace Detrav.Terometr.Core
                 {
                     hpsSum += hps;
                     hpsMax = Math.Max(hps, hpsMax);
-                    hpsList.Add(hps, new Vector3Str(pair.Value.name, hps, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other),pair.Value.playerClass));
+                    hpsList.Add(hps, new Vector3Str(pair.Value.player.name, hps, (pair.Value.player.id == self.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass));
                 }
 
                 double heal = pair.Value.heal;
@@ -95,7 +95,7 @@ namespace Detrav.Terometr.Core
                 {
                     healSum += heal;
                     healMax = Math.Max(heal, healMax);
-                    healList.Add(heal, new Vector3Str(pair.Value.name, heal, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass));
+                    healList.Add(heal, new Vector3Str(pair.Value.player.name, heal, (pair.Value.player.id == self.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass));
                 }
 
                 double damageTaken = pair.Value.damageTaken;
@@ -103,7 +103,7 @@ namespace Detrav.Terometr.Core
                 {
                     damageTakenSum += damageTaken;
                     damageTakenMax = Math.Max(damageTaken, damageTakenMax);
-                    damageTakenList.Add(damageTaken, new Vector3Str(pair.Value.name, damageTaken, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass));
+                    damageTakenList.Add(damageTaken, new Vector3Str(pair.Value.player.name, damageTaken, (pair.Value.player.id == self.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass));
                 }
 
                 double healTaken = pair.Value.healTaken;
@@ -111,7 +111,7 @@ namespace Detrav.Terometr.Core
                 {
                     healTakenSum += healTaken;
                     healTakenMax = Math.Max(healTaken, healTakenMax);
-                    healTakenList.Add(healTaken, new Vector3Str(pair.Value.name, healTaken, (pair.Value.id == self.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass));
+                    healTakenList.Add(healTaken, new Vector3Str(pair.Value.player.name, healTaken, (pair.Value.player.id == self.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass));
                 }
             }
 
@@ -146,11 +146,11 @@ namespace Detrav.Terometr.Core
         {
             foreach(var pair in playersSnapShot)
             {
-                TeraPlayer p = pair.Value;
+                DpsPlayer p = pair.Value;
                 DataGridPlayer player;
                 if (!playersDataGrid.TryGetValue(pair.Key, out player))
                 {
-                    player = new DataGridPlayer(p.playerClass, p.name);
+                    player = new DataGridPlayer(p.player.playerClass, p.player.name);
                     playersDataGrid[pair.Key] = player;
                 }
                 player.update(p.dps, p.damage, p.hps, p.heal, p.damageTaken, p.healTaken);
