@@ -20,67 +20,39 @@ namespace Detrav.Terometr.UserElements
     /// <summary>
     /// Логика взаимодействия для DamageUserControl.xaml
     /// </summary>
-    public partial class DamageUserControl : UserControl, IDpsEngine
+    public partial class HealUserControl : UserControl, IDpsEngine
     {
-        public DamageUserControl()
+        public HealUserControl()
         {
             InitializeComponent();
             clear();
         }
-        //TeraPlayer self;
-        //Карта по мобам и по игрокам;
-        internal Dictionary<ulong, Dictionary<ulong, DamageElement>> db = new Dictionary<ulong,Dictionary<ulong,DamageElement>>();
         internal Dictionary<ulong, DamageElement> all = new Dictionary<ulong, DamageElement>();
         private TeraApi.Core.TeraPlayer self;
         Config config;
-        //public Dictionary<ulong, DamageElement> players;
 
         public void addSkill(TeraSkill skill)
         {
             if (skill.skillType == SkillType.Take) return;
             if (skill.value == 0) return;
-            if (skill.type != 1) return;
-            if (skill.npc != null)
-            {
-                if (!db.ContainsKey(skill.npc.npc.ulongId))
-                {
-                    Logger.debug("new Npc {0}", skill.npc.npc.name);
-                    db[skill.npc.npc.ulongId] = new Dictionary<ulong, DamageElement>();
-                    comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(skill.npc.npc.ulongId, skill.npc.npc.name));
-                }
-                var players = db[skill.npc.npc.ulongId];
-                if (!players.ContainsKey(skill.player.id))
-                    players[skill.player.id] = new DamageElement(skill.player);
-                players[skill.player.id].addValue(skill.value, skill.time);
-            }
+            if (skill.type != 2) return;
             if (!all.ContainsKey(skill.player.id))
                 all[skill.player.id] = new DamageElement(skill.player);
             all[skill.player.id].addValue(skill.value, skill.time);
         }
 
-        public void updateData(TeraSkill[] history)
-        {
-            /*clear();
-            foreach(var el in history)
-            {
-                addSkill(el);
-            }*/
-        }
-
         public void doEvents()
         {
             if (checkBox.IsChecked == true)
-                updateLayoutDps();
-            else updateLayoutDamage();
+                updateLayoutHps();
+            else updateLayoutHeal();
         }
 
-        public void updateLayoutDamage()
+        public void updateLayoutHeal()
         {
             if(comboBox.SelectedItem==null) return;
-            ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
-            Dictionary<ulong, DamageElement> players = null;
-            if (id < UInt64.MaxValue) db.TryGetValue(id, out players);
-            else players = all;
+            //ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
+            Dictionary<ulong, DamageElement> players = all;
             if (players!=null)
             {
                 SortedList<double,DamageElement> list = new SortedList<double,DamageElement>(new DuplicateKeyComparer<double>());
@@ -112,13 +84,11 @@ namespace Detrav.Terometr.UserElements
             }
         }
 
-        public void updateLayoutDps()
+        public void updateLayoutHps()
         {
             if (comboBox.SelectedItem == null) return;
-            ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
-            Dictionary<ulong, DamageElement> players = null;
-            if (id < UInt64.MaxValue) db.TryGetValue(id, out players);
-            else players = all;
+            //ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
+            Dictionary<ulong, DamageElement> players = all;
             if (players != null)
             {
                 SortedList<double, DamageElement> list = new SortedList<double, DamageElement>(new DuplicateKeyComparer<double>());
@@ -157,7 +127,7 @@ namespace Detrav.Terometr.UserElements
 
         public void clear()
         {
-            db.Clear();
+            //db.Clear();
             all.Clear();
             comboBox.Items.Clear();
             comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));

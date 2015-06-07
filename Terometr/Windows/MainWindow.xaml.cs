@@ -195,6 +195,8 @@ namespace Detrav.Terometr.Windows
             checkBoxNewTarget.IsChecked = config.newTarget;
             checkBoxGrouped.IsChecked = config.grouped;
             checkBoxBAM.IsChecked = config.bam;
+            if (tabControl.SelectedContent is IDpsEngine)
+                (tabControl.SelectedContent as IDpsEngine).reSetting(config);
             Show();
         }
 
@@ -226,7 +228,11 @@ namespace Detrav.Terometr.Windows
         private void buttonConfigSave_Click(object sender, RoutedEventArgs e)
         {
             if (self.id > 0)
+            {
                 saveCurrentConfig();
+                if (tabControl.SelectedContent is IDpsEngine)
+                    (tabControl.SelectedContent as IDpsEngine).reSetting(config);
+            }
         }
     }
 }

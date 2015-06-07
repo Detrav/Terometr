@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Detrav.Terometr.Core
 {
-    class Config
+    public class Config
     {
         public Config(IConfigManager configManager)
         {

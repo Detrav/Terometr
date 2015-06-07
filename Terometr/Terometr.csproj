@@ -75,6 +75,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserElements\DamageTakenUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserElements\HealTakenUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserElements\HealUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserElements\DamageUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +110,15 @@
     <Compile Include="Mod.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserElements\DamageTakenUserControl.xaml.cs">
+      <DependentUpon>DamageTakenUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserElements\HealTakenUserControl.xaml.cs">
+      <DependentUpon>HealTakenUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserElements\HealUserControl.xaml.cs">
+      <DependentUpon>HealUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserElements\DamageUserControl.xaml.cs">
       <DependentUpon>DamageUserControl.xaml</DependentUpon>

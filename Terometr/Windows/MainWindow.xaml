@@ -97,6 +97,7 @@
                 </TabItem>
                 <TabItem Header="Настройки">
                     <ListBox x:Name="listBoxSettings">
+                        <Label FontFamily="Comic Sans MS" Foreground="White">Настройки не работают</Label>
                         <CheckBox x:Name="checkBoxGrouped"
                                   FontFamily="Comic Sans MS"
                                   Foreground="White"
