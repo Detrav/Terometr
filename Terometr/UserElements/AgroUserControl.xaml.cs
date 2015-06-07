@@ -39,13 +39,13 @@ namespace Detrav.Terometr.UserElements
         {
             if (skill.skillType == SkillType.Take) return;
             if (skill.value == 0) return;
-            if (skill.type == 2)
+            /*if (skill.type == 2)
             {
                 foreach (var pair in db)
                     pair.Value.add(skill);
                 all.add(skill);
                 return;
-            }
+            }*/
             if (skill.type == 1)
             {
                 if (skill.npc != null)
