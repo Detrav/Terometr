@@ -68,8 +68,19 @@ namespace Detrav.Terometr.UserElements
                     }
                     if (!eng.multi && eng.lastTarget != 0 && eng.lastTarget != skill.npc.target)
                     {
-                        if (!agro.ContainsKey(eng.lastTarget)) agro[eng.lastTarget] = 1;
-                        if (!agro.ContainsKey(skill.npc.target)) agro[skill.npc.target] = 1;
+                        if (!agro.ContainsKey(eng.lastTarget))
+                        {
+                            if (teraClient.getPlayerById(eng.lastTarget).playerClass == TeraApi.Enums.PlayerClass.Lancer)
+                                agro[eng.lastTarget] = 3.8;
+                            else agro[eng.lastTarget] = 1;
+                        
+                        if (!agro.ContainsKey(skill.npc.target)) 
+                        {
+                            if (teraClient.getPlayerById(skill.npc.target).playerClass == TeraApi.Enums.PlayerClass.Lancer)
+                                agro[skill.npc.target] = 3.8;
+                            else
+                                agro[skill.npc.target] = 1;
+                        }
                         const double maxAgro = 10;
                         double lastPlayer = eng.getValue(eng.lastTarget);
                         double newPlayer = eng.getValue(skill.npc.target);
@@ -78,12 +89,14 @@ namespace Detrav.Terometr.UserElements
                             double temp = lastPlayer / newPlayer;
                             if (temp < maxAgro)
                                 agro[skill.npc.target] = temp - (temp - agro[skill.npc.target]) * 0.314;
+                            Logger.info("Agro {0} {1}", skill.npc.target, agro[skill.npc.target]);
                         }
                         else
                         {
                             double temp = newPlayer / lastPlayer;
                             if (temp < maxAgro)
                                 agro[eng.lastTarget] = temp - (temp - agro[eng.lastTarget]) * 0.314;
+                            Logger.info("Agro {0} {1}", eng.lastTarget, agro[eng.lastTarget]);
                         }
                         //Переагрили и нужно вычислить показатель агра для 2 игроков, 
                         //lastTarget и target
@@ -151,6 +164,11 @@ namespace Detrav.Terometr.UserElements
                     "Всего",
                     MetrEngine.generateRight(sum, sum),
                     PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
+
+            if(sum == 0)
+            {
+                //Тут нужно удалить такой
+            }
         }
 
         public void setSelf(TeraApi.Core.TeraPlayer self)
