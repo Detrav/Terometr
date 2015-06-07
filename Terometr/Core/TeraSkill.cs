@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi.Core;
+using Detrav.TeraApi.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,15 +10,15 @@ namespace Detrav.Terometr.Core
 {
     public class TeraSkill
     {
-        public ulong player;
+        public TeraPlayer player;
         public SkillType skillType;
-        public ulong npc;
+        public NpcDataBase npc;
         public ushort type;//1 - атака 2-хил, вроде так
         public uint value;
         public bool crit;
         public DateTime time;
 
-        public TeraSkill(ulong player, SkillType skillType, ushort type, uint value, bool crit = false, ulong npc = 0)
+        public TeraSkill(TeraPlayer player, SkillType skillType, ushort type, uint value, bool crit = false, NpcDataBase npc = null)
         {
             this.player = player;
             this.skillType = skillType;

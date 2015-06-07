@@ -28,9 +28,8 @@ namespace Detrav.Terometr.Core
         //public DateTime end = DateTime.MinValue;//Динамически расчитывается конецчный удар + timeOut
         static public TimeSpan timeOut = TimeSpan.FromSeconds(5.01);
         static public TimeSpan min = TimeSpan.FromSeconds(1);
-        public void addValue(uint v)
+        public void addValue(uint v, DateTime now)
         {
-            DateTime now = DateTime.Now;
             if (now - last > timeOut)
             {
                 first += now - last;

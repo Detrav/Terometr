@@ -22,8 +22,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ComboBox Grid.Column="0" />
-            <CheckBox Grid.Column="1" ToolTip="В секунду?" />
+            <ComboBox x:Name="comboBox" Grid.Column="0" />
+            <CheckBox x:Name="checkBox" Grid.Column="1" ToolTip="В секунду?" />
         </Grid>
         <ListBox Grid.Row="1"
                  x:Name="listBox" />

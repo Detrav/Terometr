@@ -184,8 +184,8 @@ namespace Detrav.Terometr.Windows
             if(e.player.partyId>0)
             {
                 TeraSkill skill;
-                if (e.targetNpc != null) skill = new TeraSkill(e.player.id, SkillType.Make, e.type, e.damage, false, e.targetNpc.npc.ulongId);
-                else skill = new TeraSkill(e.player.id, SkillType.Make, e.type, e.damage);
+                if (e.targetNpc != null) skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage, false, e.targetNpc.npc);
+                else skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage);
                 history.Add(skill);
                 if (tabControl.SelectedContent is IDpsEngine)
                     (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
@@ -196,7 +196,7 @@ namespace Detrav.Terometr.Windows
         {
             if(e.player.partyId>0)
             {
-                TeraSkill skill = new TeraSkill(e.player.id, SkillType.Take, e.type, e.damage);
+                TeraSkill skill = new TeraSkill(e.player, SkillType.Take, e.type, e.damage);
                 history.Add(skill);
                 if (tabControl.SelectedContent is IDpsEngine)
                     (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
