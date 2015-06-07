@@ -104,7 +104,7 @@
                 <TabItem Header="Получ. леч.">
                     <UserElements:HealTakenUserControl />
                 </TabItem>
-                <TabItem Header="Агро">
+                <TabItem Header="Агро нераб.">
                     <UserElements:AgroUserControl />
                 </TabItem>
                 <TabItem Header="Настройки">

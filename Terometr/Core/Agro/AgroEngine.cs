@@ -54,5 +54,20 @@ namespace Detrav.Terometr.Core.Agro
                 list.Add(val, pair.Value.teraPlayer);
             }
         }
+
+        public void getSortedList(SortedList<double, TeraPlayer> list, out double sum, out double max)
+        {
+            sum = 0;
+            max = 0;
+            if (list == null) return;
+            DateTime now = DateTime.Now;
+            foreach (var pair in players)
+            {
+                double pl; double val = val = pair.Value.value(now);
+                max = Math.Max(val, max);
+                sum += val;
+                list.Add(val, pair.Value.teraPlayer);
+            }
+        }
     }
 }

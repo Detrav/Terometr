@@ -68,7 +68,7 @@ namespace Detrav.Terometr.UserElements
                         eng.multi = false;
                         comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(skill.npc.npc.ulongId, skill.npc.npc.name));
                     }
-                    if (!eng.multi && eng.lastTarget != 0 && eng.lastTarget != skill.npc.target)
+                    /*if (!eng.multi && eng.lastTarget != 0 && eng.lastTarget != skill.npc.target)
                     {
                         if (!agro.ContainsKey(eng.lastTarget))
                         {
@@ -97,7 +97,7 @@ namespace Detrav.Terometr.UserElements
                         }
                         //Переагрили и нужно вычислить показатель агра для 2 игроков, 
                         //lastTarget и target
-                    }
+                    }*/
                     eng.lastTarget = skill.npc.target;
                     eng.add(skill);
                 }
@@ -143,7 +143,8 @@ namespace Detrav.Terometr.UserElements
             SortedList<double, TeraPlayer> list = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
             double max = 0;
             double sum = 0;
-            eng.getSortedList(agro, list, out sum, out max);
+            //eng.getSortedList(agro, list, out sum, out max);
+            eng.getSortedList( list, out sum, out max);
             while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
             while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
             int i = 0;
