@@ -117,7 +117,7 @@ namespace Detrav.Terometr.UserElements
                     i++;
                 }
                 if (max_i < 0) max_i = i;
-                comboBox.SelectedIndex = i;
+                comboBox.SelectedIndex = max_i;
             }
         }
 
