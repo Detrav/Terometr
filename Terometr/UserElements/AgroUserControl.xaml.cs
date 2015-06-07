@@ -73,7 +73,7 @@ namespace Detrav.Terometr.UserElements
                             if (teraClient.getPlayerById(eng.lastTarget).playerClass == TeraApi.Enums.PlayerClass.Lancer)
                                 agro[eng.lastTarget] = 3.8;
                             else agro[eng.lastTarget] = 1;
-                        
+                        }
                         if (!agro.ContainsKey(skill.npc.target)) 
                         {
                             if (teraClient.getPlayerById(skill.npc.target).playerClass == TeraApi.Enums.PlayerClass.Lancer)
@@ -167,7 +167,11 @@ namespace Detrav.Terometr.UserElements
 
             if(sum == 0)
             {
-                //Тут нужно удалить такой
+                if(comboBox.SelectedIndex<comboBox.Items.Count-1 && comboBox.SelectedIndex>=0)
+                {
+                    if (db.ContainsKey(id)) db.Remove(id);
+                    comboBox.Items.RemoveAt(comboBox.SelectedIndex);
+                }
             }
         }
 
