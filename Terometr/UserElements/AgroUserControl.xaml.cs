@@ -62,6 +62,7 @@ namespace Detrav.Terometr.UserElements
                         db[skill.npc.npc.ulongId] = new AgroEngine();
                         eng = db[skill.npc.npc.ulongId];
                         eng.npc = skill.npc.id;
+                        eng.npcHp = skill.npc.npc.hp;
                         eng.multi = false;
                         comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(skill.npc.npc.ulongId, skill.npc.npc.name));
                     }
@@ -93,6 +94,30 @@ namespace Detrav.Terometr.UserElements
                 //if (skill.value == 0) return;
                 //if (skill.type != 1) return;
                 all.add(skill);
+            }
+        }
+
+        public void selectBam()
+        {
+            if (checkBox.IsChecked == true)
+            {
+                int i = 0;
+                int max_i = -1;
+                uint max = 0;
+                foreach (var pair in db)
+                {
+                    if (!pair.Value.multi)
+                    {
+                        if (pair.Value.npcHp > max)
+                        {
+                            max = pair.Value.npcHp;
+                            max_i = i;
+                        }
+                    }
+                    i++;
+                }
+                if (max_i < 0) max_i = i;
+                comboBox.SelectedIndex = i;
             }
         }
 

@@ -13,6 +13,7 @@ namespace Detrav.Terometr.Core.Agro
         public ulong lastTarget;
         public bool multi;
         public Dictionary<ulong, AgroElement> players = new Dictionary<ulong,AgroElement>();
+        public uint npcHp;
 
 
         internal void add(TeraSkill skill)
