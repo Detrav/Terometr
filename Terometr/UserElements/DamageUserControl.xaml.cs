@@ -75,18 +75,18 @@ namespace Detrav.Terometr.UserElements
         {
             if(comboBox.SelectedItem==null) return;
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
-            Dictionary<ulong, DamageElement> players = null; ;
+            Dictionary<ulong, DamageElement> players = null;
             if (id < UInt64.MaxValue) db.TryGetValue(id, out players);
             else players = all;
-            if (all!=null)
+            if (players!=null)
             {
                 SortedList<double,DamageElement> list = new SortedList<double,DamageElement>(new DuplicateKeyComparer<double>());
-                double max=  0;
+                double max = 0;
                 double sum = 0;
-                foreach(var pair in players)
+                foreach (var pair in players)
                 {
-                    max = Math.Max(pair.Value.value,max);
-                    sum+=pair.Value.value;
+                    max = Math.Max(pair.Value.value, max);
+                    sum += pair.Value.value;
                     list[pair.Value.value] = pair.Value;
                 }
                 while (listBox.Items.Count > list.Count+1) listBox.Items.RemoveAt(0);

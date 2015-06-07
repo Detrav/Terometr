@@ -49,10 +49,23 @@ namespace Detrav.Terometr.Windows
             ((buttonHide as Button).Content as Image).Source = up;
             if (tabControl.SelectedContent is IDpsEngine)
                 (tabControl.SelectedContent as IDpsEngine).teraClient = teraClient;
+            self = new TeraPlayer(0, "unknown");
         }
 
-        TeraPlayer self = new TeraPlayer(0, "unknown");
-
+        TeraPlayer self
+        {
+            get { return _self; }
+            set
+            {
+                _self = value;
+                foreach (var el in tabControl.Items)
+                {
+                    if ((el as TabItem).Content is IDpsEngine)
+                        ((el as TabItem).Content as IDpsEngine).setSelf(_self);
+                }
+            }
+        }
+        TeraPlayer _self;
         public void changeTitle(string str)
         {
             this.Title = str;
