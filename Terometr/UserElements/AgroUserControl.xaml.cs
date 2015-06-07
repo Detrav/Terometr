@@ -123,6 +123,7 @@ namespace Detrav.Terometr.UserElements
 
         public void doEvents()
         {
+            selectBam();
             if (comboBox.SelectedItem == null) return;
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
             AgroEngine eng = null;
