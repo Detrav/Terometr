@@ -75,6 +75,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserElements\AgroUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserElements\DamageTakenUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -99,6 +103,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Core\Agro\AgroElement.cs" />
+    <Compile Include="Core\Agro\AgroEngine.cs" />
     <Compile Include="Core\ComboBoxHiddenItem.cs" />
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\DamageElement.cs" />
@@ -110,6 +116,9 @@
     <Compile Include="Mod.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserElements\AgroUserControl.xaml.cs">
+      <DependentUpon>AgroUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserElements\DamageTakenUserControl.xaml.cs">
       <DependentUpon>DamageTakenUserControl.xaml</DependentUpon>

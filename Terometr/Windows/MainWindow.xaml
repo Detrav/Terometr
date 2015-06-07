@@ -93,7 +93,19 @@
                         Style="{DynamicResource tabControlStyle}"
                         SelectionChanged="tabControl_SelectionChanged">
                 <TabItem Header="Урон">
-                    <UserElements:DamageUserControl x:Name="listDamage" />
+                    <UserElements:DamageUserControl/>
+                </TabItem>
+                <TabItem Header="Лечение">
+                    <UserElements:HealUserControl/>
+                </TabItem>
+                <TabItem Header="Получ. урона">
+                    <UserElements:DamageTakenUserControl />
+                </TabItem>
+                <TabItem Header="Получ. леч.">
+                    <UserElements:HealTakenUserControl />
+                </TabItem>
+                <TabItem Header="Агро">
+                    <UserElements:AgroUserControl />
                 </TabItem>
                 <TabItem Header="Настройки">
                     <ListBox x:Name="listBoxSettings">
