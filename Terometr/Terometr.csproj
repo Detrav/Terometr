@@ -87,6 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="Core\ComboBoxHiddenItem.cs" />
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\DamageElement.cs" />
     <Compile Include="Core\DuplicateKeyComparer.cs" />

@@ -116,8 +116,8 @@ namespace Detrav.Terometr.Windows
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             changeTitle((tabControl.SelectedItem as TabItem).Header.ToString());
-            if (tabControl.SelectedContent is IDpsEngine)
-                (tabControl.SelectedContent as IDpsEngine).updateData(history.ToArray());
+            /*if (tabControl.SelectedContent is IDpsEngine)
+                (tabControl.SelectedContent as IDpsEngine).updateData(history.ToArray());*/
         }
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
@@ -187,6 +187,7 @@ namespace Detrav.Terometr.Windows
                 if (e.targetNpc != null) skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage, false, e.targetNpc.npc);
                 else skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage);
                 history.Add(skill);
+                Logger.debug("new skill {0} {1}", e.player.name, e.damage);
                 if (tabControl.SelectedContent is IDpsEngine)
                     (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
             }

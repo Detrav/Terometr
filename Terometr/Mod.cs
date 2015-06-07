@@ -45,6 +45,9 @@ namespace Detrav.Terometr
             parent.onTakeSkillResult += window.parent_onTakeSkillResult;
             parent.onTick += parent_onTick;
             //show();
+
+            window.assetManager = assetManager;
+            window.configManager = configManager;
         }
 
         void parent_onLogin(object sender, TeraApi.Events.Self.LoginEventArgs e)
@@ -90,8 +93,8 @@ namespace Detrav.Terometr
         public void init(IConfigManager configManager, IAssetManager assetManager)
         {
             //R = new Repository();
-            window.assetManager = assetManager;
-            window.configManager = configManager;
+            this.assetManager = assetManager;
+            this.configManager = configManager;
             //R.assetManager = assetManager;
             //localConfigManager = configManager;
             //PacketStructureManager.assets = assetManager;
