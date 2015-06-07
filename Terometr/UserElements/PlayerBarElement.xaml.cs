@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi.Enums;
+using Detrav.Terometr.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,31 +34,21 @@ namespace Detrav.Terometr.UserElements
         Brush green;
         Brush blue;
         Brush black;
-
-        public static BitmapImage archer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.archer.png");
-        public static BitmapImage berserker = Mod.ToImage("Detrav.Terometr.assets.player_class_images.berserker.png");
-        public static BitmapImage lancer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.lancer.png");
-        public static BitmapImage mystic = Mod.ToImage("Detrav.Terometr.assets.player_class_images.mystic.png");
-        public static BitmapImage priest = Mod.ToImage("Detrav.Terometr.assets.player_class_images.priest.png");
-        public static BitmapImage reaper = Mod.ToImage("Detrav.Terometr.assets.player_class_images.reaper.png");
-        public static BitmapImage slayer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.slayer.png");
-        public static BitmapImage sorcerer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.sorcerer.png");
-        public static BitmapImage warrior = Mod.ToImage("Detrav.Terometr.assets.player_class_images.warrior.png");
         
 
         public void changeData(double progressValue,string left,string right, clr me, PlayerClass playerClass)
         {
             switch(playerClass)
             {
-                case PlayerClass.Archer: imageClass.Source = archer; break;
-                case PlayerClass.Berserker: imageClass.Source = berserker; break;
-                case PlayerClass.Lancer: imageClass.Source = lancer; break;
-                case PlayerClass.Mystic: imageClass.Source = mystic; break;
-                case PlayerClass.Priest: imageClass.Source = priest; break;
-                case PlayerClass.Reaper: imageClass.Source = reaper; break;
-                case PlayerClass.Slayer: imageClass.Source = slayer; break;
-                case PlayerClass.Sorcerer: imageClass.Source = sorcerer; break;
-                case PlayerClass.Warrior: imageClass.Source = warrior; break;
+                case PlayerClass.Archer: imageClass.Source = MetrEngine.archer; break;
+                case PlayerClass.Berserker: imageClass.Source = MetrEngine.berserker; break;
+                case PlayerClass.Lancer: imageClass.Source = MetrEngine.lancer; break;
+                case PlayerClass.Mystic: imageClass.Source = MetrEngine.mystic; break;
+                case PlayerClass.Priest: imageClass.Source = MetrEngine.priest; break;
+                case PlayerClass.Reaper: imageClass.Source = MetrEngine.reaper; break;
+                case PlayerClass.Slayer: imageClass.Source = MetrEngine.slayer; break;
+                case PlayerClass.Sorcerer: imageClass.Source = MetrEngine.sorcerer; break;
+                case PlayerClass.Warrior: imageClass.Source = MetrEngine.warrior; break;
                 default: imageClass.Source = null; break;
             }
             switch (me)

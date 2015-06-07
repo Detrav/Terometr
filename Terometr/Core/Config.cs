@@ -9,15 +9,9 @@ namespace Detrav.Terometr.Core
 {
     class Config
     {
-        static private IConfigManager configManager;
-        private static Config config;
-        public static Config c
+        public Config(IConfigManager configManager)
         {
-            get
-            {
-                if (config == null) config = new Config();
-                return config;
-            }
+            this.configManager = configManager;
         }
         public double top = Double.NaN;
         public double left = Double.NaN;
@@ -25,26 +19,29 @@ namespace Detrav.Terometr.Core
         public double height = 100;
         public bool hided = false;
         public double prevHeight = 100;
+        private IConfigManager configManager;
 
-        public static void setConfigManager(IConfigManager cfgManager)
-        {
-            configManager = cfgManager;
-        }
+        
 
-        public static void save(string playerName)
+        public void save(string playerName)
         {
             if (configManager != null)
             {
-                if (config != null) configManager.savePlayer(playerName, config);
+                configManager.savePlayer(playerName, this);
             }
         }
-        public static void load(string playerName)
+        public void load(string playerName)
         {
             if (configManager != null)
             {
-                var conf = configManager.loadPlayer(playerName, typeof(Config));
-                if (conf == null) config = new Config();
-                else config = conf as Config;
+                var conf = configManager.loadPlayer(playerName, typeof(Config)) as Config;
+                if (conf == null) return;
+                top = conf.top;
+                left = conf.left;
+                width = conf.width;
+                height = conf.height;
+                hided = conf.hided;
+                prevHeight = conf.prevHeight;
             }
         }
     }

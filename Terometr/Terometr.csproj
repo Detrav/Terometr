@@ -75,7 +75,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserElements\ListBoxBars.xaml">
+    <Page Include="UserElements\DamageUserControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -88,20 +88,17 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Core\Config.cs" />
-    <Compile Include="Core\DataGridPlayer.cs" />
-    <Compile Include="Core\DPSEngine.cs" />
-    <Compile Include="Core\Repository.cs" />
-    <Compile Include="Core\Repository\PritableData.cs" />
-    <Compile Include="Core\Repository\Saver.cs" />
+    <Compile Include="Core\DamageElement.cs" />
+    <Compile Include="Core\IDpsEngine.cs" />
+    <Compile Include="Core\MetrEngine.cs" />
     <Compile Include="Core\TableWriter.cs" />
-    <Compile Include="Core\DpsPlayer.cs" />
-    <Compile Include="Core\Vector3Str.cs" />
+    <Compile Include="Core\TeraSkill.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserElements\ListBoxBars.xaml.cs">
-      <DependentUpon>ListBoxBars.xaml</DependentUpon>
+    <Compile Include="UserElements\DamageUserControl.xaml.cs">
+      <DependentUpon>DamageUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserElements\PlayerBarElement.xaml.cs">
       <DependentUpon>PlayerBarElement.xaml</DependentUpon>
@@ -167,6 +164,7 @@
     <EmbeddedResource Include="assets\player_class_images\sorcerer.png" />
     <EmbeddedResource Include="assets\player_class_images\warrior.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>"$(SolutionDir)SetAttrOfCSharpByGit.exe" "start" "$(SolutionDir)\" "$(ProjectDir)Properties\AssemblyInfo.cs"

@@ -27,10 +27,16 @@ namespace Detrav.Terometr.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        Config config;
+        public IAssetManager assetManager { get; set; }
+        public IConfigManager configManager { set { config = new Config(value); } }
+        public ITeraClient teraClient { get; set; }
         BitmapImage down;
         BitmapImage up;
-        Repository R;
-        internal MainWindow(Repository R)
+
+        internal List<TeraSkill> history = new List<TeraSkill>();
+        //Repository R;
+        internal MainWindow()
         {
             InitializeComponent();
             ((buttonBubble as Button).Content as Image).Source = Mod.ToImage("Detrav.Terometr.assets.images.Bubble.png");
@@ -41,10 +47,11 @@ namespace Detrav.Terometr.Windows
             down = Mod.ToImage("Detrav.Terometr.assets.images.Bottom.png");
             up = Mod.ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
-            this.R = R;
+            if (tabControl.SelectedContent is IDpsEngine)
+                (tabControl.SelectedContent as IDpsEngine).teraClient = teraClient;
         }
 
-        DpsPlayer self = new DpsPlayer(new TeraPlayer(0,"Unknown"));
+        TeraPlayer self = new TeraPlayer(0, "unknown");
 
         public void changeTitle(string str)
         {
@@ -109,68 +116,36 @@ namespace Detrav.Terometr.Windows
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             changeTitle((tabControl.SelectedItem as TabItem).Header.ToString());
+            if (tabControl.SelectedContent is IDpsEngine)
+                (tabControl.SelectedContent as IDpsEngine).updateData(history.ToArray());
         }
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
-            R.clear();
-            /*listDps.clear();
-            listHps.clear();
-            listDamage.clear();
-            listHeal.clear();
-            listDamageTaken.clear();
-            listHealTaken.clear();
-            foreach(var pair in party)
+            history.Clear();
+            foreach(var el in tabControl.Items)
             {
-                pair.Value.clear();
+                if ((el as TabItem).Content is IDpsEngine)
+                    ((el as TabItem).Content as IDpsEngine).clear();
             }
-            self.clear();*/
         }
 
-        //bool valueNotPerSecond;
         public void doEvents()
         {
-            R.doEvents();
-            switch (tabControl.SelectedIndex)
-            {
-                case 0: listDps.updateData(R.dpsList, R.dpsMax, R.dpsSum); break;
-                case 1: listDamage.updateData(R.damageList, R.damageMax, R.damageSum); break;
-                case 2: listHps.updateData(R.hpsList, R.hpsMax, R.hpsSum); break;
-                case 3: listHeal.updateData(R.healList, R.healMax, R.healSum); break;
-                case 4: listDamageTaken.updateData(R.damageTakenList, R.damageTakenMax, R.damageTakenSum); break;
-                case 5: listHealTaken.updateData(R.healTakenList, R.healTakenMax, R.healTakenSum); break;
-                case 6: dataGrid.ItemsSource = null; dataGrid.ItemsSource = R.getAllArrayDataGridPlayer(); break;
-            }
+            if (tabControl.SelectedContent is IDpsEngine)
+                (tabControl.SelectedContent as IDpsEngine).doEvents();
         }
 
-
-
-
-        //IConfigManager config;
-        //Config localConfig = null;
-        public void login()
-        {
-            Config.load(self.player.name);
-            Left = Config.c.left;
-            Top = Config.c.top;
-            Height = Config.c.height;
-            Width = Config.c.width;
-            prevSize = Config.c.prevHeight;
-            hided = Config.c.hided;
-            Show();
-            R.clear();
-        }
 
         void saveCurrentConfig()
         {
-
-            Config.c.left = Left;
-            Config.c.top = Top;
-            Config.c.height = Height;
-            Config.c.width = Width;
-            Config.c.prevHeight = prevSize;
-            Config.c.hided = hided;
-            Config.save(self.player.name);
+            config.left = Left;
+            config.top = Top;
+            config.height = Height;
+            config.width = Width;
+            config.prevHeight = prevSize;
+            config.hided = hided;
+            config.save(self.name);
         }
 
         private void buttonInfo_Click(object sender, RoutedEventArgs e)
@@ -180,36 +155,52 @@ namespace Detrav.Terometr.Windows
 
         private void buttonBubble_Click(object sender, RoutedEventArgs e)
         {
-            string result = R.save();
-            StringBuilder sb = new StringBuilder();
-            string title = String.Format("Terometr - {0} - {1}", self.player.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
-            if (tabControl.SelectedIndex == 6)
+            string result = null;
+            if (tabControl.SelectedContent is IDpsEngine)
+                result = (tabControl.SelectedContent as IDpsEngine).generateTable();
+            if (result != null)
+                MessageBox.Show(result, @"https://github.com/Detrav/Terometr");
+        }
+
+        
+
+        internal void parent_onLogin(object sender, TeraApi.Events.Self.LoginEventArgs e)
+        {
+            if (self.id > 0)
+                saveCurrentConfig();
+            self = e.player;
+            config.load(self.name);
+            Left = config.left;
+            Top = config.top;
+            Height = config.height;
+            Width = config.width;
+            prevSize = config.prevHeight;
+            hided = config.hided;
+            Show();
+        }
+
+        internal void parent_onMakeSkillResult(object sender, SkillResultEventArgs e)
+        {
+            if(e.player.partyId>0)
             {
-                sb.Append(result);
+                TeraSkill skill;
+                if (e.targetNpc != null) skill = new TeraSkill(e.player.id, SkillType.Make, e.type, e.damage, false, e.targetNpc.npc.ulongId);
+                else skill = new TeraSkill(e.player.id, SkillType.Make, e.type, e.damage);
+                history.Add(skill);
+                if (tabControl.SelectedContent is IDpsEngine)
+                    (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
             }
-            else
+        }
+
+        internal void parent_onTakeSkillResult(object sender, SkillResultEventArgs e)
+        {
+            if(e.player.partyId>0)
             {
-                PlayerBarElement[] list = null;
-                switch (tabControl.SelectedIndex)
-                {
-                    case 0: list = listDps.getList(); break;
-                    case 1: list = listDamage.getList(); break;
-                    case 2: list = listHps.getList(); break;
-                    case 3: list = listHeal.getList(); break;
-                    case 4: list = listDamageTaken.getList(); break;
-                    case 5: list = listHealTaken.getList(); break;
-                }
-                if (list == null) return;
-                //sb.AppendFormat("Terometr - {0} - {1}", self.name, (tabControl.SelectedItem as TabItem).Header); sb.Append(Environment.NewLine);
-                
-                foreach (var el in list)
-                {
-                    sb.Append(el.getText()); sb.Append(Environment.NewLine);
-                }
+                TeraSkill skill = new TeraSkill(e.player.id, SkillType.Take, e.type, e.damage);
+                history.Add(skill);
+                if (tabControl.SelectedContent is IDpsEngine)
+                    (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
             }
-            sb.Append("Постоянные обновления на:"); sb.Append(Environment.NewLine);
-            sb.Append(@"https://github.com/Detrav/Terometr");
-            MessageBox.Show(sb.ToString(), title);
         }
     }
 }

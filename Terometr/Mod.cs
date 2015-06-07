@@ -14,7 +14,9 @@ namespace Detrav.Terometr
     {
         MainWindow window;
         ITeraClient parent;
-        Repository R;
+        IConfigManager configManager;
+        IAssetManager assetManager;
+        //Repository R;
 
         public void changeVisible()
         {
@@ -32,22 +34,23 @@ namespace Detrav.Terometr
 
         public void load(ITeraClient parent)
         {
-            window = new MainWindow(R);
+            window = new MainWindow();
             window.close = false;
+            window.teraClient = parent;
             this.parent = parent;
             //parent.onPacketArrival += parent_onPacketArrival;
-            parent.onLogin += parent_onLogin;
-            parent.onNewPartyList += R.parent_onNewPartyList;
-            parent.onMakeSkillResult += R.parent_onMakeSkillResult;
-            parent.onTakeSkillResult += R.parent_onTakeSkillResult;
+            parent.onLogin += window.parent_onLogin;
+            //parent.onNewPartyList += R.parent_onNewPartyList;
+            parent.onMakeSkillResult += window.parent_onMakeSkillResult;
+            parent.onTakeSkillResult += window.parent_onTakeSkillResult;
             parent.onTick += parent_onTick;
             //show();
         }
 
         void parent_onLogin(object sender, TeraApi.Events.Self.LoginEventArgs e)
         {
-            R.parent_onLogin(sender, e);
-            window.login();
+            //R.parent_onLogin(sender, e);
+            //window.login();
         }
 
         void parent_onTick(object sender, EventArgs e)
@@ -86,9 +89,10 @@ namespace Detrav.Terometr
         //IConfigManager localConfigManager;
         public void init(IConfigManager configManager, IAssetManager assetManager)
         {
-            Config.setConfigManager(configManager);
-            R = new Repository();
-            R.assetManager = assetManager;
+            //R = new Repository();
+            window.assetManager = assetManager;
+            window.configManager = configManager;
+            //R.assetManager = assetManager;
             //localConfigManager = configManager;
             //PacketStructureManager.assets = assetManager;
         }
