@@ -27,7 +27,7 @@ namespace Detrav.Terometr.Core.Agro
                 result +=
                     el.value
                     *
-                    Math.Floor(1 - 0.1 * (now - el.time).TotalSeconds / 5);
+                    (1 - 0.1 * Math.Floor((now - el.time).TotalSeconds / 5));
             }
             return result;
         }
