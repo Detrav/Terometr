@@ -50,6 +50,8 @@ namespace Detrav.Terometr.UserElements
             {
                 if (skill.npc != null)
                 {
+                    //Регистрируем агро тут
+                    if (!agro.ContainsKey(skill.player.id)) agro[skill.player.id] = (skill.player.playerClass == TeraApi.Enums.PlayerClass.Lancer ? 3.8 : 1);
                     AgroEngine eng;
                     if (db.ContainsKey(skill.npc.npc.ulongId))
                     {
@@ -70,18 +72,13 @@ namespace Detrav.Terometr.UserElements
                     {
                         if (!agro.ContainsKey(eng.lastTarget))
                         {
-                            if (teraClient.getPlayerById(eng.lastTarget).playerClass == TeraApi.Enums.PlayerClass.Lancer)
-                                agro[eng.lastTarget] = 3.8;
-                            else agro[eng.lastTarget] = 1;
+                            agro[eng.lastTarget] = 1;
                         }
                         if (!agro.ContainsKey(skill.npc.target)) 
                         {
-                            if (teraClient.getPlayerById(skill.npc.target).playerClass == TeraApi.Enums.PlayerClass.Lancer)
-                                agro[skill.npc.target] = 3.8;
-                            else
-                                agro[skill.npc.target] = 1;
+                            agro[skill.npc.target] = 1;
                         }
-                        const double maxAgro = 10;
+                        const double maxAgro = 100;
                         double lastPlayer = eng.getValue(eng.lastTarget);
                         double newPlayer = eng.getValue(skill.npc.target);
                         if (lastPlayer > newPlayer)

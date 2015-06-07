@@ -208,7 +208,7 @@ namespace Detrav.Terometr.Windows
                 if (e.targetNpc != null) skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage, false, e.targetNpc);
                 else skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage);
                 history.Add(skill);
-                Logger.debug("new skill {0} {1}", e.player.name, e.damage);
+                //SLogger.debug("new skill {0} {1}", e.player.name, e.damage);
                 foreach (var el in tabControl.Items)
                     if ((el as TabItem).Content is IDpsEngine)
                         ((el as TabItem).Content as IDpsEngine).addSkill(skill);
