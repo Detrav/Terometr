@@ -12,13 +12,13 @@ namespace Detrav.Terometr.Core
     {
         public TeraPlayer player;
         public SkillType skillType;
-        public NpcDataBase npc;
+        public TeraNpc npc;
         public ushort type;//1 - атака 2-хил, вроде так
         public uint value;
         public bool crit;
         public DateTime time;
 
-        public TeraSkill(TeraPlayer player, SkillType skillType, ushort type, uint value, bool crit = false, NpcDataBase npc = null)
+        public TeraSkill(TeraPlayer player, SkillType skillType, ushort type, uint value, bool crit = false, TeraNpc npc = null)
         {
             this.player = player;
             this.skillType = skillType;

@@ -20,6 +20,9 @@ namespace Detrav.Terometr.Core
         public bool hided = false;
         public double prevHeight = 100;
         private IConfigManager configManager;
+        public bool newTarget = false;
+        public bool grouped = true;
+        public bool bam = true;
 
         
 

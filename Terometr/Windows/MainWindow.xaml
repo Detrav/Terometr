@@ -96,8 +96,21 @@
                     <UserElements:DamageUserControl x:Name="listDamage" />
                 </TabItem>
                 <TabItem Header="Настройки">
-                    <ListBox x:Name="Settings">
-                        <CheckBox FontFamily="Comic Sans MS" Foreground="White">Тестовая настройка</CheckBox>
+                    <ListBox x:Name="listBoxSettings">
+                        <CheckBox x:Name="checkBoxGrouped"
+                                  FontFamily="Comic Sans MS"
+                                  Foreground="White"
+                                  IsChecked="True">Объединять мобов в группы</CheckBox>
+                        <CheckBox x:Name="checkBoxBAM"
+                                  FontFamily="Comic Sans MS"
+                                  Foreground="White"
+                                  IsChecked="True">Искать БАМ</CheckBox>
+                        <CheckBox x:Name="checkBoxNewTarget"
+                                  FontFamily="Comic Sans MS"
+                                  Foreground="White"
+                                  IsChecked="False">Всегда переключать таргет на нового моба</CheckBox>
+                        <Button x:Name="buttonConfigSave" Click="buttonConfigSave_Click" HorizontalAlignment="Stretch" Content="Применить настройки"
+                                Style="{DynamicResource TitleButtonStyle}" />
                     </ListBox>
                 </TabItem>
             </TabControl>

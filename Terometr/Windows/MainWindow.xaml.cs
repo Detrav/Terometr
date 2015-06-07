@@ -158,6 +158,9 @@ namespace Detrav.Terometr.Windows
             config.width = Width;
             config.prevHeight = prevSize;
             config.hided = hided;
+            config.newTarget = checkBoxNewTarget.IsChecked == true;
+            config.grouped = checkBoxGrouped.IsChecked == true;
+            config.bam = checkBoxBAM.IsChecked == true;
             config.save(self.name);
         }
 
@@ -189,6 +192,9 @@ namespace Detrav.Terometr.Windows
             Width = config.width;
             prevSize = config.prevHeight;
             hided = config.hided;
+            checkBoxNewTarget.IsChecked = config.newTarget;
+            checkBoxGrouped.IsChecked = config.grouped;
+            checkBoxBAM.IsChecked = config.bam;
             Show();
         }
 
@@ -197,7 +203,7 @@ namespace Detrav.Terometr.Windows
             if(e.player.partyId>0)
             {
                 TeraSkill skill;
-                if (e.targetNpc != null) skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage, false, e.targetNpc.npc);
+                if (e.targetNpc != null) skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage, false, e.targetNpc);
                 else skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage);
                 history.Add(skill);
                 Logger.debug("new skill {0} {1}", e.player.name, e.damage);
@@ -215,6 +221,12 @@ namespace Detrav.Terometr.Windows
                 if (tabControl.SelectedContent is IDpsEngine)
                     (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
             }
+        }
+
+        private void buttonConfigSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (self.id > 0)
+                saveCurrentConfig();
         }
     }
 }
