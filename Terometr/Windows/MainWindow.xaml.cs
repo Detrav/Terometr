@@ -47,8 +47,9 @@ namespace Detrav.Terometr.Windows
             down = Mod.ToImage("Detrav.Terometr.assets.images.Bottom.png");
             up = Mod.ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
-            if (tabControl.SelectedContent is IDpsEngine)
-                (tabControl.SelectedContent as IDpsEngine).teraClient = teraClient;
+            foreach (var el in tabControl.Items)
+                if ((el as TabItem).Content is IDpsEngine)
+                    ((el as TabItem).Content as IDpsEngine).teraClient = teraClient;
             self = new TeraPlayer(0, "unknown");
         }
 
@@ -137,10 +138,8 @@ namespace Detrav.Terometr.Windows
         {
             history.Clear();
             foreach(var el in tabControl.Items)
-            {
                 if ((el as TabItem).Content is IDpsEngine)
                     ((el as TabItem).Content as IDpsEngine).clear();
-            }
         }
 
         public void doEvents()
@@ -195,8 +194,9 @@ namespace Detrav.Terometr.Windows
             checkBoxNewTarget.IsChecked = config.newTarget;
             checkBoxGrouped.IsChecked = config.grouped;
             checkBoxBAM.IsChecked = config.bam;
-            if (tabControl.SelectedContent is IDpsEngine)
-                (tabControl.SelectedContent as IDpsEngine).reSetting(config);
+            foreach (var el in tabControl.Items)
+                if ((el as TabItem).Content is IDpsEngine)
+                    ((el as TabItem).Content as IDpsEngine).reSetting(config);
             Show();
         }
 
@@ -209,8 +209,9 @@ namespace Detrav.Terometr.Windows
                 else skill = new TeraSkill(e.player, SkillType.Make, e.type, e.damage);
                 history.Add(skill);
                 Logger.debug("new skill {0} {1}", e.player.name, e.damage);
-                if (tabControl.SelectedContent is IDpsEngine)
-                    (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
+                foreach (var el in tabControl.Items)
+                    if ((el as TabItem).Content is IDpsEngine)
+                        ((el as TabItem).Content as IDpsEngine).addSkill(skill);
             }
         }
 
@@ -220,8 +221,9 @@ namespace Detrav.Terometr.Windows
             {
                 TeraSkill skill = new TeraSkill(e.player, SkillType.Take, e.type, e.damage);
                 history.Add(skill);
-                if (tabControl.SelectedContent is IDpsEngine)
-                    (tabControl.SelectedContent as IDpsEngine).addSkill(skill);
+                foreach (var el in tabControl.Items)
+                    if ((el as TabItem).Content is IDpsEngine)
+                        ((el as TabItem).Content as IDpsEngine).addSkill(skill);
             }
         }
 
@@ -230,8 +232,9 @@ namespace Detrav.Terometr.Windows
             if (self.id > 0)
             {
                 saveCurrentConfig();
-                if (tabControl.SelectedContent is IDpsEngine)
-                    (tabControl.SelectedContent as IDpsEngine).reSetting(config);
+                foreach (var el in tabControl.Items)
+                    if ((el as TabItem).Content is IDpsEngine)
+                        ((el as TabItem).Content as IDpsEngine).reSetting(config);
             }
         }
     }
