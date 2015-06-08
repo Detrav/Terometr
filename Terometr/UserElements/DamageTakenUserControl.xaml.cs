@@ -45,7 +45,7 @@ namespace Detrav.Terometr.UserElements
             double max;
             double sum;
             SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
-            if (checkBox.IsChecked == true)
+            if (toggleButtonDps.IsChecked == true)
                 all.getListDps(list, out max, out sum);
             else all.getList(list, out max, out sum);
 

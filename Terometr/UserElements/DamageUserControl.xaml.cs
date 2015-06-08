@@ -73,7 +73,7 @@ namespace Detrav.Terometr.UserElements
 
             if (players != null)
             {
-                if (checkBox.IsChecked == true)
+                if (toggleButtonDps.IsChecked == true)
                     players.getListDps(list, out max, out sum);
                 else players.getList(list, out max, out sum);
 
