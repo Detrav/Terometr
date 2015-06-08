@@ -15,7 +15,7 @@ namespace Detrav.Terometr.Core.Agro
         public Dictionary<ulong, AgroElement> players = new Dictionary<ulong,AgroElement>();
         public uint npcHp;
         public DateTime lastActive = DateTime.MinValue;
-        public static TimeSpan timeOut = TimeSpan.FromSeconds(5.1);
+        public static TimeSpan timeOut = TimeSpan.FromSeconds(15.1);
         public bool isActive { get { return DateTime.Now - lastActive < timeOut; } }
 
 
