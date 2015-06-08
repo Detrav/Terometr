@@ -39,13 +39,13 @@ namespace Detrav.Terometr.UserElements
         {
             if (skill.skillType == SkillType.Take) return;
             if (skill.value == 0) return;
-            /*if (skill.type == 2)
+            if (skill.type == 2)
             {
                 foreach (var pair in db)
-                    pair.Value.add(skill);
-                all.add(skill);
+                    pair.Value.addHeal(skill);
+                all.addHeal(skill);
                 return;
-            }*/
+            }
             if (skill.type == 1)
             {
                 if (skill.npc != null)
@@ -117,13 +117,12 @@ namespace Detrav.Terometr.UserElements
                 foreach (var pair in db)
                 {
                     if (!pair.Value.multi)
-                    {
-                        if (pair.Value.npcHp > max)
-                        {
-                            max = pair.Value.npcHp;
-                            max_i = i;
-                        }
-                    }
+                        if (pair.Value.isActive)
+                            if (pair.Value.npcHp > max)
+                            {
+                                max = pair.Value.npcHp;
+                                max_i = i;
+                            }
                     i++;
                 }
                 if (max_i < 0) max_i = i;
@@ -140,21 +139,22 @@ namespace Detrav.Terometr.UserElements
             if (id < UInt64.MaxValue)
                 if (!db.TryGetValue(id, out eng)) eng = null;
             if (eng == null) eng = all;
-            SortedList<double, TeraPlayer> list = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
+            //SortedList<double, TeraPlayer> list = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
+            //List<AgroKeyValue> list = new List<AgroKeyValue>();
             double max = 0;
             double sum = 0;
             //eng.getSortedList(agro, list, out sum, out max);
-            eng.getSortedList( list, out sum, out max);
-            while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
-            while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
+            var list = eng.getList( out sum, out max);
+            while (listBox.Items.Count > list.Length + 1) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Length + 1) listBox.Items.Add(new PlayerBarElement());
             int i = 0;
-            foreach (var pair in list)
+            foreach (var el in list)
             {
                 (listBox.Items[i] as PlayerBarElement).changeData(
-                    pair.Key / max * 100,
-                    pair.Value.name,
-                    MetrEngine.generateRight(pair.Key, sum),
-                    (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
+                    el.value / max * 100,
+                    el.name,
+                    MetrEngine.generateRight(el.value, sum),
+                    (self.id == el.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), el.playerClass);
                 i++;
             }
             (listBox.Items[i] as PlayerBarElement).changeData(

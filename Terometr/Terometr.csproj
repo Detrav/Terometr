@@ -105,6 +105,7 @@
     </Page>
     <Compile Include="Core\Agro\AgroElement.cs" />
     <Compile Include="Core\Agro\AgroEngine.cs" />
+    <Compile Include="Core\Agro\AgroKeyValue.cs" />
     <Compile Include="Core\ComboBoxHiddenItem.cs" />
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\DamageElement.cs" />
