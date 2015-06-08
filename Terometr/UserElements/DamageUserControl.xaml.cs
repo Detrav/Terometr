@@ -41,6 +41,7 @@ namespace Detrav.Terometr.UserElements
             if (skill.skillType == SkillType.Take) return;
             if (skill.value == 0) return;
             if (skill.type != 1) return;
+            //ulong mId 
             /*if (skill.npc != null)
             {
                 if (!db.ContainsKey(skill.npc.npc.ulongId))
