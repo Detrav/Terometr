@@ -1,7 +1,8 @@
-﻿<Window x:Class="Detrav.Terometr.Windows.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:UserElements="clr-namespace:Detrav.Terometr.UserElements"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        x:Class="Detrav.Terometr.Windows.MainWindow"
         Height="300"
         Width="300"
         Style="{DynamicResource MainWindowStyle}"
@@ -32,9 +33,9 @@
                    Margin="0"
                    Padding="0"
                    DockPanel.Dock="Left"
-                   Content="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" />
+                   Content="{Binding Title, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
             <Button x:Name="buttonHide"
-                HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Свернуть | Развернуть"
@@ -43,7 +44,7 @@
                        Margin="0" />
             </Button>
             <Button x:Name="buttonInfo"
-                HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Нашли баг?"
@@ -52,7 +53,7 @@
                        Margin="0" />
             </Button>
             <Button x:Name="buttonForward"
-                HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Далее"
@@ -61,7 +62,7 @@
                        Margin="0" />
             </Button>
             <Button x:Name="buttonBack"
-                HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Назад"
@@ -70,7 +71,7 @@
                        Margin="0" />
             </Button>
             <Button x:Name="buttonNew"
-                HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Очистить"
@@ -79,7 +80,7 @@
                        Margin="0" />
             </Button>
             <Button x:Name="buttonBubble"
-                HorizontalAlignment="Right"
+                    HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Style="{StaticResource TitleButtonStyle}"
                     ToolTip="Скопировать, написание в чат будет палится"
@@ -93,10 +94,10 @@
                         Style="{DynamicResource tabControlStyle}"
                         SelectionChanged="tabControl_SelectionChanged">
                 <TabItem Header="Урон">
-                    <UserElements:DamageUserControl/>
+                    <UserElements:DamageUserControl />
                 </TabItem>
                 <TabItem Header="Лечение">
-                    <UserElements:HealUserControl/>
+                    <UserElements:HealUserControl />
                 </TabItem>
                 <TabItem Header="Получ. урона">
                     <UserElements:DamageTakenUserControl />
@@ -109,20 +110,34 @@
                 </TabItem>
                 <TabItem Header="Настройки">
                     <ListBox x:Name="listBoxSettings">
-                        <Label FontFamily="Comic Sans MS" Foreground="White">Настройки не работают</Label>
+                        <Label FontFamily="Comic Sans MS"
+                               Foreground="White"
+                               Content="Настройки не работают" />
+                        <ComboBox>
+                            <System:String>test</System:String>
+                            <System:String>test1</System:String>
+                            <System:String>test2</System:String>
+                            <System:String>test3</System:String>
+                        </ComboBox>
                         <CheckBox x:Name="checkBoxGrouped"
                                   FontFamily="Comic Sans MS"
                                   Foreground="White"
-                                  IsChecked="True">Объединять мобов в группы</CheckBox>
+                                  IsChecked="True"
+                                  Content="Объединять мобов в группы" />
                         <CheckBox x:Name="checkBoxBAM"
                                   FontFamily="Comic Sans MS"
                                   Foreground="White"
-                                  IsChecked="True">Искать БАМ</CheckBox>
+                                  IsChecked="True"
+                                  Content="Искать БАМ" />
                         <CheckBox x:Name="checkBoxNewTarget"
                                   FontFamily="Comic Sans MS"
                                   Foreground="White"
-                                  IsChecked="False">Всегда переключать таргет на нового моба</CheckBox>
-                        <Button x:Name="buttonConfigSave" Click="buttonConfigSave_Click" HorizontalAlignment="Stretch" Content="Применить настройки"
+                                  IsChecked="False"
+                                  Content="Всегда переключать таргет на нового моба" />
+                        <Button x:Name="buttonConfigSave"
+                                Click="buttonConfigSave_Click"
+                                HorizontalAlignment="Stretch"
+                                Content="Применить настройки"
                                 Style="{DynamicResource TitleButtonStyle}" />
                     </ListBox>
                 </TabItem>

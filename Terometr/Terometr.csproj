@@ -110,7 +110,7 @@
     <Compile Include="Core\Config.cs" />
     <Compile Include="Core\DamageElement.cs" />
     <Compile Include="Core\DuplicateKeyComparer.cs" />
-    <Compile Include="Core\IDpsEngine.cs" />
+    <Compile Include="Core\IDpsUIEngine.cs" />
     <Compile Include="Core\MetrEngine.cs" />
     <Compile Include="Core\TableWriter.cs" />
     <Compile Include="Core\TeraSkill.cs" />

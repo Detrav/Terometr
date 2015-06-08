@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Detrav.Terometr.Core
 {
-    interface IDpsEngine
+    interface IDpsUIEngine
     {
         void addSkill(TeraSkill skill);
         //void updateData(TeraSkill[] history);

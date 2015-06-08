@@ -22,7 +22,7 @@ namespace Detrav.Terometr.UserElements
     /// <summary>
     /// Логика взаимодействия для DamageUserControl.xaml
     /// </summary>
-    public partial class AgroUserControl : UserControl, IDpsEngine
+    public partial class AgroUserControl : UserControl, IDpsUIEngine
     {
         public AgroUserControl()
         {
@@ -37,6 +37,7 @@ namespace Detrav.Terometr.UserElements
 
         public void addSkill(TeraSkill skill)
         {
+             
             if (skill.skillType == SkillType.Take) return;
             if (skill.value == 0) return;
             if (skill.type == 2)
@@ -50,23 +51,27 @@ namespace Detrav.Terometr.UserElements
             {
                 if (skill.npc != null)
                 {
+                    ulong mId;
+                    if (toggleButtonGroup.IsChecked == true)
+                        mId = skill.npc.npc.ulongId;
+                    else mId = skill.npc.id;
                     //Регистрируем агро тут
                     if (!agro.ContainsKey(skill.player.id)) agro[skill.player.id] = (skill.player.playerClass == TeraApi.Enums.PlayerClass.Lancer ? 3.8 : 1);
                     AgroEngine eng;
-                    if (db.ContainsKey(skill.npc.npc.ulongId))
+                    if (db.ContainsKey(mId))
                     {
-                        eng = db[skill.npc.npc.ulongId];
+                        eng = db[mId];
                         if (eng.npc != skill.npc.id)
                             eng.multi = true;
                     }
                     else
                     {
-                        db[skill.npc.npc.ulongId] = new AgroEngine();
-                        eng = db[skill.npc.npc.ulongId];
-                        eng.npc = skill.npc.id;
+                        db[mId] = new AgroEngine();
+                        eng = db[mId];
+                        eng.npc = mId;
                         eng.npcHp = skill.npc.npc.hp;
                         eng.multi = false;
-                        comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(skill.npc.npc.ulongId, skill.npc.npc.name));
+                        comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(mId, skill.npc.npc.name));
                     }
                     /*if (!eng.multi && eng.lastTarget != 0 && eng.lastTarget != skill.npc.target)
                     {
@@ -109,7 +114,7 @@ namespace Detrav.Terometr.UserElements
 
         public void selectBam()
         {
-            if (checkBox.IsChecked == true)
+            if (toggleButtonBAM.IsChecked == true)
             {
                 int i = 0;
                 int max_i = -1;

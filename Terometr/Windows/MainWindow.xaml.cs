@@ -48,8 +48,8 @@ namespace Detrav.Terometr.Windows
             up = Mod.ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
             foreach (var el in tabControl.Items)
-                if ((el as TabItem).Content is IDpsEngine)
-                    ((el as TabItem).Content as IDpsEngine).teraClient = teraClient;
+                if ((el as TabItem).Content is IDpsUIEngine)
+                    ((el as TabItem).Content as IDpsUIEngine).teraClient = teraClient;
             self = new TeraPlayer(0, "unknown");
         }
 
@@ -61,8 +61,8 @@ namespace Detrav.Terometr.Windows
                 _self = value;
                 foreach (var el in tabControl.Items)
                 {
-                    if ((el as TabItem).Content is IDpsEngine)
-                        ((el as TabItem).Content as IDpsEngine).setSelf(_self);
+                    if ((el as TabItem).Content is IDpsUIEngine)
+                        ((el as TabItem).Content as IDpsUIEngine).setSelf(_self);
                 }
             }
         }
@@ -138,14 +138,14 @@ namespace Detrav.Terometr.Windows
         {
             history.Clear();
             foreach(var el in tabControl.Items)
-                if ((el as TabItem).Content is IDpsEngine)
-                    ((el as TabItem).Content as IDpsEngine).clear();
+                if ((el as TabItem).Content is IDpsUIEngine)
+                    ((el as TabItem).Content as IDpsUIEngine).clear();
         }
 
         public void doEvents()
         {
-            if (tabControl.SelectedContent is IDpsEngine)
-                (tabControl.SelectedContent as IDpsEngine).doEvents();
+            if (tabControl.SelectedContent is IDpsUIEngine)
+                (tabControl.SelectedContent as IDpsUIEngine).doEvents();
         }
 
 
@@ -171,8 +171,8 @@ namespace Detrav.Terometr.Windows
         private void buttonBubble_Click(object sender, RoutedEventArgs e)
         {
             string result = null;
-            if (tabControl.SelectedContent is IDpsEngine)
-                result = (tabControl.SelectedContent as IDpsEngine).generateTable();
+            if (tabControl.SelectedContent is IDpsUIEngine)
+                result = (tabControl.SelectedContent as IDpsUIEngine).generateTable();
             if (result != null)
                 MessageBox.Show(result, @"https://github.com/Detrav/Terometr");
         }
@@ -195,8 +195,8 @@ namespace Detrav.Terometr.Windows
             checkBoxGrouped.IsChecked = config.grouped;
             checkBoxBAM.IsChecked = config.bam;
             foreach (var el in tabControl.Items)
-                if ((el as TabItem).Content is IDpsEngine)
-                    ((el as TabItem).Content as IDpsEngine).reSetting(config);
+                if ((el as TabItem).Content is IDpsUIEngine)
+                    ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
             Show();
         }
 
@@ -210,8 +210,8 @@ namespace Detrav.Terometr.Windows
                 history.Add(skill);
                 //SLogger.debug("new skill {0} {1}", e.player.name, e.damage);
                 foreach (var el in tabControl.Items)
-                    if ((el as TabItem).Content is IDpsEngine)
-                        ((el as TabItem).Content as IDpsEngine).addSkill(skill);
+                    if ((el as TabItem).Content is IDpsUIEngine)
+                        ((el as TabItem).Content as IDpsUIEngine).addSkill(skill);
             }
         }
 
@@ -222,8 +222,8 @@ namespace Detrav.Terometr.Windows
                 TeraSkill skill = new TeraSkill(e.player, SkillType.Take, e.type, e.damage);
                 history.Add(skill);
                 foreach (var el in tabControl.Items)
-                    if ((el as TabItem).Content is IDpsEngine)
-                        ((el as TabItem).Content as IDpsEngine).addSkill(skill);
+                    if ((el as TabItem).Content is IDpsUIEngine)
+                        ((el as TabItem).Content as IDpsUIEngine).addSkill(skill);
             }
         }
 
@@ -233,8 +233,8 @@ namespace Detrav.Terometr.Windows
             {
                 saveCurrentConfig();
                 foreach (var el in tabControl.Items)
-                    if ((el as TabItem).Content is IDpsEngine)
-                        ((el as TabItem).Content as IDpsEngine).reSetting(config);
+                    if ((el as TabItem).Content is IDpsUIEngine)
+                        ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
             }
         }
     }

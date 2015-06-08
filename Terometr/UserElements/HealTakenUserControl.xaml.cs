@@ -20,7 +20,7 @@ namespace Detrav.Terometr.UserElements
     /// <summary>
     /// Логика взаимодействия для DamageUserControl.xaml
     /// </summary>
-    public partial class HealTakenUserControl : UserControl, IDpsEngine
+    public partial class HealTakenUserControl : UserControl, IDpsUIEngine
     {
         public HealTakenUserControl()
         {

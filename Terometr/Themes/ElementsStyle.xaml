@@ -14,7 +14,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="labelStyle" TargetType="Label">
+    <Style x:Key="labelStyle"
+           TargetType="Label">
         <Setter Property="Margin"
                 Value="0" />
         <Setter Property="Padding"
@@ -27,7 +28,8 @@
     <Style TargetType="ListBox">
         <Setter Property="HorizontalAlignment"
                 Value="Stretch" />
-        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderBrush"
+                Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
@@ -37,7 +39,8 @@
                                   ScrollViewer.VerticalScrollBarVisibility="Visible"
                                   HorizontalAlignment="Stretch">
                         <StackPanel Margin="0"
-                                    IsItemsHost="True" HorizontalAlignment="Stretch" />
+                                    IsItemsHost="True"
+                                    HorizontalAlignment="Stretch" />
                     </ScrollViewer>
                 </ControlTemplate>
             </Setter.Value>
@@ -45,7 +48,7 @@
     </Style>
     <Style TargetType="ListBoxItem">
         <Setter Property="Background"
-                Value="Transparent"/>
+                Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
@@ -151,5 +154,117 @@
     <Style TargetType="{x:Type ScrollBar}">
         <Setter Property="Template"
                 Value="{StaticResource VerticalScrollBar}" />
+    </Style>
+    <Style TargetType="{x:Type ToggleButton}">
+        <Setter Property="Focusable"
+                Value="false" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border x:Name="partBorder"
+                            Background="#FF394f59"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            BorderBrush="Black">
+                        <Label x:Name="partLabel"
+                               FontFamily="Comic Sans MS"
+                               Margin="0"
+                               Padding="0"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                               FontWeight="Bold"
+                               Foreground="White"
+                               VerticalAlignment="Stretch"
+                               VerticalContentAlignment="Center">
+                            <ContentPresenter />
+                        </Label>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked"
+                                 Value="True">
+                            <Setter TargetName="partBorder"
+                                    Property="Background"
+                                    Value="White" />
+                            <Setter TargetName="partLabel"
+                                    Property="Foreground"
+                                    Value="Black" />
+                        </Trigger>
+                        <Trigger Property="IsChecked"
+                                 Value="False">
+                            <Setter TargetName="partBorder"
+                                    Property="Background"
+                                    Value="#FF394f59" />
+                            <Setter TargetName="partLabel"
+                                    Property="Foreground"
+                                    Value="White" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type ComboBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBox}">
+                    <Grid>
+                        <ToggleButton HorizontalContentAlignment="Left"
+                                      x:Name="partButton"
+                                      Focusable="False"
+                                      Content="{TemplateBinding SelectedItem}"
+                                      IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                      MinHeight="{TemplateBinding FontSize}" />
+                        <Popup x:Name="partPopup"
+                               Placement="Bottom"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               PopupAnimation="Slide">
+                            <Border BorderThickness="0" CornerRadius="2"
+                                    Background="#FF394f59" Padding="1"
+                                    MinWidth="{TemplateBinding ActualWidth}">
+                                <ScrollViewer SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True"
+                                                KeyboardNavigation.DirectionalNavigation="Contained" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type ComboBoxItem}">
+        <Setter Property="SnapsToDevicePixels"
+                Value="true" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="VerticalAlignment"
+                Value="Stretch" />
+        <Setter Property="OverridesDefaultStyle"
+                Value="true" />
+        <Setter Property="FontFamily"
+                Value="Comic Sans MS" />
+        <Setter Property="Foreground"
+                Value="White" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                    <Border x:Name="partBorder" CornerRadius="2" BorderBrush="Transparent" BorderThickness="1">
+                        <TextBlock TextAlignment="Left" Foreground="{TemplateBinding Foreground}"
+                                   FontFamily="{TemplateBinding FontFamily}">
+                                        <ContentPresenter /></TextBlock>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsHighlighted" Value="True" >
+                            <Setter TargetName="partBorder"
+                                    Property="BorderBrush"
+                                    Value="White" />
+                        </Trigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>
