@@ -26,11 +26,11 @@
             <ComboBox x:Name="comboBox" Grid.Column="0" Padding="0" />
             <ToggleButton x:Name="toggleButtonGroup"
                           Grid.Column="1"
-                          Content="GRP"
+                          Content="ГРП"
                           Width="30" IsChecked="True" ToolTip="Объединять мобов в группы по имени"/>
             <ToggleButton x:Name="toggleButtonBAM"
                           Grid.Column="2"
-                          Content="BAM" Width="30" ToolTip="Умный поиск БАМ"/>
+                          Content="БАМ" Width="30" ToolTip="Умный поиск БАМ"/>
         </Grid>
         <ListBox Grid.Row="1"
                  x:Name="listBox" />

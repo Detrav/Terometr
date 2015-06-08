@@ -21,9 +21,26 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ComboBox x:Name="comboBox" Grid.Column="0" Padding="0" />
-            <CheckBox x:Name="checkBox" Grid.Column="1" ToolTip="В секунду?" />
+            <ToggleButton x:Name="toggleButtonGroup"
+                          Grid.Column="1"
+                          Content="ГРП"
+                          Width="30"
+                          IsChecked="True"
+                          ToolTip="Объединять мобов в группы по имени" />
+            <ToggleButton x:Name="toggleButtonBAM"
+                          Grid.Column="2"
+                          Content="БАМ"
+                          Width="30"
+                          ToolTip="Умный поиск БАМ" />
+            <ToggleButton x:Name="toggleButtonDps"
+                          Grid.Column="3"
+                          Content="УВС"
+                          Width="30"
+                          ToolTip="В секунду" />
         </Grid>
         <ListBox Grid.Row="1"
                  x:Name="listBox" />
