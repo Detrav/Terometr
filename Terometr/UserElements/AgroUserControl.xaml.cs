@@ -30,7 +30,7 @@ namespace Detrav.Terometr.UserElements
             clear();
         }
         internal Dictionary<ulong, AgroEngine> db = new Dictionary<ulong,AgroEngine>();
-        AgroEngine all = new AgroEngine();
+        AgroEngine all = new AgroEngine(ulong.MaxValue, uint.MaxValue, false);
         Dictionary<ulong, double> agro = new Dictionary<ulong,double>();
         private TeraApi.Core.TeraPlayer self;
         Config config;
@@ -66,11 +66,8 @@ namespace Detrav.Terometr.UserElements
                     }
                     else
                     {
-                        db[mId] = new AgroEngine();
+                        db[mId] = new AgroEngine(mId,skill.npc.npc.hp,false);
                         eng = db[mId];
-                        eng.npc = mId;
-                        eng.npcHp = skill.npc.npc.hp;
-                        eng.multi = false;
                         comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(mId, skill.npc.npc.name));
                     }
                     /*if (!eng.multi && eng.lastTarget != 0 && eng.lastTarget != skill.npc.target)

@@ -15,8 +15,15 @@ namespace Detrav.Terometr.Core.Agro
         public Dictionary<ulong, AgroElement> players = new Dictionary<ulong,AgroElement>();
         public uint npcHp;
         public DateTime lastActive = DateTime.MinValue;
-        public static TimeSpan timeOut = TimeSpan.FromSeconds(10.1);
-        public bool isActive { get { return DateTime.Now - lastActive < timeOut; } }
+
+        public AgroEngine(ulong mId, uint p1, bool p2)
+        {
+            // TODO: Complete member initialization
+            this.npc = mId;
+            this.npcHp = p1;
+            this.multi = p2;
+        }
+        public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
 
 
         internal void add(TeraSkill skill)
@@ -29,10 +36,12 @@ namespace Detrav.Terometr.Core.Agro
 
         internal void Clear()
         {
+            lastActive = DateTime.MinValue;
             players.Clear();
-            npc = 0;
+            //npc = 0;
             lastTarget = 0;
             multi = false;
+            //npcHp = 0;
         }
 
         public double getValue(ulong id)

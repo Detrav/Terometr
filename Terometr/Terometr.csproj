@@ -108,7 +108,9 @@
     <Compile Include="Core\Agro\AgroKeyValue.cs" />
     <Compile Include="Core\ComboBoxHiddenItem.cs" />
     <Compile Include="Core\Config.cs" />
-    <Compile Include="Core\DamageElement.cs" />
+    <Compile Include="Core\Damage\DamageElement.cs" />
+    <Compile Include="Core\Damage\DamageEngine.cs" />
+    <Compile Include="Core\Damage\DamageKeyValue.cs" />
     <Compile Include="Core\DuplicateKeyComparer.cs" />
     <Compile Include="Core\IDpsUIEngine.cs" />
     <Compile Include="Core\MetrEngine.cs" />

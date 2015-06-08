@@ -64,5 +64,7 @@ namespace Detrav.Terometr.Core
             }
             return String.Format("{0:0}{1}({2}%)", res, kilos[num], procent);
         }
+
+        public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
     }
 }

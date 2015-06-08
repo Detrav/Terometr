@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Detrav.Terometr.Core
+namespace Detrav.Terometr.Core.Damage
 {
     class DamageElement
     {
@@ -28,7 +28,7 @@ namespace Detrav.Terometr.Core
         //public DateTime end = DateTime.MinValue;//Динамически расчитывается конецчный удар + timeOut
         static public TimeSpan timeOut = TimeSpan.FromSeconds(5.01);
         static public TimeSpan min = TimeSpan.FromSeconds(1);
-        public void addValue(uint v, DateTime now)
+        public void add(uint v, DateTime now)
         {
             if (now - last > timeOut)
             {

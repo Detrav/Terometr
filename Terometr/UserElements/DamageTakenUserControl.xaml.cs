@@ -1,5 +1,6 @@
 ﻿using Detrav.TeraApi;
 using Detrav.Terometr.Core;
+using Detrav.Terometr.Core.Damage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,7 @@ namespace Detrav.Terometr.UserElements
             InitializeComponent();
             clear();
         }
-        internal Dictionary<ulong, DamageElement> all = new Dictionary<ulong, DamageElement>();
+        DamageEngine all = new DamageEngine(uint.MaxValue);
         private TeraApi.Core.TeraPlayer self;
         Config config;
 
@@ -36,89 +37,38 @@ namespace Detrav.Terometr.UserElements
             if (skill.skillType == SkillType.Make) return;
             if (skill.value == 0) return;
             if (skill.type != 1) return;
-            if (!all.ContainsKey(skill.player.id))
-                all[skill.player.id] = new DamageElement(skill.player);
-            all[skill.player.id].addValue(skill.value, skill.time);
+            all.add(skill);
         }
 
         public void doEvents()
         {
+            double max;
+            double sum;
+            SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
             if (checkBox.IsChecked == true)
-                updateLayoutHps();
-            else updateLayoutHeal();
+                all.getListDps(list, out max, out sum);
+            else all.getList(list, out max, out sum);
+
+            while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
+            int i = 0;
+            foreach (var pair in list)
+            {
+                (listBox.Items[i] as PlayerBarElement).changeData(
+                    pair.Value.value / max * 100,
+                    pair.Value.name,
+                    MetrEngine.generateRight(pair.Value.value, sum),
+                    (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
+                i++;
+            }
+            (listBox.Items[i] as PlayerBarElement).changeData(
+                    100,
+                    "Всего",
+                    MetrEngine.generateRight(sum, sum),
+                    PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
         }
 
-        public void updateLayoutHeal()
-        {
-            if(comboBox.SelectedItem==null) return;
-            //ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
-            Dictionary<ulong, DamageElement> players = all;
-            if (players!=null)
-            {
-                SortedList<double,DamageElement> list = new SortedList<double,DamageElement>(new DuplicateKeyComparer<double>());
-                double max = 0;
-                double sum = 0;
-                foreach (var pair in players)
-                {
-                    max = Math.Max(pair.Value.value, max);
-                    sum += pair.Value.value;
-                    list[pair.Value.value] = pair.Value;
-                }
-                while (listBox.Items.Count > list.Count+1) listBox.Items.RemoveAt(0);
-                while (listBox.Items.Count < list.Count+1) listBox.Items.Add(new PlayerBarElement());
-                int i = 0;
-                foreach (var pair in list)
-                {
-                    (listBox.Items[i] as PlayerBarElement).changeData(
-                        pair.Value.value / max * 100,
-                        pair.Value.player.name,
-                        MetrEngine.generateRight(pair.Value.value, sum),
-                        (self.id == pair.Value.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass);
-                    i++;
-                }
-                (listBox.Items[i] as PlayerBarElement).changeData(
-                        100,
-                        "Всего",
-                        MetrEngine.generateRight(sum, sum),
-                        PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
-            }
-        }
-
-        public void updateLayoutHps()
-        {
-            if (comboBox.SelectedItem == null) return;
-            //ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
-            Dictionary<ulong, DamageElement> players = all;
-            if (players != null)
-            {
-                SortedList<double, DamageElement> list = new SortedList<double, DamageElement>(new DuplicateKeyComparer<double>());
-                double max = 0;
-                double sum = 0;
-                foreach (var pair in players)
-                {
-                    max = Math.Max(pair.Value.vps, max);
-                    sum += pair.Value.vps;
-                    list[pair.Value.vps] = pair.Value;
-                }
-                while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
-                while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
-                int i = 0;
-                foreach (var pair in list)
-                {
-                    (listBox.Items[i] as PlayerBarElement).changeData(
-                        pair.Key / max * 100,
-                        pair.Value.player.name,
-                        MetrEngine.generateRight(pair.Key, sum),
-                        (self.id == pair.Value.player.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.player.playerClass);
-                    i++;
-                }
-                (listBox.Items[i] as PlayerBarElement).changeData(
-                        100,
-                        "Всего",
-                        MetrEngine.generateRight(sum, sum),
-                        PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
-            }
-        }
+        
 
         public void setSelf(TeraApi.Core.TeraPlayer self)
         {
@@ -130,7 +80,7 @@ namespace Detrav.Terometr.UserElements
             //db.Clear();
             all.Clear();
             comboBox.Items.Clear();
-            comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));
+            comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Суммарно"));
             comboBox.SelectedIndex = 0;
             Logger.debug("clear, and add all row");
         }
