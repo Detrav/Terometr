@@ -200,7 +200,12 @@ namespace Detrav.Terometr.Windows
             Show();
         }
 
-        internal void parent_onMakeSkillResult(object sender, SkillResultEventArgs e)
+        internal void parent_onSkillResult(object sender,SkillResultEventArgs e)
+        {
+
+        }
+
+        /*internal void parent_onMakeSkillResult(object sender, SkillResultEventArgs e)
         {
             if(e.player.partyId>0)
             {
@@ -225,7 +230,7 @@ namespace Detrav.Terometr.Windows
                     if ((el as TabItem).Content is IDpsUIEngine)
                         ((el as TabItem).Content as IDpsUIEngine).addSkill(skill);
             }
-        }
+        }*/
 
         private void buttonConfigSave_Click(object sender, RoutedEventArgs e)
         {
