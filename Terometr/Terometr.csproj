@@ -118,7 +118,6 @@
     <Compile Include="Core\IDpsUIEngine.cs" />
     <Compile Include="Core\MetrEngine.cs" />
     <Compile Include="Core\TableWriter.cs" />
-    <Compile Include="Core\TeraSkill.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
