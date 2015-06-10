@@ -31,7 +31,7 @@ namespace Detrav.Terometr.UserElements
         }
         internal Dictionary<ulong, AgroEngine> db = new Dictionary<ulong,AgroEngine>();
         AgroEngine all = new AgroEngine(ulong.MaxValue, uint.MaxValue, false);
-        Dictionary<ulong, double> agro = new Dictionary<ulong,double>();
+        //Dictionary<ulong, double> agro = new Dictionary<ulong,double>();
         private TeraApi.Core.TeraPlayer self;
         Config config;
 
@@ -57,78 +57,30 @@ namespace Detrav.Terometr.UserElements
                 all.addHeal(who as TeraPlayer,e.damage, e.time);
                 return;
             }
-        }
-
-        public void addSkill(TeraSkill skill)
-        {
-             
-            if (skill.skillType == SkillType.Take) return;
-            if (skill.value == 0) return;
-            if (skill.type == 2)
+            if (e.type == 1)
             {
-                foreach (var pair in db)
-                    pair.Value.addHeal(skill);
-                all.addHeal(skill);
-                return;
-            }
-            if (skill.type == 1)
-            {
-                if (skill.npc != null)
+                //Убираем если таргет не NPC
+                if (!(e.target is TeraNpc)) return;
+                TeraNpc npc = e.target as TeraNpc;
+                ulong mId;
+                if (toggleButtonGroup.IsChecked == true)
+                    mId = npc.npc.ulongId;
+                else mId = npc.id;
+                AgroEngine eng;
+                if (db.ContainsKey(mId))
                 {
-                    ulong mId;
-                    if (toggleButtonGroup.IsChecked == true)
-                        mId = skill.npc.npc.ulongId;
-                    else mId = skill.npc.id;
-                    //Регистрируем агро тут
-                    if (!agro.ContainsKey(skill.player.id)) agro[skill.player.id] = (skill.player.playerClass == TeraApi.Enums.PlayerClass.Lancer ? 3.8 : 1);
-                    AgroEngine eng;
-                    if (db.ContainsKey(mId))
-                    {
-                        eng = db[mId];
-                        if (eng.npc != skill.npc.id)
-                            eng.multi = true;
-                    }
-                    else
-                    {
-                        db[mId] = new AgroEngine(mId,skill.npc.npc.hp,false);
-                        eng = db[mId];
-                        comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(mId, skill.npc.npc.name));
-                    }
-                    /*if (!eng.multi && eng.lastTarget != 0 && eng.lastTarget != skill.npc.target)
-                    {
-                        if (!agro.ContainsKey(eng.lastTarget))
-                        {
-                            agro[eng.lastTarget] = 1;
-                        }
-                        if (!agro.ContainsKey(skill.npc.target)) 
-                        {
-                            agro[skill.npc.target] = 1;
-                        }
-                        const double maxAgro = 100;
-                        double lastPlayer = eng.getValue(eng.lastTarget);
-                        double newPlayer = eng.getValue(skill.npc.target);
-                        if (lastPlayer > newPlayer)
-                        {
-                            double temp = lastPlayer / newPlayer;
-                            if (temp < maxAgro)
-                                agro[skill.npc.target] = temp - (temp - agro[skill.npc.target]) * 0.314;
-                            Logger.info("Agro {0} {1}", skill.npc.target, agro[skill.npc.target]);
-                        }
-                        else
-                        {
-                            double temp = newPlayer / lastPlayer;
-                            if (temp < maxAgro)
-                                agro[eng.lastTarget] = temp - (temp - agro[eng.lastTarget]) * 0.314;
-                            Logger.info("Agro {0} {1}", eng.lastTarget, agro[eng.lastTarget]);
-                        }
-                        //Переагрили и нужно вычислить показатель агра для 2 игроков, 
-                        //lastTarget и target
-                    }*/
-                    eng.lastTarget = skill.npc.target;
-                    eng.add(skill);
+                    eng = db[mId];
+                    if (eng.npc != npc.id)
+                        eng.multi = true;
                 }
-                //if (skill.value == 0) return;
-                //if (skill.type != 1) return;
+                else
+                {
+                    db[mId] = new AgroEngine(mId, npc.npc.hp, false);
+                    eng = db[mId];
+                    comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(mId, npc.npc.safeName));
+                }
+                eng.lastTarget = npc.id;
+                eng.add(skill);
                 all.add(skill);
             }
         }
