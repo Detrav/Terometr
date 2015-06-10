@@ -41,8 +41,7 @@ namespace Detrav.Terometr
             //parent.onPacketArrival += parent_onPacketArrival;
             parent.onLogin += window.parent_onLogin;
             //parent.onNewPartyList += R.parent_onNewPartyList;
-            parent.onMakeSkillResult += window.parent_onMakeSkillResult;
-            parent.onTakeSkillResult += window.parent_onTakeSkillResult;
+            parent.onSkillResult += window.parent_onSkillResult;
             parent.onTick += parent_onTick;
             //show();
 
