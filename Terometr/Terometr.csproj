@@ -52,7 +52,7 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="TeraApi">
-      <HintPath>..\..\TeraModLoader\TeraApi\bin\Debug\TeraApi.dll</HintPath>
+      <HintPath>..\TeraApi.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
