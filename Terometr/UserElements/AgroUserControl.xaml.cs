@@ -29,7 +29,7 @@ namespace Detrav.Terometr.UserElements
             InitializeComponent();
             clear();
         }
-        internal Dictionary<ulong, AgroEngine> db = new Dictionary<ulong,AgroEngine>();
+        internal Dictionary<ulong, AgroEngine> db = new Dictionary<ulong, AgroEngine>();
         AgroEngine all = new AgroEngine(ulong.MaxValue, uint.MaxValue, false);
         //Dictionary<ulong, double> agro = new Dictionary<ulong,double>();
         private TeraApi.Core.TeraPlayer self;
@@ -63,25 +63,20 @@ namespace Detrav.Terometr.UserElements
                 if (!(e.target is TeraNpc)) return;
                 TeraNpc npc = e.target as TeraNpc;
                 ulong mId;
-                if (toggleButtonGroup.IsChecked == true)
-                    mId = npc.npc.ulongId;
-                else mId = npc.id;
+                mId = npc.id;
                 AgroEngine eng;
                 if (db.ContainsKey(mId))
                 {
                     eng = db[mId];
-                    if (eng.npc != npc.id)
-                        eng.multi = true;
                 }
                 else
                 {
                     db[mId] = new AgroEngine(mId, npc.npc.hp, false);
                     eng = db[mId];
-                    comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(mId, npc.npc.safeName));
                 }
                 eng.lastTarget = npc.id;
-                eng.add(skill);
-                all.add(skill);
+                eng.add(who as TeraPlayer, e.damage, e.time);
+                all.add(who as TeraPlayer, e.damage, e.time);
             }
         }
 
@@ -178,6 +173,16 @@ namespace Detrav.Terometr.UserElements
         public void reSetting(Config config)
         {
             this.config = config;
+        }
+
+        private void comboBox_DropDownOpened(object sender, EventArgs e)
+        {
+            comboBox.Items.Clear();
+            foreach(var pair in db)
+            {
+                
+            }
+            comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));
         }
     }
 }
