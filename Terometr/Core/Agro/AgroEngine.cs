@@ -26,12 +26,12 @@ namespace Detrav.Terometr.Core.Agro
         public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
 
 
-        internal void add(TeraSkill skill)
+        internal void add(TeraPlayer player,uint value,DateTime time)
         {
-            if (!players.ContainsKey(skill.player.id))
-                players[skill.player.id] = new AgroElement(skill.player);
-            players[skill.player.id].add(skill.value,skill.time);
-            lastActive = DateTime.Now;
+            if (!players.ContainsKey(player.id))
+                players[player.id] = new AgroElement(player);
+            players[player.id].add(value,time);
+            lastActive = time;
         }
 
         internal void Clear()
