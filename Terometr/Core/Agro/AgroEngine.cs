@@ -83,14 +83,6 @@ namespace Detrav.Terometr.Core.Agro
             }
         }
 
-        internal void addHeal(TeraSkill skill)
-        {
-            if (!isActive) return;
-            if (!players.ContainsKey(skill.player.id))
-                players[skill.player.id] = new AgroElement(skill.player);
-            players[skill.player.id].add(skill.value, skill.time);
-        }
-
         internal AgroKeyValue[] getList(out double sum, out double max)
         {
             sum = 0;
@@ -121,6 +113,14 @@ namespace Detrav.Terometr.Core.Agro
                 }
             }
             return result;
+        }
+
+        internal void addHeal(TeraPlayer player,uint p, DateTime dateTime)
+        {
+            if (!isActive) return;
+            if (!players.ContainsKey(player.id))
+                players[player.id] = new AgroElement(player);
+            players[player.id].add(p,dateTime);
         }
     }
 }

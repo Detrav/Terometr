@@ -53,8 +53,8 @@ namespace Detrav.Terometr.UserElements
             if (e.type == 2)
             {
                 foreach (var pair in db)
-                    pair.Value.addHeal(e.damage,e.time);
-                all.addHeal(e.damage,e.time);
+                    pair.Value.addHeal(who as TeraPlayer,e.damage,e.time);
+                all.addHeal(who as TeraPlayer,e.damage, e.time);
                 return;
             }
         }
