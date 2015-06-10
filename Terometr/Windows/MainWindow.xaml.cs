@@ -202,7 +202,9 @@ namespace Detrav.Terometr.Windows
 
         internal void parent_onSkillResult(object sender,SkillResultEventArgs e)
         {
-
+            foreach (var el in tabControl.Items)
+                if ((el as TabItem).Content is IDpsUIEngine)
+                    ((el as TabItem).Content as IDpsUIEngine).skillResult(e);
         }
 
         /*internal void parent_onMakeSkillResult(object sender, SkillResultEventArgs e)
