@@ -35,6 +35,30 @@ namespace Detrav.Terometr.UserElements
         private TeraApi.Core.TeraPlayer self;
         Config config;
 
+        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
+        {
+            TeraEntity who = e.who;
+             //Отсеиваем NPC и ищеи игрока
+            while (who.parent != null)
+            {
+                if (who is TeraNpc) return;
+                who = who.parent;
+            }
+            //Если главный не игрок то уходим
+            if (!(who is TeraPlayer)) return;
+            //Теперь у нас атакует точно игрок, значит отсеиваем лишнее
+            //Убираем урон в 0, у меня нет описание скилов поэтому нафиг он не нужен
+            if (e.damage == 0) return;
+            //если хил то добавляем агр как хилу
+            if (e.type == 2)
+            {
+                foreach (var pair in db)
+                    pair.Value.addHeal(e.damage,e.time);
+                all.addHeal(e.damage,e.time);
+                return;
+            }
+        }
+
         public void addSkill(TeraSkill skill)
         {
              
