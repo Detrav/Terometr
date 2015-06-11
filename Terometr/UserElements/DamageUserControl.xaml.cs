@@ -117,12 +117,17 @@ namespace Detrav.Terometr.UserElements
         public void doEvents()
         {
             if (comboBox.SelectedItem == null) return;
+            selectBam();
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
             double max;
             double sum;
             SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
             DamageEngine players;
-            if (id < UInt64.MaxValue) db.TryGetValue(id, out players);
+
+            var selectDb = db;
+            if (toggleButtonGroup.IsChecked == true) selectDb = dbGrp;
+
+            if (id < UInt64.MaxValue) selectDb.TryGetValue(id, out players);
             else players = all;
 
             if (players != null)
@@ -139,7 +144,7 @@ namespace Detrav.Terometr.UserElements
                 {
                     (listBox.Items[i] as PlayerBarElement).changeData(
                         pair.Value.value / max * 100,
-                        pair.Value.name,
+                        (toggleButtonCrit.IsChecked != true ? pair.Value.name : String.Format("{0}-{1}%", pair.Value.name,(int)(pair.Value.critRate*100))),
                         MetrEngine.generateRight(pair.Value.value, sum),
                         (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
                     i++;
