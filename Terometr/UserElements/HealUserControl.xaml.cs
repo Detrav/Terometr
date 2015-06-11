@@ -107,7 +107,7 @@ namespace Detrav.Terometr.UserElements
 
         public void skillTakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
