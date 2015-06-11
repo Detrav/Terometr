@@ -101,12 +101,14 @@ namespace Detrav.Terometr.UserElements
 
         public void selectBam()
         {
+            var selectDb = db;
+            if (toggleButtonGroup.IsChecked == true) selectDb = dbGrp;
             if (toggleButtonBAM.IsChecked == true)
             {
                 int i = 0;
                 int max_i = -1;
                 uint max = 0;
-                foreach (var pair in db)
+                foreach (var pair in selectDb)
                 {
                     if (!pair.Value.multi)
                         if (pair.Value.isActive)
