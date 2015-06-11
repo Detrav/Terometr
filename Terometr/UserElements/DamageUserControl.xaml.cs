@@ -72,6 +72,7 @@ namespace Detrav.Terometr.UserElements
                     db[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
                 else
                     db[mId] = new DamageEngine(0, e.target.safeName);
+                comboBoxReMake();
             }
             db[mId].add(player, e.damage, e.time, self, e.crit);
             mId = e.target.id;
@@ -83,6 +84,7 @@ namespace Detrav.Terometr.UserElements
                     dbGrp[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
                 else
                     dbGrp[mId] = new DamageEngine(0, e.target.safeName);
+                comboBoxReMake();
             }
             dbGrp[mId].add(player, e.damage, e.time, self, e.crit);
             all.add(player, e.damage, e.time, self, e.crit);
