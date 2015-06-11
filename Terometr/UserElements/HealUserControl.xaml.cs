@@ -83,7 +83,7 @@ namespace Detrav.Terometr.UserElements
 
         public void clear()
         {
-            //db.Clear();
+            db.Clear();
             all.Clear();
             comboBoxReMake();
             Logger.debug("clear, and add all row");
