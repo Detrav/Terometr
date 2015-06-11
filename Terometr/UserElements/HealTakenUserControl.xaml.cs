@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi;
+using Detrav.TeraApi.Core;
 using Detrav.Terometr.Core;
 using Detrav.Terometr.Core.Damage;
 using System;
@@ -119,7 +120,18 @@ namespace Detrav.Terometr.UserElements
 
         public void skillTakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.damage == 0) return;
+            if (e.type != 2) return;
+            if (!(e.target is TeraPlayer)) return;
+            ulong mId;
+            mId = e.who.id;
+            if (!db.ContainsKey(mId))
+            {
+                db[mId] = new DamageEngine(0, e.who.safeName);
+                comboBoxReMake();
+            }
+            db[mId].add((e.target as TeraPlayer), e.damage, e.time, true, e.crit);
+            all.add((e.target as TeraPlayer), e.damage, e.time, true, e.crit);
         }
 
         public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
