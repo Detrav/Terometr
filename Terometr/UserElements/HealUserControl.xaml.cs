@@ -91,7 +91,15 @@ namespace Detrav.Terometr.UserElements
 
         public string generateTable()
         {
-            throw new NotImplementedException();
+            if (comboBox.SelectedItem == null) return null;
+            StringBuilder sb = new StringBuilder();
+            sb.AppendFormat("{0}{1}", comboBox.SelectedItem, Environment.NewLine);
+            foreach (var el in listBox.Items)
+            {
+                if (el is PlayerBarElement)
+                    sb.AppendFormat("{0}{1}", (el as PlayerBarElement).getText(), Environment.NewLine);
+            }
+            return sb.ToString();
         }
 
 
