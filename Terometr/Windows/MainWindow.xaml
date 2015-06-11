@@ -93,10 +93,11 @@
             <TabControl x:Name="tabControl"
                         Style="{DynamicResource tabControlStyle}"
                         SelectionChanged="tabControl_SelectionChanged">
-                <!--
+                
                 <TabItem Header="Урон">
                     <UserElements:DamageUserControl />
                 </TabItem>
+                <!--
                 <TabItem Header="Лечение">
                     <UserElements:HealUserControl />
                 </TabItem>
