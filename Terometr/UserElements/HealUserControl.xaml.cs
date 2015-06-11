@@ -28,7 +28,7 @@ namespace Detrav.Terometr.UserElements
             InitializeComponent();
             clear();
         }
-        DamageEngine all = new DamageEngine(uint.MaxValue);
+        DamageEngine all;// = new DamageEngine(uint.MaxValue);
         private TeraApi.Core.TeraPlayer self;
         Config config;
 
@@ -102,6 +102,17 @@ namespace Detrav.Terometr.UserElements
         }
 
 
-        
+
+
+
+        public void skillTakeResult(TeraApi.Events.SkillResultEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
