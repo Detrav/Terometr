@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi;
+using Detrav.TeraApi.Core;
 using Detrav.Terometr.Core;
 using Detrav.Terometr.Core.Damage;
 using System;
@@ -32,18 +33,6 @@ namespace Detrav.Terometr.UserElements
         DamageEngine all = new DamageEngine(uint.MaxValue, "Всего");
         private TeraApi.Core.TeraPlayer self;
         Config config;
-
-        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        /*public void addSkill(TeraSkill skill)
-        {
-            if (skill.skillType == SkillType.Take) return;
-            if (skill.value == 0) return;
-            if (skill.type != 2) return;
-            all.add(skill);
-        }*/
 
         public void doEvents()
         {
@@ -125,7 +114,30 @@ namespace Detrav.Terometr.UserElements
 
         public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            throw new NotImplementedException();
+            if (e.damage == 0) return;
+            if (e.type != 2) return;
+
+            TeraEntity who = e.who;
+            bool self = true;
+            //Отсеиваем NPC и ищеи игрока
+            while (who.parent != null)
+            {
+                if (who is TeraNpc) self = false;
+                who = who.parent;
+            }
+            //Если главный не игрок то уходим
+            if (!(who is TeraPlayer)) return;
+            TeraPlayer player = who as TeraPlayer;
+
+            ulong mId;
+            mId = e.target.id;
+            if (!db.ContainsKey(mId))
+            {
+                db[mId] = new DamageEngine(0, e.target.safeName);
+                comboBoxReMake();
+            }
+            db[mId].add(player, e.damage, e.time, self, e.crit);
+            all.add(player, e.damage, e.time, self, e.crit);
         }
 
         public void comboBoxReMake()
