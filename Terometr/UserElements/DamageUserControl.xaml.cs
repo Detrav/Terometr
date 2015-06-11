@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi;
+using Detrav.TeraApi.Core;
 using Detrav.Terometr.Core;
 using Detrav.Terometr.Core.Damage;
 using System;
@@ -30,15 +31,61 @@ namespace Detrav.Terometr.UserElements
         }
         //TeraPlayer self;
         //Карта по мобам и по игрокам;
-        internal Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
+        Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
+        Dictionary<ulong, DamageEngine> dbGrp = new Dictionary<ulong, DamageEngine>();
         DamageEngine all = new DamageEngine(uint.MaxValue,"Всего");
         private TeraApi.Core.TeraPlayer self;
         Config config;
         //public Dictionary<ulong, DamageElement> players;
 
-        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
+        public void skillTakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
+        }
+
+        public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
+        {
+            if (e.damage == 0) return;
+            if (e.type != 1) return;
+
+
+            TeraEntity who = e.who;
+            bool self = true;
+             //Отсеиваем NPC и ищеи игрока
+            while (who.parent != null)
+            {
+                if (who is TeraNpc) self = false;
+                who = who.parent;
+            }
+            //Если главный не игрок то уходим
+            if (!(who is TeraPlayer)) return;
+            TeraPlayer player = who as TeraPlayer;
+            
+            TeraNpc npc = null;
+            if (e.target is TeraNpc)
+                npc = e.target as TeraNpc;
+            ulong mId;
+            mId = e.target.id;
+            if (!db.ContainsKey(mId))
+            {
+                if (npc != null)
+                    db[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
+                else
+                    db[mId] = new DamageEngine(0, e.target.safeName);
+            }
+            db[mId].add(player, e.damage, e.time, self, e.crit);
+            mId = e.target.id;
+            if (npc != null)
+                mId = npc.npc.ulongId;
+            if(!dbGrp.ContainsKey(mId))
+            {
+                if (npc != null)
+                    dbGrp[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
+                else
+                    dbGrp[mId] = new DamageEngine(0, e.target.safeName);
+            }
+            dbGrp[mId].add(player, e.damage, e.time, self, e.crit);
+            all.add(player, e.damage, e.time, self, e.crit);
         }
        /* public void addSkill(TeraSkill skill)
         {
