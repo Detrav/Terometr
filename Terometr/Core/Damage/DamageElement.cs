@@ -28,7 +28,11 @@ namespace Detrav.Terometr.Core.Damage
         //public DateTime end = DateTime.MinValue;//Динамически расчитывается конецчный удар + timeOut
         static public TimeSpan timeOut = TimeSpan.FromSeconds(5.01);
         static public TimeSpan min = TimeSpan.FromSeconds(1);
-        public void add(uint v, DateTime now)
+
+        public double critRate { get { return ((double)critCount) / ((double)(count)); } }
+        public int count = 0;
+        public int critCount = 0;
+        public void add(uint v, DateTime now,bool self,bool crit)
         {
             if (now - last > timeOut)
             {
@@ -37,6 +41,12 @@ namespace Detrav.Terometr.Core.Damage
             }
             value += v;
             last = now;
+            if(self)
+            {
+                count++;
+                if (crit)
+                    critCount++;
+            }
         }
 
         public DamageElement(TeraPlayer player)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Detrav.TeraApi.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,19 +13,29 @@ namespace Detrav.Terometr.Core.Damage
         public DateTime lastActive = DateTime.MinValue;
         public uint npcHp;
         public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
+        public string name;
 
-        public DamageEngine(uint npcHp)
+        public DamageEngine(uint npcHp,string name)
         {
             this.npcHp = npcHp;
+            this.name = name;
         }
 
-        /*internal void add(TeraSkill skill)
+        /// <summary>
+        /// Добавляет уорн в дамаг метр
+        /// </summary>
+        /// <param name="player">игрок</param>
+        /// <param name="value">значение</param>
+        /// <param name="time">время</param>
+        /// <param name="self">бьёт ли сам или с помощью npc</param>
+        /// <param name="crit">является ли критом</param>
+        internal void add(TeraPlayer player,uint value,DateTime time,bool self,bool crit)
         {
-            if (!players.ContainsKey(skill.player.id))
-                players[skill.player.id] = new DamageElement(skill.player);
-            players[skill.player.id].add(skill.value, skill.time);
+            if (!players.ContainsKey(player.id))
+                players[player.id] = new DamageElement(player);
+            players[player.id].add(value, time,self,crit);
             lastActive = DateTime.Now;
-        }*/
+        }
 
         internal void Clear()
         {
