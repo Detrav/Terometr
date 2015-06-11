@@ -75,8 +75,9 @@ namespace Detrav.Terometr.UserElements
                 {
                     db[mId] = new AgroEngine(mId,npc.safeName, npc.npc.hp, false);
                     eng = db[mId];
-                    eng.lastTarget = npc.id;
+                    comboBoxReMake();
                 }
+                eng.lastTarget = npc.id;
                 eng.add(who as TeraPlayer, e.damage, e.time);
                 #endregion GeneralDB
                 #region GroupedDB
@@ -91,8 +92,9 @@ namespace Detrav.Terometr.UserElements
                 {
                     db[mId] = new AgroEngine(mId, npc.safeName, npc.npc.hp, false);
                     eng = db[mId];
-                    eng.lastTarget = npc.id;
+                    comboBoxReMake();
                 }
+                eng.lastTarget = npc.id;
                 eng.add(who as TeraPlayer, e.damage, e.time);
                 #endregion GroupedDB
                 all.add(who as TeraPlayer, e.damage, e.time);
@@ -166,7 +168,9 @@ namespace Detrav.Terometr.UserElements
         public void clear()
         {
             db.Clear();
+            dbGrp.Clear();
             all.Clear();
+            comboBoxReMake();
             Logger.debug("clear, and add all row");
         }
 
