@@ -36,7 +36,9 @@ namespace Detrav.Terometr.UserElements
         private TeraApi.Core.TeraPlayer self;
         Config config;
 
-        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
+        public void skillTakeResult(TeraApi.Events.SkillResultEventArgs e) { }
+
+        public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
             TeraEntity who = e.who;
              //Отсеиваем NPC и ищеи игрока

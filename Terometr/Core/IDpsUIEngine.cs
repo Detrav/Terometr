@@ -16,7 +16,7 @@ namespace Detrav.Terometr.Core
         void reSetting(Config config);
         TeraApi.Interfaces.ITeraClient teraClient { get; set; }
 
-        void skillResult(TeraApi.Events.SkillResultEventArgs e);
+        //void skillResult(TeraApi.Events.SkillResultEventArgs e);
 
         void skillTakeResult(TeraApi.Events.SkillResultEventArgs e);
 
