@@ -102,7 +102,7 @@ namespace Detrav.Terometr.UserElements
 
         public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void comboBoxReMake()
