@@ -57,6 +57,8 @@ namespace Detrav.Terometr.UserElements
             {
                 foreach (var pair in db)
                     pair.Value.addHeal(who as TeraPlayer,e.damage,e.time);
+                foreach(var pair in dbGrp)
+                    pair.Value.addHeal(who as TeraPlayer, e.damage, e.time);
                 all.addHeal(who as TeraPlayer,e.damage, e.time);
                 return;
             }
@@ -130,7 +132,6 @@ namespace Detrav.Terometr.UserElements
 
         public void doEvents()
         {
-            comboBoxReMake();
             selectBam();
             if (comboBox.SelectedItem == null) return;
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
