@@ -93,6 +93,7 @@
             <TabControl x:Name="tabControl"
                         Style="{DynamicResource tabControlStyle}"
                         SelectionChanged="tabControl_SelectionChanged">
+                <!--
                 <TabItem Header="Урон">
                     <UserElements:DamageUserControl />
                 </TabItem>
@@ -105,42 +106,10 @@
                 <TabItem Header="Получ. леч.">
                     <UserElements:HealTakenUserControl />
                 </TabItem>
+                -->
                 <TabItem Header="Агро? нераб">
                     <UserElements:AgroUserControl />
-                </TabItem>
-                <TabItem Header="Настройки">
-                    <ListBox x:Name="listBoxSettings">
-                        <Label FontFamily="Comic Sans MS"
-                               Foreground="White"
-                               Content="Настройки не работают" />
-                        <ComboBox>
-                            <System:String>test</System:String>
-                            <System:String>test1</System:String>
-                            <System:String>test2</System:String>
-                            <System:String>test3</System:String>
-                        </ComboBox>
-                        <CheckBox x:Name="checkBoxGrouped"
-                                  FontFamily="Comic Sans MS"
-                                  Foreground="White"
-                                  IsChecked="True"
-                                  Content="Объединять мобов в группы" />
-                        <CheckBox x:Name="checkBoxBAM"
-                                  FontFamily="Comic Sans MS"
-                                  Foreground="White"
-                                  IsChecked="True"
-                                  Content="Искать БАМ" />
-                        <CheckBox x:Name="checkBoxNewTarget"
-                                  FontFamily="Comic Sans MS"
-                                  Foreground="White"
-                                  IsChecked="False"
-                                  Content="Всегда переключать таргет на нового моба" />
-                        <Button x:Name="buttonConfigSave"
-                                Click="buttonConfigSave_Click"
-                                HorizontalAlignment="Stretch"
-                                Content="Применить настройки"
-                                Style="{DynamicResource TitleButtonStyle}" />
-                    </ListBox>
-                </TabItem>
+                </TabItem>                
             </TabControl>
         </Grid>
     </Grid>
