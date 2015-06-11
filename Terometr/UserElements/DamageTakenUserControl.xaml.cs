@@ -28,7 +28,9 @@ namespace Detrav.Terometr.UserElements
             InitializeComponent();
             clear();
         }
-        DamageEngine all;// = new DamageEngine(uint.MaxValue);
+        Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
+        Dictionary<ulong, DamageEngine> dbGrp = new Dictionary<ulong, DamageEngine>();
+        DamageEngine all = new DamageEngine(uint.MaxValue, "Всего");
         private TeraApi.Core.TeraPlayer self;
         Config config;
 
