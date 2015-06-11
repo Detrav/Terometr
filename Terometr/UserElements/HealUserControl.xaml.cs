@@ -114,5 +114,31 @@ namespace Detrav.Terometr.UserElements
         {
             throw new NotImplementedException();
         }
+
+        public void comboBoxReMake()
+        {
+            //если пусто то добавляем всего строку
+            if (comboBox.Items.Count == 0)
+                comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Суммарно"));
+            var selectDb = db;
+            while (comboBox.Items.Count > selectDb.Count + 1) comboBox.Items.RemoveAt(0);
+            while (comboBox.Items.Count < selectDb.Count + 1) comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(0, null));
+
+            int i = 0;
+            foreach (var key in selectDb.Keys.ToArray())
+            {
+                var comboBoxItem = comboBox.Items[i] as ComboBoxHiddenItem;
+                if (comboBoxItem != null)
+                {
+                    if (key != comboBoxItem.id)
+                    {
+                        comboBoxItem.id = key;
+                        comboBoxItem.text = selectDb[key].name;
+                    }
+                }
+                i++;
+            }
+            if (comboBox.SelectedItem == null) comboBox.SelectedIndex = comboBox.Items.Count - 1;
+        }
     }
 }
