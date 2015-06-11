@@ -172,6 +172,7 @@ namespace Detrav.Terometr.Windows
             if (result == null)
                 result = "Ошибка";
             result = String.Format("Terrometr - {0} - {1}{2}{3}", self.safeName, result, Environment.NewLine, @"https://github.com/Detrav");
+            Clipboard.SetText(result);
             MessageBox.Show(result, "Скопированно в буфер обмена");
         }
 
