@@ -21,10 +21,16 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ComboBox x:Name="comboBox" Grid.Column="0" Padding="0" />
-            <ToggleButton x:Name="toggleButtonDps"
+            <ToggleButton x:Name="toggleButtonCrit"
                           Grid.Column="1"
+                          Content="КРТ"
+                          Width="30"
+                          ToolTip="Шанс крита" />
+            <ToggleButton x:Name="toggleButtonDps"
+                          Grid.Column="2"
                           Content="ЛВС"
                           Width="30"
                           ToolTip="В секунду" />
