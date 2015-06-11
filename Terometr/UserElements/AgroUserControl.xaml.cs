@@ -154,15 +154,6 @@ namespace Detrav.Terometr.UserElements
                     "Всего",
                     MetrEngine.generateRight(sum, sum),
                     PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
-
-            if(sum == 0)
-            {
-                if(comboBox.SelectedIndex<comboBox.Items.Count-1 && comboBox.SelectedIndex>=0)
-                {
-                    if (db.ContainsKey(id)) db.Remove(id);
-                    comboBox.Items.RemoveAt(comboBox.SelectedIndex);
-                }
-            }
         }
 
         public void setSelf(TeraApi.Core.TeraPlayer self)
