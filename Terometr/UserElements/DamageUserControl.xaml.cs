@@ -36,7 +36,11 @@ namespace Detrav.Terometr.UserElements
         Config config;
         //public Dictionary<ulong, DamageElement> players;
 
-        public void addSkill(TeraSkill skill)
+        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+       /* public void addSkill(TeraSkill skill)
         {
             if (skill.skillType == SkillType.Take) return;
             if (skill.value == 0) return;
@@ -56,9 +60,9 @@ namespace Detrav.Terometr.UserElements
                 players[skill.player.id].addValue(skill.value, skill.time);
             }
             if (!all.ContainsKey(skill.player.id))
-                all[skill.player.id] = new DamageElement(skill.player);*/
+                all[skill.player.id] = new DamageElement(skill.player);*
             all.add(skill);
-        }
+        }*/
 
 
         public void doEvents()

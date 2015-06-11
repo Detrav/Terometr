@@ -34,7 +34,7 @@ namespace Detrav.Terometr.Windows
         BitmapImage down;
         BitmapImage up;
 
-        internal List<TeraSkill> history = new List<TeraSkill>();
+        //internal List<TeraSkill> history = new List<TeraSkill>();
         //Repository R;
         internal MainWindow()
         {
@@ -136,7 +136,6 @@ namespace Detrav.Terometr.Windows
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
-            history.Clear();
             foreach(var el in tabControl.Items)
                 if ((el as TabItem).Content is IDpsUIEngine)
                     ((el as TabItem).Content as IDpsUIEngine).clear();

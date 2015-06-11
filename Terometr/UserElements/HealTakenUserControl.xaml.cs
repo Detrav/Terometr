@@ -32,13 +32,17 @@ namespace Detrav.Terometr.UserElements
         private TeraApi.Core.TeraPlayer self;
         Config config;
 
-        public void addSkill(TeraSkill skill)
+        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        /*public void addSkill(TeraSkill skill)
         {
             if (skill.skillType == SkillType.Make) return;
             if (skill.value == 0) return;
             if (skill.type != 2) return;
             all.add(skill);
-        }
+        }*/
 
         public void doEvents()
         {

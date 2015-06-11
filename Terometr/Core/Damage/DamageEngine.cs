@@ -18,13 +18,13 @@ namespace Detrav.Terometr.Core.Damage
             this.npcHp = npcHp;
         }
 
-        internal void add(TeraSkill skill)
+        /*internal void add(TeraSkill skill)
         {
             if (!players.ContainsKey(skill.player.id))
                 players[skill.player.id] = new DamageElement(skill.player);
             players[skill.player.id].add(skill.value, skill.time);
             lastActive = DateTime.Now;
-        }
+        }*/
 
         internal void Clear()
         {
