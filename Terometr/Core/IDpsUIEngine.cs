@@ -17,5 +17,9 @@ namespace Detrav.Terometr.Core
         TeraApi.Interfaces.ITeraClient teraClient { get; set; }
 
         void skillResult(TeraApi.Events.SkillResultEventArgs e);
+
+        void skillTakeResult(TeraApi.Events.SkillResultEventArgs e);
+
+        void skillMakeResult(TeraApi.Events.SkillResultEventArgs e);
     }
 }

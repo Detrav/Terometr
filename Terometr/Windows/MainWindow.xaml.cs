@@ -195,9 +195,24 @@ namespace Detrav.Terometr.Windows
 
         internal void parent_onSkillResult(object sender,SkillResultEventArgs e)
         {
-            foreach (var el in tabControl.Items)
-                if ((el as TabItem).Content is IDpsUIEngine)
-                    ((el as TabItem).Content as IDpsUIEngine).skillResult(e);
+            //Отсеиваем если таргент не в пати
+            //Отсеиваем если атакует не пати мембер
+            if(e.target is TeraPlayer)
+            {
+                if((e.target as TeraPlayer).partyId > 0)
+                foreach (var el in tabControl.Items)
+                    if ((el as TabItem).Content is IDpsUIEngine)
+                        ((el as TabItem).Content as IDpsUIEngine).skillTakeResult(e);
+            }
+            TeraEntity who = e.who;
+            while (who.parent != null) who = who.parent;
+            if(who is TeraPlayer)
+            {
+                if((who as TeraPlayer).partyId > 0)
+                    foreach (var el in tabControl.Items)
+                        if ((el as TabItem).Content is IDpsUIEngine)
+                            ((el as TabItem).Content as IDpsUIEngine).skillMakeResult(e);
+            }
         }
 
         /*internal void parent_onMakeSkillResult(object sender, SkillResultEventArgs e)
