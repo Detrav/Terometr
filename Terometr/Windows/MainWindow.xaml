@@ -93,11 +93,9 @@
             <TabControl x:Name="tabControl"
                         Style="{DynamicResource tabControlStyle}"
                         SelectionChanged="tabControl_SelectionChanged">
-                
                 <TabItem Header="Урон">
                     <UserElements:DamageUserControl />
                 </TabItem>
-                <!--
                 <TabItem Header="Лечение">
                     <UserElements:HealUserControl />
                 </TabItem>
@@ -107,7 +105,6 @@
                 <TabItem Header="Получ. леч.">
                     <UserElements:HealTakenUserControl />
                 </TabItem>
-                -->
                 <TabItem Header="Агро? нераб">
                     <UserElements:AgroUserControl />
                 </TabItem>                
