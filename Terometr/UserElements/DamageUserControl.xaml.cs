@@ -31,7 +31,7 @@ namespace Detrav.Terometr.UserElements
         //TeraPlayer self;
         //Карта по мобам и по игрокам;
         internal Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
-        DamageEngine all = new DamageEngine(uint.MaxValue);
+        DamageEngine all = new DamageEngine(uint.MaxValue,"Всего");
         private TeraApi.Core.TeraPlayer self;
         Config config;
         //public Dictionary<ulong, DamageElement> players;
