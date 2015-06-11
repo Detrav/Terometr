@@ -199,7 +199,7 @@ namespace Detrav.Terometr.UserElements
         {
             //если пусто то добавляем всего строку
             if (comboBox.Items.Count == 0)
-                comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));
+                comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Суммарно"));
             var selectDb = db;
             if (toggleButtonGroup.IsChecked == true) selectDb = dbGrp;
             while (comboBox.Items.Count > selectDb.Count + 1) comboBox.Items.RemoveAt(0);
