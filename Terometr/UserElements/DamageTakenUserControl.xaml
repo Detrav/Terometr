@@ -33,7 +33,7 @@
                           Content="ГРП"
                           Width="30"
                           IsChecked="True"
-                          ToolTip="Объединять мобов в группы по имени" />
+                          ToolTip="Объединять мобов в группы по имени" Click="toggleButtonGroup_Click"/>
             <ToggleButton x:Name="toggleButtonBAM"
                           Grid.Column="2"
                           Content="БАМ"

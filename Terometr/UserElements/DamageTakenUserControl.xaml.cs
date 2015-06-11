@@ -203,5 +203,10 @@ namespace Detrav.Terometr.UserElements
                 comboBox.SelectedIndex = max_i;
             }
         }
+
+        private void toggleButtonGroup_Click(object sender, RoutedEventArgs e)
+        {
+            comboBoxReMake();
+        }
     }
 }
