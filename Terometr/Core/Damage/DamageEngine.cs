@@ -45,12 +45,38 @@ namespace Detrav.Terometr.Core.Damage
 
         internal void getListDps(SortedList<double, DamageKeyValue> list, out double max, out double sum)
         {
-            throw new NotImplementedException();
+            max = 0;
+            sum = 0;
+            if (list == null) return;
+            foreach(var pair in players)
+            {
+                var dkv = new DamageKeyValue(pair.Key,
+                    pair.Value.player.name,
+                    pair.Value.vps,
+                    pair.Value.critRate,
+                    pair.Value.player.playerClass);
+                list.Add(dkv.value, dkv);
+                max = Math.Max(max, dkv.value);
+                sum += dkv.value;
+            }
         }
 
         internal void getList(SortedList<double, DamageKeyValue> list, out double max, out double sum)
         {
-            throw new NotImplementedException();
+            max = 0;
+            sum = 0;
+            if (list == null) return;
+            foreach (var pair in players)
+            {
+                var dkv = new DamageKeyValue(pair.Key,
+                    pair.Value.player.name,
+                    pair.Value.value,
+                    pair.Value.critRate,
+                    pair.Value.player.playerClass);
+                list.Add(dkv.value, dkv);
+                max = Math.Max(max, dkv.value);
+                sum += dkv.value;
+            }
         }
     }
    
