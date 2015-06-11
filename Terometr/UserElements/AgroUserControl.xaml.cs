@@ -82,16 +82,16 @@ namespace Detrav.Terometr.UserElements
                 #endregion GeneralDB
                 #region GroupedDB
                 mId = npc.npc.ulongId;
-                if (db.ContainsKey(mId))
+                if (dbGrp.ContainsKey(mId))
                 {
-                    eng = db[mId];
+                    eng = dbGrp[mId];
                     if (eng.lastTarget != npc.id)
                         eng.multi = true;
                 }
                 else
                 {
-                    db[mId] = new AgroEngine(mId, npc.safeName, npc.npc.hp, false);
-                    eng = db[mId];
+                    dbGrp[mId] = new AgroEngine(mId, npc.safeName, npc.npc.hp, false);
+                    eng = dbGrp[mId];
                     comboBoxReMake();
                 }
                 eng.lastTarget = npc.id;
