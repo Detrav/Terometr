@@ -68,7 +68,7 @@ namespace Detrav.Terometr.UserElements
 
         public string getText()
         {
-            return String.Format("{0} - {1}", labelLeft.Content, labelRight.Content);
+            return String.Format("{0} : {1}", labelLeft.Content, labelRight.Content);
         }
     }
 }
