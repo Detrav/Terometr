@@ -81,9 +81,7 @@ namespace Detrav.Terometr.UserElements
         {
             //db.Clear();
             all.Clear();
-            comboBox.Items.Clear();
-            comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Суммарно"));
-            comboBox.SelectedIndex = 0;
+            comboBoxReMake();
             Logger.debug("clear, and add all row");
         }
 
