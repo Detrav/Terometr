@@ -47,30 +47,44 @@ namespace Detrav.Terometr.UserElements
 
         public void doEvents()
         {
+            if (comboBox.SelectedItem == null) return;
+
+            ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
             double max;
             double sum;
             SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
-            if (toggleButtonDps.IsChecked == true)
-                all.getListDps(list, out max, out sum);
-            else all.getList(list, out max, out sum);
+            DamageEngine players;
 
-            while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
-            while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
-            int i = 0;
-            foreach (var pair in list)
+            var selectDb = db;
+
+            if (id < UInt64.MaxValue) selectDb.TryGetValue(id, out players);
+            else players = all;
+
+            if (players != null)
             {
+                if (toggleButtonDps.IsChecked == true)
+                    players.getListDps(list, out max, out sum);
+                else players.getList(list, out max, out sum);
+
+
+                while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
+                while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
+                int i = 0;
+                foreach (var pair in list)
+                {
+                    (listBox.Items[i] as PlayerBarElement).changeData(
+                        pair.Value.value / max * 100,
+                        (toggleButtonCrit.IsChecked != true ? pair.Value.name : String.Format("{0}-{1}%", pair.Value.name, (int)(pair.Value.critRate * 100))),
+                        MetrEngine.generateRight(pair.Value.value, sum),
+                        (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
+                    i++;
+                }
                 (listBox.Items[i] as PlayerBarElement).changeData(
-                    pair.Value.value / max * 100,
-                    pair.Value.name,
-                    MetrEngine.generateRight(pair.Value.value, sum),
-                    (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
-                i++;
+                        100,
+                        "Всего",
+                        MetrEngine.generateRight(sum, sum),
+                        PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
             }
-            (listBox.Items[i] as PlayerBarElement).changeData(
-                    100,
-                    "Всего",
-                    MetrEngine.generateRight(sum, sum),
-                    PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
         }
 
         
