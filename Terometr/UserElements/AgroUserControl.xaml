@@ -23,7 +23,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ComboBox x:Name="comboBox" Grid.Column="0" Padding="0" DropDownOpened="comboBox_DropDownOpened" />
+            <ComboBox x:Name="comboBox" Grid.Column="0" Padding="0"/>
             <ToggleButton x:Name="toggleButtonGroup"
                           Grid.Column="1"
                           Content="ГРП"

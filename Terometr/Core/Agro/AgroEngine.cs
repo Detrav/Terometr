@@ -15,15 +15,18 @@ namespace Detrav.Terometr.Core.Agro
         public Dictionary<ulong, AgroElement> players = new Dictionary<ulong,AgroElement>();
         public uint npcHp;
         public DateTime lastActive = DateTime.MinValue;
+        public string name;
 
-        public AgroEngine(ulong mId, uint p1, bool p2)
+        public AgroEngine(ulong mId,string name, uint maxHp, bool multi)
         {
             // TODO: Complete member initialization
             this.npc = mId;
-            this.npcHp = p1;
-            this.multi = p2;
+            this.npcHp = maxHp;
+            this.name = name;
+            this.multi = multi;
         }
         public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
+        public bool isFullActive { get { return DateTime.Now - lastActive < AgroElement.timeOut; } }
 
 
         internal void add(TeraPlayer player,uint value,DateTime time)

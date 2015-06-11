@@ -30,6 +30,7 @@ namespace Detrav.Terometr.UserElements
             clear();
         }
         internal Dictionary<ulong, AgroEngine> db = new Dictionary<ulong, AgroEngine>();
+        internal Dictionary<ulong, AgroEngine> dbGrp = new Dictionary<ulong, AgroEngine>();
         AgroEngine all = new AgroEngine(ulong.MaxValue, uint.MaxValue, false);
         //Dictionary<ulong, double> agro = new Dictionary<ulong,double>();
         private TeraApi.Core.TeraPlayer self;
@@ -62,20 +63,38 @@ namespace Detrav.Terometr.UserElements
                 //Убираем если таргет не NPC
                 if (!(e.target is TeraNpc)) return;
                 TeraNpc npc = e.target as TeraNpc;
-                ulong mId;
-                mId = npc.id;
                 AgroEngine eng;
+                ulong mId;
+                #region GeneralDB
+                mId = npc.id;
                 if (db.ContainsKey(mId))
                 {
                     eng = db[mId];
                 }
                 else
                 {
-                    db[mId] = new AgroEngine(mId, npc.npc.hp, false);
+                    db[mId] = new AgroEngine(mId,npc.safeName, npc.npc.hp, false);
                     eng = db[mId];
+                    eng.lastTarget = npc.id;
                 }
-                eng.lastTarget = npc.id;
                 eng.add(who as TeraPlayer, e.damage, e.time);
+                #endregion GeneralDB
+                #region GroupedDB
+                mId = npc.npc.ulongId;
+                if (db.ContainsKey(mId))
+                {
+                    eng = db[mId];
+                    if (eng.lastTarget != npc.id)
+                        eng.multi = true;
+                }
+                else
+                {
+                    db[mId] = new AgroEngine(mId, npc.safeName, npc.npc.hp, false);
+                    eng = db[mId];
+                    eng.lastTarget = npc.id;
+                }
+                eng.add(who as TeraPlayer, e.damage, e.time);
+                #endregion GroupedDB
                 all.add(who as TeraPlayer, e.damage, e.time);
             }
         }
@@ -155,9 +174,6 @@ namespace Detrav.Terometr.UserElements
         {
             db.Clear();
             all.Clear();
-            comboBox.Items.Clear();
-            comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));
-            comboBox.SelectedIndex = 0;
             Logger.debug("clear, and add all row");
         }
 
@@ -175,14 +191,14 @@ namespace Detrav.Terometr.UserElements
             this.config = config;
         }
 
-        private void comboBox_DropDownOpened(object sender, EventArgs e)
+        public void comboBoxReMake()
         {
-            comboBox.Items.Clear();
-            foreach(var pair in db)
-            {
-                
-            }
-            comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));
+            //если пусто то добавляем всего строку
+            if (comboBox.Items.Count == 0)
+                comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));
+
+            if(comboBox.SelectedItem==null) comboBox.SelectedIndex = comboBox.Items.Count-1;
         }
+        
     }
 }

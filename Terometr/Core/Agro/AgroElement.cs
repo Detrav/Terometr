@@ -10,7 +10,10 @@ namespace Detrav.Terometr.Core.Agro
     {
         List<DatePlusVal> values = new List<DatePlusVal>();
         public TeraApi.Core.TeraPlayer teraPlayer;
-        static TimeSpan timeOut = TimeSpan.FromSeconds(50);
+        /// <summary>
+        /// Показывает длительность действия агро = 50с
+        /// </summary>
+        public static TimeSpan timeOut = TimeSpan.FromSeconds(50);
 
         public double value(DateTime now)
         {

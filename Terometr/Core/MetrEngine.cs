@@ -64,7 +64,9 @@ namespace Detrav.Terometr.Core
             }
             return String.Format("{0:0}{1}({2}%)", res, kilos[num], procent);
         }
-
+        /// <summary>
+        /// По истечению 10.1с можно не следить за показателем
+        /// </summary>
         public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
     }
 }
