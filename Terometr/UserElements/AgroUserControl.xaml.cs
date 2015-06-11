@@ -31,7 +31,7 @@ namespace Detrav.Terometr.UserElements
         }
         internal Dictionary<ulong, AgroEngine> db = new Dictionary<ulong, AgroEngine>();
         internal Dictionary<ulong, AgroEngine> dbGrp = new Dictionary<ulong, AgroEngine>();
-        AgroEngine all = new AgroEngine(ulong.MaxValue, uint.MaxValue, false);
+        AgroEngine all = new AgroEngine(ulong.MaxValue, "Всего", uint.MaxValue, false);
         //Dictionary<ulong, double> agro = new Dictionary<ulong,double>();
         private TeraApi.Core.TeraPlayer self;
         Config config;
@@ -128,12 +128,17 @@ namespace Detrav.Terometr.UserElements
 
         public void doEvents()
         {
+            comboBoxReMake();
             selectBam();
             if (comboBox.SelectedItem == null) return;
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
+
+            var selectDb = db;
+            if (toggleButtonGroup.IsChecked == true) selectDb = dbGrp;
+
             AgroEngine eng = null;
             if (id < UInt64.MaxValue)
-                if (!db.TryGetValue(id, out eng)) eng = null;
+                if (!selectDb.TryGetValue(id, out eng)) eng = null;
             if (eng == null) eng = all;
             //SortedList<double, TeraPlayer> list = new SortedList<double, TeraPlayer>(new DuplicateKeyComparer<double>());
             //List<AgroKeyValue> list = new List<AgroKeyValue>();
@@ -193,9 +198,32 @@ namespace Detrav.Terometr.UserElements
             //если пусто то добавляем всего строку
             if (comboBox.Items.Count == 0)
                 comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Всего"));
+            var selectDb = db;
+            if (toggleButtonGroup.IsChecked == true) selectDb = dbGrp;
+            while (comboBox.Items.Count > selectDb.Count + 1) comboBox.Items.RemoveAt(0);
+            while (comboBox.Items.Count < selectDb.Count + 1) comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(0, null));
 
+            int i = 0;
+            foreach(var key in selectDb.Keys.ToArray())
+            {
+                if (!selectDb[key].isFullActive)
+                {
+                    selectDb.Remove(key);
+                    comboBox.Items.RemoveAt(i);
+                    continue;
+                }
+                var comboBoxItem = comboBox.Items[i] as ComboBoxHiddenItem;
+                if(comboBoxItem!=null)
+                {
+                    if(key!=comboBoxItem.id)
+                    {
+                        comboBoxItem.id = key;
+                        comboBoxItem.text = selectDb[key].name;
+                    }
+                }
+                i++;
+            }
             if(comboBox.SelectedItem==null) comboBox.SelectedIndex = comboBox.Items.Count-1;
         }
-        
     }
 }

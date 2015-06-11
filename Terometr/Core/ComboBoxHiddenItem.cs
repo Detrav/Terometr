@@ -18,7 +18,7 @@ namespace Detrav.Terometr.Core
             return text;
         }
 
-        public ulong id { get; private set; }
-        public string text { get; private set; }
+        public ulong id { get; set; }
+        public string text { get; set; }
     }
 }
