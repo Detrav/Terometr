@@ -75,11 +75,11 @@ namespace Detrav.Terometr.UserElements
                 }
                 else
                 {
-                    db[mId] = new AgroEngine(mId,npc.safeName, npc.npc.hp, false);
+                    db[mId] = new AgroEngine(npc.id,npc.safeName, npc.npc.hp, false);
                     eng = db[mId];
                     comboBoxReMake();
                 }
-                eng.lastTarget = npc.id;
+                eng.lastTarget = who.id;
                 eng.add(who as TeraPlayer, e.damage, e.time);
                 #endregion GeneralDB
                 #region GroupedDB
@@ -87,16 +87,16 @@ namespace Detrav.Terometr.UserElements
                 if (dbGrp.ContainsKey(mId))
                 {
                     eng = dbGrp[mId];
-                    if (eng.lastTarget != npc.id)
+                    if (eng.npc != npc.id)
                         eng.multi = true;
                 }
                 else
                 {
-                    dbGrp[mId] = new AgroEngine(mId, npc.safeName, npc.npc.hp, false);
+                    dbGrp[mId] = new AgroEngine(npc.id, npc.safeName, npc.npc.hp, false);
                     eng = dbGrp[mId];
                     comboBoxReMake();
                 }
-                eng.lastTarget = npc.id;
+                eng.lastTarget = who.id;
                 eng.add(who as TeraPlayer, e.damage, e.time);
                 #endregion GroupedDB
                 all.add(who as TeraPlayer, e.damage, e.time);
