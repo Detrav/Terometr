@@ -204,5 +204,29 @@ namespace Detrav.Terometr.UserElements
             }
             if (comboBox.SelectedItem == null) comboBox.SelectedIndex = comboBox.Items.Count - 1;
         }
+
+        public void selectBam()
+        {
+            var selectDb = db;
+            if (toggleButtonGroup.IsChecked == true) selectDb = dbGrp;
+            if (toggleButtonBAM.IsChecked == true)
+            {
+                int i = 0;
+                int max_i = -1;
+                uint max = 0;
+                foreach (var pair in selectDb)
+                {
+                    if (pair.Value.isActive)
+                        if (pair.Value.npcHp > max)
+                        {
+                            max = pair.Value.npcHp;
+                            max_i = i;
+                        }
+                    i++;
+                }
+                if (max_i < 0) max_i = i;
+                comboBox.SelectedIndex = max_i;
+            }
+        }
     }
 }
