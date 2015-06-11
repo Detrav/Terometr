@@ -178,6 +178,7 @@ namespace Detrav.Terometr.UserElements
                 i++;
             }
             if (comboBox.SelectedItem == null) comboBox.SelectedIndex = comboBox.Items.Count - 1;
+            comboBox.UpdateLayout();
         }
 
         public void selectBam()
