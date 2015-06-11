@@ -156,9 +156,6 @@ namespace Detrav.Terometr.Windows
             config.width = Width;
             config.prevHeight = prevSize;
             config.hided = hided;
-            config.newTarget = checkBoxNewTarget.IsChecked == true;
-            config.grouped = checkBoxGrouped.IsChecked == true;
-            config.bam = checkBoxBAM.IsChecked == true;
             config.save(self.name);
         }
 
@@ -190,9 +187,6 @@ namespace Detrav.Terometr.Windows
             Width = config.width;
             prevSize = config.prevHeight;
             hided = config.hided;
-            checkBoxNewTarget.IsChecked = config.newTarget;
-            checkBoxGrouped.IsChecked = config.grouped;
-            checkBoxBAM.IsChecked = config.bam;
             foreach (var el in tabControl.Items)
                 if ((el as TabItem).Content is IDpsUIEngine)
                     ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
