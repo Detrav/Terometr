@@ -157,6 +157,8 @@ namespace Detrav.Terometr.Windows
             config.width = Width;
             config.prevHeight = prevSize;
             config.hided = hided;
+            config.party = toggleButtonParty.IsChecked == true;
+            config.log = toggleButtonLog.IsChecked == true;
             config.save(self.name);
         }
 
@@ -191,6 +193,8 @@ namespace Detrav.Terometr.Windows
             Width = config.width;
             prevSize = config.prevHeight;
             hided = config.hided;
+            toggleButtonParty.IsChecked = config.party;
+            toggleButtonLog.IsChecked = config.log;
             foreach (var el in tabControl.Items)
                 if ((el as TabItem).Content is IDpsUIEngine)
                     ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
