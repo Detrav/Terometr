@@ -108,6 +108,16 @@
                 <TabItem Header="Агро? нераб">
                     <UserElements:AgroUserControl />
                 </TabItem>                
+                <TabItem Header="Настройки">
+                    <StackPanel>
+                        <ToggleButton Content="Учитывать только группу" />
+                        <ToggleButton Content="Вести лог боя, не раб" />
+                        <ToggleButton Content="Больше настроек, не раб" />
+                        <ToggleButton Content="Больше настроек, не раб" />
+                        <ToggleButton Content="Больше настроек, не раб" />
+                        <ToggleButton Content="Больше настроек, не раб" />
+                    </StackPanel>
+                </TabItem>
             </TabControl>
         </Grid>
     </Grid>
