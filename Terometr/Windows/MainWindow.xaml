@@ -110,8 +110,8 @@
                 </TabItem>                
                 <TabItem Header="Настройки">
                     <StackPanel>
-                        <ToggleButton Content="Учитывать только группу" />
-                        <ToggleButton Content="Вести лог боя, не раб" />
+                        <ToggleButton x:Name="toggleButtonParty" Content="Учитывать только группу" />
+                        <ToggleButton x:Name="toggleButtonLog" Content="Вести лог боя, не раб" />
                         <ToggleButton Content="Больше настроек, не раб" />
                         <ToggleButton Content="Больше настроек, не раб" />
                         <ToggleButton Content="Больше настроек, не раб" />
