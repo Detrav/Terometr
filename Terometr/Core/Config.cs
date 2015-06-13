@@ -20,9 +20,8 @@ namespace Detrav.Terometr.Core
         public bool hided = false;
         public double prevHeight = 100;
         private IConfigManager configManager;
-        public bool newTarget = false;
-        public bool grouped = true;
-        public bool bam = true;
+        public bool party = true;
+        public bool log = false;
 
         
 
@@ -45,6 +44,8 @@ namespace Detrav.Terometr.Core
                 height = conf.height;
                 hided = conf.hided;
                 prevHeight = conf.prevHeight;
+                log = conf.log;
+                party = conf.party;
             }
         }
     }
