@@ -205,18 +205,26 @@ namespace Detrav.Terometr.Windows
         {
             //Отсеиваем если таргент не в пати
             //Отсеиваем если атакует не пати мембер
-            if(e.target is TeraPlayer)
+            if (e.target is TeraPlayer)
             {
-                if((e.target as TeraPlayer).partyId > 0)
-                foreach (var el in tabControl.Items)
-                    if ((el as TabItem).Content is IDpsUIEngine)
-                        ((el as TabItem).Content as IDpsUIEngine).skillTakeResult(e);
+                bool flag = true;
+                if (config.party)
+                    if ((e.target as TeraPlayer).partyId == 0)
+                        flag = false;
+                if (flag)
+                    foreach (var el in tabControl.Items)
+                        if ((el as TabItem).Content is IDpsUIEngine)
+                            ((el as TabItem).Content as IDpsUIEngine).skillTakeResult(e);
             }
             TeraEntity who = e.who;
             while (who.parent != null) who = who.parent;
-            if(who is TeraPlayer)
+            if (who is TeraPlayer)
             {
-                if((who as TeraPlayer).partyId > 0)
+                bool flag = true;
+                if (config.party)
+                    if ((who as TeraPlayer).partyId == 0)
+                        flag = false;
+                if (flag)
                     foreach (var el in tabControl.Items)
                         if ((el as TabItem).Content is IDpsUIEngine)
                             ((el as TabItem).Content as IDpsUIEngine).skillMakeResult(e);
