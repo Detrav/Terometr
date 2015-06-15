@@ -58,10 +58,10 @@ namespace Detrav.Terometr.Windows
             ((buttonHide as Button).Content as Image).Source = up;
             self = new TeraPlayer(0, "unknown");
 
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Урон", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Урон", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС","Цель:") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС", "Цель:") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС", "От:") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС", "От:") });
         }
 
         TeraPlayer self
