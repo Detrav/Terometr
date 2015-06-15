@@ -9,16 +9,30 @@ namespace Detrav.Terometr.Core.Damage
 {
     class DamageEngine
     {
+        ulong mId;
         Dictionary<ulong, DamageElement> elements = new Dictionary<ulong, DamageElement>();
         public DateTime lastActive = DateTime.MinValue;
         public uint npcHp;
         public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
         public string name;
-
-        public DamageEngine(uint npcHp,string name)
+        public bool? group;
+        private ComboBoxHiddenItem item = null;
+        public ComboBoxHiddenItem cbhi
         {
+            get
+            {
+                if (item == null)
+                    item = new ComboBoxHiddenItem(mId, name);
+                return item;
+            }
+        }
+
+        public DamageEngine(ulong mId,uint npcHp,string name,bool? group)
+        {
+            this.mId = mId;
             this.npcHp = npcHp;
             this.name = name;
+            this.group = group;
         }
 
         /// <summary>

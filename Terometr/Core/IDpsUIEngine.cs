@@ -15,7 +15,11 @@ namespace Detrav.Terometr.Core
         string generateTable();
         void reSetting(Config config);
 
-        void skillTakeResult(TeraApi.Events.SkillResultEventArgs e);
-        void skillMakeResult(TeraApi.Events.SkillResultEventArgs e);
+        void skillResult(TeraApi.Events.SkillResultEventArgs e);
+    }
+
+    enum IDpsUIEngineType
+    {
+        damage,heal,damageTaken,healTaken
     }
 }

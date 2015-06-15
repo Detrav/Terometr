@@ -22,20 +22,21 @@ namespace Detrav.Terometr.UserElements
     /// <summary>
     /// Логика взаимодействия для DamageUserControl.xaml
     /// </summary>
-    public partial class DamageTakenUserControl : UserControl, IDpsUIEngine
+    public partial class DamageEngineUserControl : UserControl, IDpsUIEngine
     {
-        public DamageTakenUserControl()
+        internal DamageEngineUserControl(IDpsUIEngineType myType,string button)
         {
             InitializeComponent();
             clear();
+            this.myType = myType;
+            this.toggleButtonDps.Content = null;
+            this.toggleButtonDps.Content = button;
         }
         Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
-        Dictionary<ulong, DamageEngine> dbGrp = new Dictionary<ulong, DamageEngine>();
-        DamageEngine all = new DamageEngine(uint.MaxValue, "Всего");
         private TeraApi.Core.TeraPlayer self;
         Config config;
         bool needToUpdate = true;
-
+        private IDpsUIEngineType myType;
 
 
         public void doEvents()
@@ -44,16 +45,13 @@ namespace Detrav.Terometr.UserElements
             if (comboBox.SelectedItem == null) return;
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
             //Проверяем нужно ли чекать группу и создаём флаг активности
-            var selectDb = all;
-            if (id != ulong.MaxValue)
-            {
-                if (config.group) dbGrp.TryGetValue(id, out selectDb);
-                else db.TryGetValue(id, out selectDb);
-            }
+            
+            DamageEngine selectDb = null;
+            if (db.TryGetValue(id, out selectDb)) return;
 
             //Дальше чекаем нужно ли обновить данные
             if (!(selectDb.isActive || needToUpdate)) return;
-            //если нужно обновиться, то опять разбиваем всё на группы:
+
             double max = 0;
             double sum = 0;
             SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
@@ -96,8 +94,6 @@ namespace Detrav.Terometr.UserElements
         public void clear()
         {
             db.Clear();
-            dbGrp.Clear();
-            all.Clear();
             comboBoxReMake();
             Logger.debug("clear, and add all row");
         }
@@ -120,17 +116,13 @@ namespace Detrav.Terometr.UserElements
         {
             this.config = config;
             needToUpdate = true;
-            comboBox.Items.Clear();
+            //comboBox.Items.Clear();
             comboBoxReMake();
         }
 
 
         public void skillTakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            if (e.damage == 0) return;
-            if (e.type != 1) return;
-            //if(!(e.target is TeraPlayer)) return;
-            //TeraPlayer player = e.target as TeraPlayer;
             bool self = true;
             TeraEntity who = e.who;
             while (who.parent != null)
@@ -145,69 +137,98 @@ namespace Detrav.Terometr.UserElements
             //Обычная база
             if (!db.ContainsKey(mId))
             {
-                if (npc != null) db[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
-                else db[mId] = new DamageEngine(0, who.safeName);
+                if (npc != null) db[mId] = new DamageEngine(mId,npc.npc.hp, npc.safeName,false);
+                else db[mId] = new DamageEngine(mId,0, who.safeName,null);
                 comboBoxReMake();
             }
             db[mId].add(e.target, e.damage, e.time, self, e.crit);
             //Групповая база
-            if(npc !=null) mId = npc.npc.ulongId;
-            if(!dbGrp.ContainsKey(mId))
+
+            if (npc != null)
             {
-                if (npc != null) db[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
-                else db[mId] = new DamageEngine(0, who.safeName);
-                comboBoxReMake();
+                mId = npc.npc.ulongId;
+                if (!db.ContainsKey(mId))
+                {
+                    db[mId] = new DamageEngine(mId,npc.npc.hp, npc.safeName,true);
+
+                    comboBoxReMake();
+                }
+                db[mId].add(e.target, e.damage, e.time, self, e.crit);
             }
-            dbGrp[mId].add(e.target, e.damage, e.time, self, e.crit);
-            all.add(e.target, e.damage, e.time, self, e.crit);
+            //суммарно
+            if (!db.ContainsKey(ulong.MaxValue))
+                db[ulong.MaxValue] = new DamageEngine(ulong.MaxValue,0, "Суммарно",null);
+            db[ulong.MaxValue].add(e.target, e.damage, e.time, self, e.crit);
         }
 
         public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            //throw new NotImplementedException();
+            bool self = true;
+            TeraEntity who = e.who;
+            while (who.parent != null)
+            {
+                if (who is TeraNpc)
+                    self = false;
+                who = who.parent;
+            }
+            TeraNpc npc = null;
+            if (e.target is TeraNpc) npc = e.target as TeraNpc;
+            ulong mId = e.target.id;
+            //Обычная база
+            if (!db.ContainsKey(mId))
+            {
+                if (npc != null) db[mId] = new DamageEngine(mId, npc.npc.hp, npc.safeName, false);
+                else db[mId] = new DamageEngine(mId, 0, e.target.safeName, null);
+                comboBoxReMake();
+            }
+            db[mId].add(who, e.damage, e.time, self, e.crit);
+            //Групповая база
+
+            if (npc != null)
+            {
+                mId = npc.npc.ulongId;
+                if (!db.ContainsKey(mId))
+                {
+                    db[mId] = new DamageEngine(mId, npc.npc.hp, npc.safeName, true);
+
+                    comboBoxReMake();
+                }
+                db[mId].add(who, e.damage, e.time, self, e.crit);
+            }
+            //суммарно
+            if (!db.ContainsKey(ulong.MaxValue))
+                db[ulong.MaxValue] = new DamageEngine(ulong.MaxValue, 0, "Суммарно", null);
+            db[ulong.MaxValue].add(e.who, e.damage, e.time, self, e.crit);
         }
 
         public void comboBoxReMake()
         {
-            //если пусто то добавляем всего строку
-            if (comboBox.Items.Count == 0)
-                comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Суммарно"));
-            var selectDb = db;
-            if (config.group) selectDb = dbGrp;
-            while (comboBox.Items.Count > selectDb.Count + 1) comboBox.Items.RemoveAt(0);
-            while (comboBox.Items.Count < selectDb.Count + 1) comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(0, null));
-
-            int i = 0;
-            foreach (var key in selectDb.Keys.ToArray())
+            SortedList<ulong,ComboBoxHiddenItem> items = new SortedList<ulong,ComboBoxHiddenItem>();
+            ComboBoxHiddenItem selectedItem = (ComboBoxHiddenItem)comboBox.SelectedItem;
+            comboBox.ItemsSource = null;
+            foreach(var pair in db)
             {
-                var comboBoxItem = comboBox.Items[i] as ComboBoxHiddenItem;
-                if (comboBoxItem != null)
-                {
-                    if (key != comboBoxItem.id)
-                    {
-                        comboBoxItem.id = key;
-                        comboBoxItem.text = selectDb[key].name;
-                    }
-                }
-                i++;
+                if (pair.Value.group == config.group)
+                    items.Add(pair.Key,pair.Value.cbhi);
+                if(pair.Value.group == null)
+                    items.Add(pair.Key,pair.Value.cbhi);
             }
-            if (comboBox.SelectedItem == null) comboBox.SelectedIndex = comboBox.Items.Count - 1;
+            comboBox.ItemsSource = items.Values;
+            comboBox.SelectedItem = selectedItem;
             comboBox.UpdateLayout();
         }
 
         public void autoTarget()
         {
-            var selectDb = db;
-            if (config.group == true) selectDb = dbGrp;
             int i = 0;
             int max_i = -1;
             uint max = 0;
-            foreach (var pair in selectDb)
+            foreach (ComboBoxHiddenItem el in comboBox.Items)
             {
-                if (pair.Value.isActive)
-                    if (pair.Value.npcHp > max)
+                if (db[el.id].isActive)
+                    if (db[el.id].npcHp > max)
                     {
-                        max = pair.Value.npcHp;
+                        max = db[el.id].npcHp;
                         max_i = i;
                     }
                 i++;
@@ -220,5 +241,28 @@ namespace Detrav.Terometr.UserElements
         {
             needToUpdate = true;
         }
+
+
+        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
+        {
+            if (e.damage == 0) return;
+            switch(myType)
+            {
+                case IDpsUIEngineType.damage:
+                    if (e.type == 1) skillMakeResult(e);
+                    break;
+                case IDpsUIEngineType.heal:
+                    if (e.type == 2) skillMakeResult(e);
+                    break;
+                case IDpsUIEngineType.damageTaken:
+                    if (e.type == 1) skillTakeResult(e);
+                    break;
+                case IDpsUIEngineType.healTaken:
+                    if (e.type == 2) skillTakeResult(e);
+                    break;
+            }
+        }
+
+
     }
 }

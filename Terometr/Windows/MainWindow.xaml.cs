@@ -29,7 +29,16 @@ namespace Detrav.Terometr.Windows
     {
         Config config;
         public IAssetManager assetManager { get; set; }
-        public IConfigManager configManager { set { config = new Config(value); } }
+        public IConfigManager configManager
+        {
+            set
+            {
+                config = new Config(value);
+                foreach (var el in tabControl.Items)
+                    if ((el as TabItem).Content is IDpsUIEngine)
+                        ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
+            }
+        }
         public ITeraClient teraClient { get; set; }
         BitmapImage down;
         BitmapImage up;
@@ -48,6 +57,11 @@ namespace Detrav.Terometr.Windows
             up = Mod.ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
             self = new TeraPlayer(0, "unknown");
+
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Урон", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС") });
         }
 
         TeraPlayer self
@@ -204,32 +218,14 @@ namespace Detrav.Terometr.Windows
             Show();
         }
 
-        internal void parent_onSkillResult(object sender,SkillResultEventArgs e)
+        internal void parent_onSkillResult(object sender, SkillResultEventArgs e)
         {
-            //Отсеиваем если таргент не в пати
-            //Отсеиваем если атакует не пати мембер
-            if (e.target is TeraPlayer)
-            {
-                bool flag = true;
-                if (config.party)
-                    flag = e.target is TeraPartyPlayer;
-                if (flag)
-                    foreach (var el in tabControl.Items)
-                        if ((el as TabItem).Content is IDpsUIEngine)
-                            ((el as TabItem).Content as IDpsUIEngine).skillTakeResult(e);
-            }
-            TeraEntity who = e.who;
-            while (who.parent != null) who = who.parent;
-            if (who is TeraPlayer)
-            {
-                bool flag = true;
-                if (config.party)
-                    flag = e.target is TeraPartyPlayer;
-                if (flag)
-                    foreach (var el in tabControl.Items)
-                        if ((el as TabItem).Content is IDpsUIEngine)
-                            ((el as TabItem).Content as IDpsUIEngine).skillMakeResult(e);
-            }
+            //Отсеиваем нули
+            if (e.target == null) return;
+            if (e.who == null) return;
+            foreach (var el in tabControl.Items)
+                if ((el as TabItem).Content is IDpsUIEngine)
+                    ((el as TabItem).Content as IDpsUIEngine).skillResult(e);
         }
 
         /*internal void parent_onMakeSkillResult(object sender, SkillResultEventArgs e)
