@@ -44,7 +44,7 @@ namespace Detrav.Terometr.UserElements
         public void doEvents()
         {
             if (config.autoTarget) autoTarget();
-            if (comboBox.SelectedItem == null) return;
+            if (comboBox.SelectedItem == null) { listBox.Items.Clear(); return; }
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
             //Проверяем нужно ли чекать группу и создаём флаг активности
             
@@ -145,6 +145,7 @@ namespace Detrav.Terometr.UserElements
             needToUpdate = true;
             //comboBox.Items.Clear();
             comboBoxReMake();
+            needToUpdate = true;
         }
 
 
@@ -248,6 +249,7 @@ namespace Detrav.Terometr.UserElements
             comboBox.ItemsSource = items.Values;
             comboBox.SelectedItem = selectedItem;
             comboBox.UpdateLayout();
+            needToUpdate = true;
         }
 
         public void autoTarget()
@@ -299,7 +301,5 @@ namespace Detrav.Terometr.UserElements
         {
             needToUpdate = true;
         }
-
-
     }
 }
