@@ -14,14 +14,16 @@ namespace Detrav.Terometr.Core.Damage
         public double value;
         public string name;
         public PlayerClass playerClass;
+        public DamagePlayerType type;
 
-        public DamageKeyValue(ulong id, string name, double value, double critRate, PlayerClass playerClass = PlayerClass.Empty)
+        public DamageKeyValue(ulong id, string name, double value, double critRate, PlayerClass playerClass = PlayerClass.Empty, DamagePlayerType type = DamagePlayerType.npc)
         {
             this.id = id;
             this.value = value;
             this.name = name;
             this.playerClass = playerClass;
             this.critRate = critRate;
+            this.type = type;
         }
     }
 }

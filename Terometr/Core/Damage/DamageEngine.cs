@@ -46,8 +46,15 @@ namespace Detrav.Terometr.Core.Damage
         internal void add(TeraEntity entity,uint value,DateTime time,bool self,bool crit)
         {
             if (!elements.ContainsKey(entity.id))
-                elements[entity.id] = new DamageElement(entity);
-            elements[entity.id].add(value, time,self,crit);
+                elements[entity.id] = new DamageElement(entity,false);
+            elements[entity.id].add(value, time, self, crit);
+            if(entity is TeraNpc)
+            {
+                TeraNpc npc = entity as TeraNpc;
+                if (!elements.ContainsKey(npc.npc.ulongId))
+                    elements[npc.npc.ulongId] = new DamageElement(entity,true);
+                elements[npc.npc.ulongId].add(value, time, self, crit);
+            }
             lastActive = DateTime.Now;
         }
 
@@ -68,7 +75,8 @@ namespace Detrav.Terometr.Core.Damage
                     pair.Value.name,
                     pair.Value.vps,
                     pair.Value.critRate,
-                    pair.Value.playerClass);
+                    pair.Value.playerClass,
+                    pair.Value.type);
                 result.Add(dkv);
                 max = Math.Max(max, dkv.value);
                 sum += dkv.value;
@@ -87,7 +95,8 @@ namespace Detrav.Terometr.Core.Damage
                     pair.Value.name,
                     pair.Value.value,
                     pair.Value.critRate,
-                    pair.Value.playerClass);
+                    pair.Value.playerClass,
+                    pair.Value.type);
                 result.Add(dkv);
                 max = Math.Max(max, dkv.value);
                 sum += dkv.value;

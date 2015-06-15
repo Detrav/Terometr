@@ -63,7 +63,29 @@ namespace Detrav.Terometr.UserElements
             DamageKeyValue[] temp;
             if (toggleButtonDps.IsChecked == true) temp = selectDb.getListDps(out max, out sum);
             else temp = selectDb.getList(out max, out sum);
-            foreach (var el in temp) list.Add(el.value, el);
+            foreach (var el in temp)
+            {
+                switch(el.type)
+                {
+                    case DamagePlayerType.party:
+                        list.Add(el.value, el);
+                        break;
+                    case DamagePlayerType.player:
+                        if(!config.party)
+                            list.Add(el.value, el);
+                        break;
+                    case DamagePlayerType.group:
+                        if(!config.player)
+                            if(config.group)
+                                list.Add(el.value, el);
+                        break;
+                    case DamagePlayerType.npc:
+                        if(!config.player)
+                            if(!config.group)
+                                list.Add(el.value, el);
+                        break;
+                }
+            }
 
 
 
@@ -188,7 +210,7 @@ namespace Detrav.Terometr.UserElements
                 else db[mId] = new DamageEngine(mId, 0, e.target.safeName, null);
                 comboBoxReMake();
             }
-            db[mId].add(who, e.damage, e.time, self, e.crit);
+            db[mId].add(who, e.damage, e.time, self, e.crit);//Добавляем нормальный тип, если who это игрок то игрока, если npc то npc
             //Групповая база
 
             if (npc != null)
@@ -200,7 +222,7 @@ namespace Detrav.Terometr.UserElements
 
                     comboBoxReMake();
                 }
-                db[mId].add(who, e.damage, e.time, self, e.crit);
+                db[mId].add(who, e.damage, e.time, self, e.crit);//Добавляем груповой тип
             }
             //суммарно
             if (!db.ContainsKey(ulong.MaxValue))
@@ -208,7 +230,7 @@ namespace Detrav.Terometr.UserElements
                 db[ulong.MaxValue] = new DamageEngine(ulong.MaxValue, 0, "Суммарно", null);
                 comboBoxReMake();
             }
-            db[ulong.MaxValue].add(who, e.damage, e.time, self, e.crit);
+            db[ulong.MaxValue].add(who, e.damage, e.time, self, e.crit);//Добавляем 
         }
 
         public void comboBoxReMake()

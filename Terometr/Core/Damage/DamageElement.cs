@@ -14,6 +14,9 @@ namespace Detrav.Terometr.Core.Damage
         public PlayerClass playerClass;
         public ulong value;
         public double vps { get { return value / elapsedTime.TotalSeconds; } }
+
+        public DamagePlayerType type;
+
         public TimeSpan elapsedTime
         {
             get
@@ -58,12 +61,22 @@ namespace Detrav.Terometr.Core.Damage
             }
         }
 
-        public DamageElement(TeraEntity entity)
+        public DamageElement(TeraEntity entity,bool group)
         {
+            if (group) type = DamagePlayerType.group;
+            else type = DamagePlayerType.npc;
+            
+
             if (entity is TeraPlayer)
+            {
+                type = DamagePlayerType.player;
                 playerClass = (entity as TeraPlayer).playerClass;
+            }
             else
+            {
                 playerClass = PlayerClass.Empty;
+            }
+            if (entity is TeraPartyPlayer) type = DamagePlayerType.party;
             name = entity.safeName;
         }
     }
