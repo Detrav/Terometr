@@ -105,21 +105,26 @@
                 <TabItem Header="Получ. леч.">
                     <UserElements:HealTakenUserControl />
                 </TabItem>
-                <TabItem Header="Агро? нераб">
+                <!--<TabItem Header="Агро? нераб">
                     <UserElements:AgroUserControl />
-                </TabItem>                
+                </TabItem>-->
                 <TabItem Header="Настройки">
                     <StackPanel>
-                        <ToggleButton x:Name="toggleButtonParty"
-                                      Click="buttonConfigSave_Click"
-                                      Content="Учитывать только группу" />
                         <ToggleButton x:Name="toggleButtonLog"
                                       Click="buttonConfigSave_Click"
-                                      Content="Вести лог боя, не раб" />
-                        <ToggleButton Content="Больше настроек, не раб" />
-                        <ToggleButton Content="Больше настроек, не раб" />
-                        <ToggleButton Content="Больше настроек, не раб" />
-                        <ToggleButton Content="Больше настроек, не раб" />
+                                      Content="Вести лог боя" />
+                        <ToggleButton x:Name="toggleButtonGroup"
+                                      Click="buttonConfigSave_Click"
+                                      Content="Групирвоать монстров" />
+                        <ToggleButton x:Name="toggleButtonPlayer"
+                                      Click="buttonConfigSave_Click"
+                                      Content="Показывать только игроков" />
+                        <ToggleButton x:Name="toggleButtonParty"
+                                      Click="buttonConfigSave_Click"
+                                      Content="Показывать только группу" />
+                        <ToggleButton x:Name="toggleButtonAutoTarget"
+                                      Click="buttonConfigSave_Click"
+                                      Content="АвтоТаргет" />
                     </StackPanel>
                 </TabItem>
             </TabControl>

@@ -22,7 +22,9 @@ namespace Detrav.Terometr.Core
         private IConfigManager configManager;
         public bool party = true;
         public bool log = false;
-
+        public bool player = true;
+        public bool group = true;
+        public bool autoTarget = false;
         
 
         public void save(string playerName)

@@ -47,9 +47,6 @@ namespace Detrav.Terometr.Windows
             down = Mod.ToImage("Detrav.Terometr.assets.images.Bottom.png");
             up = Mod.ToImage("Detrav.Terometr.assets.images.Top.png");
             ((buttonHide as Button).Content as Image).Source = up;
-            foreach (var el in tabControl.Items)
-                if ((el as TabItem).Content is IDpsUIEngine)
-                    ((el as TabItem).Content as IDpsUIEngine).teraClient = teraClient;
             self = new TeraPlayer(0, "unknown");
         }
 
@@ -159,6 +156,9 @@ namespace Detrav.Terometr.Windows
             config.hided = hided;
             config.party = toggleButtonParty.IsChecked == true;
             config.log = toggleButtonLog.IsChecked == true;
+            config.player = toggleButtonPlayer.IsChecked == true;
+            config.group = toggleButtonGroup.IsChecked == true;
+            config.autoTarget = toggleButtonAutoTarget.IsChecked == true;
             config.save(self.name);
         }
 
@@ -195,6 +195,9 @@ namespace Detrav.Terometr.Windows
             hided = config.hided;
             toggleButtonParty.IsChecked = config.party;
             toggleButtonLog.IsChecked = config.log;
+            toggleButtonPlayer.IsChecked = config.player;
+            toggleButtonGroup.IsChecked = config.group;
+            toggleButtonAutoTarget.IsChecked = config.autoTarget;
             foreach (var el in tabControl.Items)
                 if ((el as TabItem).Content is IDpsUIEngine)
                     ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
@@ -209,8 +212,7 @@ namespace Detrav.Terometr.Windows
             {
                 bool flag = true;
                 if (config.party)
-                    if ((e.target as TeraPlayer).partyId == 0)
-                        flag = false;
+                    flag = e.target is TeraPartyPlayer;
                 if (flag)
                     foreach (var el in tabControl.Items)
                         if ((el as TabItem).Content is IDpsUIEngine)
@@ -222,8 +224,7 @@ namespace Detrav.Terometr.Windows
             {
                 bool flag = true;
                 if (config.party)
-                    if ((who as TeraPlayer).partyId == 0)
-                        flag = false;
+                    flag = e.target is TeraPartyPlayer;
                 if (flag)
                     foreach (var el in tabControl.Items)
                         if ((el as TabItem).Content is IDpsUIEngine)
