@@ -80,6 +80,7 @@ namespace Detrav.Terometr.UserElements
 
         public void doEvents()
         {
+            if (config.autoTarget) autoTarget();
             if (comboBox.SelectedItem == null) return;
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
             //Проверяем нужно ли чекать группу и создаём флаг активности
@@ -156,16 +157,57 @@ namespace Detrav.Terometr.UserElements
         {
             this.config = config;
             needToUpdate = true;
+            comboBox.Items.Clear();
+            comboBoxReMake();
         }
 
         public void comboBoxReMake()
         {
+            //если пусто то добавляем всего строку
+            if (comboBox.Items.Count == 0)
+                comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Суммарно"));
+            var selectDb = db;
+            if (config.group) selectDb = dbGrp;
+            while (comboBox.Items.Count > selectDb.Count + 1) comboBox.Items.RemoveAt(0);
+            while (comboBox.Items.Count < selectDb.Count + 1) comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(0, null));
 
+            int i = 0;
+            foreach (var key in selectDb.Keys.ToArray())
+            {
+                var comboBoxItem = comboBox.Items[i] as ComboBoxHiddenItem;
+                if (comboBoxItem != null)
+                {
+                    if (key != comboBoxItem.id)
+                    {
+                        comboBoxItem.id = key;
+                        comboBoxItem.text = selectDb[key].name;
+                    }
+                }
+                i++;
+            }
+            if (comboBox.SelectedItem == null) comboBox.SelectedIndex = comboBox.Items.Count - 1;
+            comboBox.UpdateLayout();
         }
 
         public void autoTarget()
         {
-
+            var selectDb = db;
+            if (config.group == true) selectDb = dbGrp;
+            int i = 0;
+            int max_i = -1;
+            uint max = 0;
+            foreach (var pair in selectDb)
+            {
+                if (pair.Value.isActive)
+                    if (pair.Value.npcHp > max)
+                    {
+                        max = pair.Value.npcHp;
+                        max_i = i;
+                    }
+                i++;
+            }
+            if (max_i < 0) max_i = i;
+            comboBox.SelectedIndex = max_i;
         }
 
         private void toggleButtonDps_Click(object sender, RoutedEventArgs e)
