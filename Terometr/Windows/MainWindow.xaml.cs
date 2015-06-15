@@ -59,9 +59,9 @@ namespace Detrav.Terometr.Windows
             self = new TeraPlayer(0, "unknown");
 
             tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Урон", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС","Цель:") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС", "Цель:") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "УВС", "От:") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.damage, "ЛВС", "От:") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.heal, "ЛВС", "Цель:") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damageTaken, "УВС", "От:") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.healTaken, "ЛВС", "От:") });
         }
 
         TeraPlayer self
