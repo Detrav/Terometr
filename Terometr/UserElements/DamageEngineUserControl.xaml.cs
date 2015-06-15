@@ -49,7 +49,7 @@ namespace Detrav.Terometr.UserElements
             //Проверяем нужно ли чекать группу и создаём флаг активности
             
             DamageEngine selectDb = null;
-            if (db.TryGetValue(id, out selectDb)) return;
+            if (!db.TryGetValue(id, out selectDb)) return;
 
             //Дальше чекаем нужно ли обновить данные
             if (!(selectDb.isActive || needToUpdate)) return;
