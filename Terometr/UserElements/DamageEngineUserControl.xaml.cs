@@ -295,6 +295,11 @@ namespace Detrav.Terometr.UserElements
             }
         }
 
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            needToUpdate = true;
+        }
+
 
     }
 }

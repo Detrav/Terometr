@@ -29,7 +29,7 @@
                    Content="От:" />
             <ComboBox Grid.Column="1"
                 x:Name="comboBox"
-                      Padding="0" />
+                      Padding="0" SelectionChanged="comboBox_SelectionChanged" />
             <ToggleButton x:Name="toggleButtonDps"
                           Grid.Column="2"
                           Content="УВС"
