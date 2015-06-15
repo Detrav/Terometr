@@ -24,7 +24,8 @@
                 <ColumnDefinition Width="Auto" />
                 
             </Grid.ColumnDefinitions>
-            <Label Style="{DynamicResource labelStyle}"
+            <Label x:Name="labelText"
+                Style="{DynamicResource labelStyle}"
                    Content="От:" />
             <ComboBox Grid.Column="1"
                 x:Name="comboBox"

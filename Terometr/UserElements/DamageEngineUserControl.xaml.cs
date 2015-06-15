@@ -24,13 +24,15 @@ namespace Detrav.Terometr.UserElements
     /// </summary>
     public partial class DamageEngineUserControl : UserControl, IDpsUIEngine
     {
-        internal DamageEngineUserControl(IDpsUIEngineType myType,string button)
+        internal DamageEngineUserControl(IDpsUIEngineType myType,string button,string left)
         {
             InitializeComponent();
             clear();
             this.myType = myType;
             this.toggleButtonDps.Content = null;
             this.toggleButtonDps.Content = button;
+            this.labelText.Content = null;
+            this.labelText.Content = left;
         }
         Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
         private TeraApi.Core.TeraPlayer self;
