@@ -52,7 +52,10 @@ namespace Detrav.Terometr.UserElements
             if (!db.TryGetValue(id, out selectDb)) return;
 
             //Дальше чекаем нужно ли обновить данные
-            if (!(selectDb.isActive || needToUpdate)) return;
+            //если активен то обновляем
+            //если нужно обновить то обновляем
+            //если оба равны нулю то необновляем
+            if (!selectDb.isActive && !needToUpdate) return;
 
             double max = 0;
             double sum = 0;
@@ -152,14 +155,16 @@ namespace Detrav.Terometr.UserElements
                 if (!db.ContainsKey(mId))
                 {
                     db[mId] = new DamageEngine(mId,npc.npc.hp, npc.safeName,true);
-
                     comboBoxReMake();
                 }
                 db[mId].add(e.target, e.damage, e.time, self, e.crit);
             }
             //суммарно
             if (!db.ContainsKey(ulong.MaxValue))
-                db[ulong.MaxValue] = new DamageEngine(ulong.MaxValue,0, "Суммарно",null);
+            {
+                db[ulong.MaxValue] = new DamageEngine(ulong.MaxValue, 0, "Суммарно", null);
+                comboBoxReMake();
+            }
             db[ulong.MaxValue].add(e.target, e.damage, e.time, self, e.crit);
         }
 
@@ -199,8 +204,11 @@ namespace Detrav.Terometr.UserElements
             }
             //суммарно
             if (!db.ContainsKey(ulong.MaxValue))
+            {
                 db[ulong.MaxValue] = new DamageEngine(ulong.MaxValue, 0, "Суммарно", null);
-            db[ulong.MaxValue].add(e.who, e.damage, e.time, self, e.crit);
+                comboBoxReMake();
+            }
+            db[ulong.MaxValue].add(who, e.damage, e.time, self, e.crit);
         }
 
         public void comboBoxReMake()
