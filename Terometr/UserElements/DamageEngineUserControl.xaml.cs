@@ -63,26 +63,42 @@ namespace Detrav.Terometr.UserElements
             DamageKeyValue[] temp;
             if (toggleButtonDps.IsChecked == true) temp = selectDb.getListDps(out max, out sum);
             else temp = selectDb.getList(out max, out sum);
+            max = 0;
+            sum = 0;
             foreach (var el in temp)
             {
                 switch(el.type)
                 {
                     case DamagePlayerType.party:
+                        max = Math.Max(el.value,max);
+                        sum += el.value;
                         list.Add(el.value, el);
                         break;
                     case DamagePlayerType.player:
-                        if(!config.party)
+                        if (!config.party)
+                        {
+                            max = Math.Max(el.value, max);
+                            sum += el.value;
                             list.Add(el.value, el);
+                        }
                         break;
                     case DamagePlayerType.group:
                         if(!config.player)
-                            if(config.group)
+                            if (config.group)
+                            {
+                                max = Math.Max(el.value, max);
+                                sum += el.value;
                                 list.Add(el.value, el);
+                            }
                         break;
                     case DamagePlayerType.npc:
                         if(!config.player)
-                            if(!config.group)
+                            if (!config.group)
+                            {
+                                max = Math.Max(el.value, max);
+                                sum += el.value;
                                 list.Add(el.value, el);
+                            }
                         break;
                 }
             }
