@@ -110,9 +110,6 @@ namespace Detrav.Terometr.UserElements
         }
 
 
-        public TeraApi.Interfaces.ITeraClient teraClient { get; set; }
-
-
         public void reSetting(Config config)
         {
             this.config = config;
