@@ -19,36 +19,21 @@
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                
             </Grid.ColumnDefinitions>
-            <ComboBox x:Name="comboBox"
-                      Grid.Column="0"
+            <Label Style="{DynamicResource labelStyle}"
+                   Content="От:" />
+            <ComboBox Grid.Column="1"
+                x:Name="comboBox"
                       Padding="0" />
-            <ToggleButton x:Name="toggleButtonGroup"
-                          Grid.Column="1"
-                          Content="ГРП"
-                          Width="30"
-                          IsChecked="True"
-                          ToolTip="Объединять мобов в группы по имени" Click="toggleButtonGroup_Click"/>
-            <ToggleButton x:Name="toggleButtonBAM"
-                          Grid.Column="2"
-                          Content="БАМ"
-                          Width="30"
-                          ToolTip="Умный поиск БАМ" />
-            <ToggleButton x:Name="toggleButtonCrit"
-                          Grid.Column="3"
-                          Content="КРТ"
-                          Width="30"
-                          ToolTip="Шанс крита" />
             <ToggleButton x:Name="toggleButtonDps"
-                          Grid.Column="4"
+                          Grid.Column="2"
                           Content="УВС"
                           Width="30"
-                          ToolTip="В секунду" />
+                          ToolTip="В секунду" Click="toggleButtonDps_Click" />
         </Grid>
         <ListBox Grid.Row="1"
                  x:Name="listBox" />

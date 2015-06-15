@@ -19,21 +19,20 @@
         </Grid.RowDefinitions>
         <Grid>
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ComboBox x:Name="comboBox" Grid.Column="0" Padding="0" />
-            <ToggleButton x:Name="toggleButtonCrit"
-                          Grid.Column="1"
-                          Content="КРТ"
-                          Width="30"
-                          ToolTip="Шанс крита" />
+            <Label Style="{DynamicResource labelStyle}"
+                   Content="От:" />
+            <ComboBox x:Name="comboBox"
+                      Grid.Column="1"
+                      Padding="0" />
             <ToggleButton x:Name="toggleButtonDps"
                           Grid.Column="2"
                           Content="ЛВС"
                           Width="30"
-                          ToolTip="В секунду" />
+                          ToolTip="В секунду" Click="toggleButtonDps_Click" />
         </Grid>
         <ListBox Grid.Row="1"
                  x:Name="listBox" />

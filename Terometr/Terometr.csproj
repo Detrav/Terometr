@@ -122,9 +122,9 @@
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserElements\AgroUserControl.xaml.cs">
+    <None Include="UserElements\AgroUserControl.xaml.cs">
       <DependentUpon>AgroUserControl.xaml</DependentUpon>
-    </Compile>
+    </None>
     <Compile Include="UserElements\DamageTakenUserControl.xaml.cs">
       <DependentUpon>DamageTakenUserControl.xaml</DependentUpon>
     </Compile>

@@ -23,8 +23,8 @@ namespace Detrav.Terometr.Core
         public bool party = true;
         public bool log = false;
         public bool player = true;
-        public bool group = true;
         public bool autoTarget = false;
+        public bool group = true;
         
 
         public void save(string playerName)
@@ -48,6 +48,9 @@ namespace Detrav.Terometr.Core
                 prevHeight = conf.prevHeight;
                 log = conf.log;
                 party = conf.party;
+                player = conf.player;
+                autoTarget = conf.autoTarget;
+                group = conf.group;
             }
         }
     }

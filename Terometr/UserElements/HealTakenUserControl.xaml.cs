@@ -30,62 +30,55 @@ namespace Detrav.Terometr.UserElements
             clear();
         }
         Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
+        Dictionary<ulong, DamageEngine> dbGrp = new Dictionary<ulong, DamageEngine>();
         DamageEngine all = new DamageEngine(uint.MaxValue, "Всего");
         private TeraApi.Core.TeraPlayer self;
         Config config;
-
-        public void skillResult(TeraApi.Events.SkillResultEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-        /*public void addSkill(TeraSkill skill)
-        {
-            if (skill.skillType == SkillType.Make) return;
-            if (skill.value == 0) return;
-            if (skill.type != 2) return;
-            all.add(skill);
-        }*/
+        bool needToUpdate = true;
 
         public void doEvents()
         {
             if (comboBox.SelectedItem == null) return;
-
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
-            double max;
-            double sum;
-            SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
-            DamageEngine players;
-
-            var selectDb = db;
-
-            if (id < UInt64.MaxValue) selectDb.TryGetValue(id, out players);
-            else players = all;
-
-            if (players != null)
+            //Проверяем нужно ли чекать группу и создаём флаг активности
+            var selectDb = all;
+            if (id != ulong.MaxValue)
             {
-                if (toggleButtonDps.IsChecked == true)
-                    players.getListDps(list, out max, out sum);
-                else players.getList(list, out max, out sum);
-
-
-                while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
-                while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
-                int i = 0;
-                foreach (var pair in list)
-                {
-                    (listBox.Items[i] as PlayerBarElement).changeData(
-                        pair.Value.value / max * 100,
-                        (toggleButtonCrit.IsChecked != true ? pair.Value.name : String.Format("{0}-{1}%", pair.Value.name, (int)(pair.Value.critRate * 100))),
-                        MetrEngine.generateRight(pair.Value.value, sum),
-                        (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
-                    i++;
-                }
-                (listBox.Items[i] as PlayerBarElement).changeData(
-                        100,
-                        "Всего",
-                        MetrEngine.generateRight(sum, sum),
-                        PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
+                if (config.group) dbGrp.TryGetValue(id, out selectDb);
+                else db.TryGetValue(id, out selectDb);
             }
+
+            //Дальше чекаем нужно ли обновить данные
+            if (!(selectDb.isActive || needToUpdate)) return;
+            //если нужно обновиться, то опять разбиваем всё на группы:
+            double max = 0;
+            double sum = 0;
+            SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
+            DamageKeyValue[] temp;
+            if (toggleButtonDps.IsChecked == true) temp = selectDb.getListDps(out max, out sum);
+            else temp = selectDb.getList(out max, out sum);
+            foreach (var el in temp) list.Add(el.value, el);
+
+
+
+            while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
+            while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
+            int i = 0;
+            foreach (var pair in list)
+            {
+                (listBox.Items[i] as PlayerBarElement).changeData(
+                    pair.Value.value / max * 100,
+                    String.Format("{0}-{1}%", pair.Value.name, (int)(pair.Value.critRate * 100)),
+                    MetrEngine.generateRight(pair.Value.value, sum),
+                    (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
+                i++;
+            }
+            (listBox.Items[i] as PlayerBarElement).changeData(
+                    100,
+                    "Всего",
+                    MetrEngine.generateRight(sum, sum),
+                    PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
+            needToUpdate = false;
         }
 
         
@@ -93,11 +86,13 @@ namespace Detrav.Terometr.UserElements
         public void setSelf(TeraApi.Core.TeraPlayer self)
         {
             this.self = self;
+            needToUpdate = true;
         }
 
         public void clear()
         {
             db.Clear();
+            dbGrp.Clear();
             all.Clear();
             comboBoxReMake();
             Logger.debug("clear, and add all row");
@@ -120,6 +115,7 @@ namespace Detrav.Terometr.UserElements
         public void reSetting(Config config)
         {
             this.config = config;
+            needToUpdate = true;
         }
 
 
@@ -127,48 +123,57 @@ namespace Detrav.Terometr.UserElements
         {
             if (e.damage == 0) return;
             if (e.type != 2) return;
-            if (!(e.target is TeraPlayer)) return;
-            ulong mId;
-            mId = e.who.id;
+            //if(!(e.target is TeraPlayer)) return;
+            //TeraPlayer player = e.target as TeraPlayer;
+            bool self = true;
+            TeraEntity who = e.who;
+            while (who.parent != null)
+            {
+                if (who is TeraNpc)
+                    self = false;
+                who = who.parent;
+            }
+            TeraNpc npc = null;
+            if (who is TeraNpc) npc = who as TeraNpc;
+            ulong mId = who.id;
+            //Обычная база
             if (!db.ContainsKey(mId))
             {
-                db[mId] = new DamageEngine(0, e.who.safeName);
+                if (npc != null) db[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
+                else db[mId] = new DamageEngine(0, who.safeName);
                 comboBoxReMake();
             }
-            db[mId].add((e.target as TeraPlayer), e.damage, e.time, true, e.crit);
-            all.add((e.target as TeraPlayer), e.damage, e.time, true, e.crit);
+            db[mId].add(e.target, e.damage, e.time, self, e.crit);
+            //Групповая база
+            if (npc != null) mId = npc.npc.ulongId;
+            if (!dbGrp.ContainsKey(mId))
+            {
+                if (npc != null) db[mId] = new DamageEngine(npc.npc.hp, npc.safeName);
+                else db[mId] = new DamageEngine(0, who.safeName);
+                comboBoxReMake();
+            }
+            dbGrp[mId].add(e.target, e.damage, e.time, self, e.crit);
+            all.add(e.target, e.damage, e.time, self, e.crit);
         }
 
         public void skillMakeResult(TeraApi.Events.SkillResultEventArgs e)
         {
-            //throw new NotImplementedException();
+
         }
 
         public void comboBoxReMake()
         {
-            //если пусто то добавляем всего строку
-            if (comboBox.Items.Count == 0)
-                comboBox.Items.Add(new ComboBoxHiddenItem(UInt64.MaxValue, "Суммарно"));
-            var selectDb = db;
-            while (comboBox.Items.Count > selectDb.Count + 1) comboBox.Items.RemoveAt(0);
-            while (comboBox.Items.Count < selectDb.Count + 1) comboBox.Items.Insert(comboBox.Items.Count - 1, new ComboBoxHiddenItem(0, null));
 
-            int i = 0;
-            foreach (var key in selectDb.Keys.ToArray())
-            {
-                var comboBoxItem = comboBox.Items[i] as ComboBoxHiddenItem;
-                if (comboBoxItem != null)
-                {
-                    if (key != comboBoxItem.id)
-                    {
-                        comboBoxItem.id = key;
-                        comboBoxItem.text = selectDb[key].name;
-                    }
-                }
-                i++;
-            }
-            if (comboBox.SelectedItem == null) comboBox.SelectedIndex = comboBox.Items.Count - 1;
-            comboBox.UpdateLayout();
+        }
+
+        public void autoTarget()
+        {
+
+        }
+
+        private void toggleButtonDps_Click(object sender, RoutedEventArgs e)
+        {
+            needToUpdate = true;
         }
     }
 }

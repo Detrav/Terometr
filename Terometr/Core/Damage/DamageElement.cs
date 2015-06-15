@@ -1,4 +1,5 @@
 ﻿using Detrav.TeraApi.Core;
+using Detrav.TeraApi.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace Detrav.Terometr.Core.Damage
 {
     class DamageElement
     {
-        public TeraPlayer player;
+        public string name;
+        public PlayerClass playerClass;
         public ulong value;
         public double vps { get { return value / elapsedTime.TotalSeconds; } }
         public TimeSpan elapsedTime
@@ -56,9 +58,13 @@ namespace Detrav.Terometr.Core.Damage
             }
         }
 
-        public DamageElement(TeraPlayer player)
+        public DamageElement(TeraEntity entity)
         {
-            this.player = player;
+            if (entity is TeraPlayer)
+                playerClass = (entity as TeraPlayer).playerClass;
+            else
+                playerClass = PlayerClass.Empty;
+            name = entity.safeName;
         }
     }
 }

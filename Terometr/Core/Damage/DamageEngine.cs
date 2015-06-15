@@ -9,7 +9,7 @@ namespace Detrav.Terometr.Core.Damage
 {
     class DamageEngine
     {
-        Dictionary<ulong, DamageElement> players = new Dictionary<ulong, DamageElement>();
+        Dictionary<ulong, DamageElement> elements = new Dictionary<ulong, DamageElement>();
         public DateTime lastActive = DateTime.MinValue;
         public uint npcHp;
         public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
@@ -29,54 +29,56 @@ namespace Detrav.Terometr.Core.Damage
         /// <param name="time">время</param>
         /// <param name="self">бьёт ли сам или с помощью npc</param>
         /// <param name="crit">является ли критом</param>
-        internal void add(TeraPlayer player,uint value,DateTime time,bool self,bool crit)
+        internal void add(TeraEntity entity,uint value,DateTime time,bool self,bool crit)
         {
-            if (!players.ContainsKey(player.id))
-                players[player.id] = new DamageElement(player);
-            players[player.id].add(value, time,self,crit);
+            if (!elements.ContainsKey(entity.id))
+                elements[entity.id] = new DamageElement(entity);
+            elements[entity.id].add(value, time,self,crit);
             lastActive = DateTime.Now;
         }
 
         internal void Clear()
         {
             lastActive = DateTime.MinValue;
-            players.Clear();
+            elements.Clear();
         }
 
-        internal void getListDps(SortedList<double, DamageKeyValue> list, out double max, out double sum)
+        public DamageKeyValue[] getListDps(out double max, out double sum)
         {
             max = 0;
             sum = 0;
-            if (list == null) return;
-            foreach(var pair in players)
+            List<DamageKeyValue> result = new List<DamageKeyValue>();
+            foreach(var pair in elements)
             {
                 var dkv = new DamageKeyValue(pair.Key,
-                    pair.Value.player.name,
+                    pair.Value.name,
                     pair.Value.vps,
                     pair.Value.critRate,
-                    pair.Value.player.playerClass);
-                list.Add(dkv.value, dkv);
+                    pair.Value.playerClass);
+                result.Add(dkv);
                 max = Math.Max(max, dkv.value);
                 sum += dkv.value;
             }
+            return result.ToArray();
         }
 
-        internal void getList(SortedList<double, DamageKeyValue> list, out double max, out double sum)
+        public DamageKeyValue[] getList(out double max, out double sum)
         {
             max = 0;
             sum = 0;
-            if (list == null) return;
-            foreach (var pair in players)
+            List<DamageKeyValue> result = new List<DamageKeyValue>();
+            foreach (var pair in elements)
             {
                 var dkv = new DamageKeyValue(pair.Key,
-                    pair.Value.player.name,
+                    pair.Value.name,
                     pair.Value.value,
                     pair.Value.critRate,
-                    pair.Value.player.playerClass);
-                list.Add(dkv.value, dkv);
+                    pair.Value.playerClass);
+                result.Add(dkv);
                 max = Math.Max(max, dkv.value);
                 sum += dkv.value;
             }
+            return result.ToArray();
         }
     }
    
