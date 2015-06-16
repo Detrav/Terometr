@@ -265,5 +265,10 @@ namespace Detrav.Terometr.Windows
                         ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
             }
         }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            UpdateLayout();
+        }
     }
 }

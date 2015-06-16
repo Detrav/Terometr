@@ -9,7 +9,7 @@
         Topmost="True"
         ShowInTaskbar="False"
         Title="Terometr - Дпс метр"
-        MinHeight="20">
+        MinHeight="20" Loaded="Window_Loaded">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
