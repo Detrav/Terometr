@@ -86,6 +86,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="UserElements\ListBarUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserElements\PlayerBarElement.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -116,6 +120,9 @@
     </None>
     <Compile Include="UserElements\DamageEngineUserControl.xaml.cs">
       <DependentUpon>DamageEngineUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserElements\ListBarUserControl.xaml.cs">
+      <DependentUpon>ListBarUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserElements\PlayerBarElement.xaml.cs">
       <DependentUpon>PlayerBarElement.xaml</DependentUpon>
