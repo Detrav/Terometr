@@ -13,8 +13,7 @@
                      Color="#FF394f59" />
     <SolidColorBrush x:Key="ClearColor"
                      Color="Transparent" />
-    <Style x:Key="TitleButtonStyle"
-           TargetType="{x:Type Button}">
+    <Style TargetType="{x:Type Button}">
         <Setter Property="Margin"
                 Value="5 0 0 0" />
         <Setter Property="Padding"

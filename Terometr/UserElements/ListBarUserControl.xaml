@@ -26,23 +26,23 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <Button Style="{DynamicResource TitleButtonStyle}"
+                    <Button
                             Content="Клс" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <Button Style="{DynamicResource TitleButtonStyle}"
+                    <Button
                             Content="Имя" />
                 </StackPanel>
                 <StackPanel Grid.Column="2">
-                    <Button Style="{DynamicResource TitleButtonStyle}"
+                    <Button
                             Content="Крит" />
                 </StackPanel>
                 <StackPanel Grid.Column="3">
-                    <Button Style="{DynamicResource TitleButtonStyle}"
+                    <Button 
                             Content="Урон" />
                 </StackPanel>
                 <StackPanel Grid.Column="4">
-                    <Button Style="{DynamicResource TitleButtonStyle}"
+                    <Button
                             Content="УВС" />
                 </StackPanel>
             </Grid>
