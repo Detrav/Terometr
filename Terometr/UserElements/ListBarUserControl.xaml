@@ -10,29 +10,44 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Terometr;component/Themes/ElementsStyle.xaml" />
+                <ResourceDictionary Source="/Terometr;component/Themes/MainWindowStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Visible"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
         <Grid>
-            <Grid>
+            <Grid x:Name="gridForData">
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Button Style="{DynamicResource TitleButtonStyle}"
+                            Content="Клс" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <Button Style="{DynamicResource TitleButtonStyle}"
+                            Content="Имя" />
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <Button Style="{DynamicResource TitleButtonStyle}"
+                            Content="Крит" />
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <Button Style="{DynamicResource TitleButtonStyle}"
+                            Content="Урон" />
+                </StackPanel>
+                <StackPanel Grid.Column="4">
+                    <Button Style="{DynamicResource TitleButtonStyle}"
+                            Content="УВС" />
+                </StackPanel>
             </Grid>
-            <StackPanel>
-                <ProgressBar Height="16" Value="100"
-                             Foreground="#FF1000AE"
-                             Background="Transparent"
-                             BorderBrush="Transparent" />
-                <ProgressBar Height="16"
-                    Value="16"
-                             Foreground="#FF1000AE"
-                             Background="Transparent"
-                             BorderBrush="Transparent" />
+            <StackPanel x:Name="stackPanelProgressBars">
+
             </StackPanel>
         </Grid>
     </ScrollViewer>

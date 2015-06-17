@@ -23,6 +23,14 @@ namespace Detrav.Terometr.UserElements
         public ListBarUserControl()
         {
             InitializeComponent();
+            green = (Brush)br.ConvertFrom("#FF10AE00");
+            blue = (Brush)br.ConvertFrom("#FF1000AE");
+            black = (Brush)br.ConvertFrom("#FF000000");
         }
+
+        BrushConverter br = new BrushConverter();
+        Brush green;
+        Brush blue;
+        Brush black;
     }
 }
