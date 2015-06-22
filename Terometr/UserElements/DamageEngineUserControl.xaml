@@ -33,6 +33,6 @@
                       Padding="0"
                       SelectionChanged="comboBox_SelectionChanged" />
         </Grid>
-        <Detrav:ListBarUserControl Grid.Row="2"></Detrav:ListBarUserControl>
+        <Detrav:ListBarUserControl x:Name="dataDamageGrid" Grid.Row="2"></Detrav:ListBarUserControl>
     </Grid>
 </UserControl>

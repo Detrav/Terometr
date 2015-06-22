@@ -37,6 +37,9 @@ namespace Detrav.Terometr.UserElements
         Brush black;
         Dictionary<ulong, LocalRow> db = new Dictionary<ulong,LocalRow>();
 
+        double sum;
+        double max;
+
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             toggleButtonClass.IsChecked = false;
@@ -56,6 +59,13 @@ namespace Detrav.Terometr.UserElements
                 db[id] = new LocalRow(id,cls,name);
             local.updateValue(crit,damage,dps);
         }
+
+        public void updateSum(double sum,double max)
+        {
+            this.sum = sum;
+            this.max = max;
+        }
+
         public void updateLayout()
         {
 
@@ -93,6 +103,21 @@ namespace Detrav.Terometr.UserElements
                 this.damage = damage;
                 this.dps = dps;
             }
+        }
+
+        internal string generateTable()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void clear()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void updateSum(double sum, double max, double sumDps, double maxDps)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -24,13 +24,11 @@ namespace Detrav.Terometr.UserElements
     /// </summary>
     public partial class DamageEngineUserControl : UserControl, IDpsUIEngine
     {
-        internal DamageEngineUserControl(IDpsUIEngineType myType,string button,string left)
+        internal DamageEngineUserControl(IDpsUIEngineType myType,string left)
         {
             InitializeComponent();
             clear();
             this.myType = myType;
-            this.toggleButtonDps.Content = null;
-            this.toggleButtonDps.Content = button;
             this.labelText.Content = null;
             this.labelText.Content = left;
         }
@@ -44,7 +42,7 @@ namespace Detrav.Terometr.UserElements
         public void doEvents()
         {
             if (config.autoTarget) autoTarget();
-            if (comboBox.SelectedItem == null) { listBox.Items.Clear(); return; }
+            if (comboBox.SelectedItem == null) { dataDamageGrid.clear(); return; }
             ulong id = (comboBox.SelectedItem as ComboBoxHiddenItem).id;
             //Проверяем нужно ли чекать группу и создаём флаг активности
             
@@ -59,10 +57,11 @@ namespace Detrav.Terometr.UserElements
 
             double max = 0;
             double sum = 0;
+            double maxDps = 0;
+            double sumDps = 0;
             SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
             DamageKeyValue[] temp;
-            if (toggleButtonDps.IsChecked == true) temp = selectDb.getListDps(out max, out sum);
-            else temp = selectDb.getList(out max, out sum);
+            temp = selectDb.getList(out max, out sum,out maxDps,out sumDps);
             max = 0;
             sum = 0;
             foreach (var el in temp)
@@ -102,26 +101,19 @@ namespace Detrav.Terometr.UserElements
                         break;
                 }
             }
-
-
-
-            while (listBox.Items.Count > list.Count + 1) listBox.Items.RemoveAt(0);
-            while (listBox.Items.Count < list.Count + 1) listBox.Items.Add(new PlayerBarElement());
-            int i = 0;
-            foreach (var pair in list)
+            if (list.Count == 0)
             {
-                (listBox.Items[i] as PlayerBarElement).changeData(
-                    pair.Value.value / max * 100,
-                    String.Format("{0}-{1}%", pair.Value.name, (int)(pair.Value.critRate * 100)),
-                    MetrEngine.generateRight(pair.Value.value, sum),
-                    (self.id == pair.Value.id ? PlayerBarElement.clr.me : PlayerBarElement.clr.other), pair.Value.playerClass);
-                i++;
+                dataDamageGrid.clear();
             }
-            (listBox.Items[i] as PlayerBarElement).changeData(
-                    100,
-                    "Всего",
-                    MetrEngine.generateRight(sum, sum),
-                    PlayerBarElement.clr.sum, Detrav.TeraApi.Enums.PlayerClass.Empty);
+            else
+            {
+                foreach (var pair in list)
+                {
+                    dataDamageGrid.updateData(pair.Value.id, pair.Value.playerClass, pair.Value.name, pair.Value.critRate, pair.Value.value, pair.Value.inSec);
+                }
+                dataDamageGrid.updateSum(sum, max, sumDps, maxDps);
+                dataDamageGrid.updateLayout();
+            }
             needToUpdate = false;
         }
 
@@ -143,15 +135,7 @@ namespace Detrav.Terometr.UserElements
 
         public string generateTable()
         {
-            if (comboBox.SelectedItem == null) return null;
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("{0}{1}", comboBox.SelectedItem, Environment.NewLine);
-            foreach (var el in listBox.Items)
-            {
-                if (el is PlayerBarElement)
-                    sb.AppendFormat("{0}{1}", (el as PlayerBarElement).getText(), Environment.NewLine);
-            }
-            return sb.ToString();
+            return dataDamageGrid.generateTable();
         }
 
 
