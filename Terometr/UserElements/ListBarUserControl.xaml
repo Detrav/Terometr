@@ -16,8 +16,8 @@
     </UserControl.Resources>
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Visible"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
-        <Grid>
-            <Grid>
+        <Grid HorizontalAlignment="Stretch">
+            <Grid  HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="16" />
                     <RowDefinition Height="Auto" />
@@ -33,7 +33,8 @@
                              Background="Transparent"
                              BorderBrush="Transparent" />
             </Grid>
-            <Grid x:Name="gridForData">
+            <Grid x:Name="gridForData"
+                  HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="columnImage"
                                       Width="16" />

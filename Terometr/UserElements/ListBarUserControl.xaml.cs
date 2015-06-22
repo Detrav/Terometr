@@ -58,8 +58,11 @@ namespace Detrav.Terometr.UserElements
         public void updateData(ulong id, PlayerClass cls, string name, double crit,double damage,double dps)
         {
             LocalRow local;
-            if(!db.TryGetValue(id, out local))
-                db[id] = new LocalRow(id,cls,name);
+            if (!db.TryGetValue(id, out local))
+            {
+                local = new LocalRow(id, cls, name);
+                db[id] = local;
+            }
             local.updateValue(crit,damage,dps);
         }
 
