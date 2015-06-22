@@ -90,7 +90,7 @@
                     <StackPanel Grid.Row="1"
                                 x:Name="panelCrit" />
                     <Label Grid.Row="2"
-                           Style="{DynamicResource labelStyle}">0%</Label>
+                           Style="{DynamicResource labelStyle}">100%</Label>
                 </Grid>
                 <Grid Grid.Column="3"
                       x:Name="gridDamage">
@@ -105,7 +105,8 @@
                                   Click="ToggleButton_Click" />
                     <StackPanel Grid.Row="1"
                                 x:Name="panelDamage" />
-                    <Label Grid.Row="2"
+                    <Label x:Name="labelDamage"
+                        Grid.Row="2"
                            Style="{DynamicResource labelStyle}">0(0%)</Label>
                 </Grid>
                 <Grid Grid.Column="4"
@@ -121,7 +122,7 @@
                                   Click="ToggleButton_Click" />
                     <StackPanel Grid.Row="1"
                                 x:Name="panelDps" />
-                    <Label Grid.Row="2"
+                    <Label x:Name="labelDps" Grid.Row="2"
                            Style="{DynamicResource labelStyle}">0(0%)</Label>
                 </Grid>
             </Grid>

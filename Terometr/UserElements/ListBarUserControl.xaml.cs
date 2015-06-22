@@ -39,6 +39,8 @@ namespace Detrav.Terometr.UserElements
 
         double sum;
         double max;
+        double maxDps;
+        double sumDps;
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
@@ -60,15 +62,23 @@ namespace Detrav.Terometr.UserElements
             local.updateValue(crit,damage,dps);
         }
 
-        public void updateSum(double sum,double max)
-        {
-            this.sum = sum;
-            this.max = max;
-        }
-
         public void updateLayout()
         {
+            IOrderedEnumerable<LocalRow> result = null;
+            if (toggleButtonClass.IsChecked == true)
+                result = db.Values.OrderBy(a => a.cls);
+            else if (toggleButtonName.IsChecked == true)
+                result = db.Values.OrderBy(a => a.name);
+            else if (toggleButtonCrit.IsChecked == true)
+                result = db.Values.OrderBy(a => a.crit);
+            else if (toggleButtonDamage.IsChecked == true)
+                result = db.Values.OrderBy(a => a.damage);
+            else if (toggleButtonDps.IsChecked == true)
+                result = db.Values.OrderBy(a => a.dps);
+            if(result!=null)
+            {
 
+            }
         }
 
         private class LocalRow
@@ -107,17 +117,23 @@ namespace Detrav.Terometr.UserElements
 
         internal string generateTable()
         {
-            throw new NotImplementedException();
+            return "";
         }
 
         internal void clear()
         {
-            throw new NotImplementedException();
+            db.Clear();
+            updateSum(0, 0, 0, 0);
         }
 
         internal void updateSum(double sum, double max, double sumDps, double maxDps)
         {
-            throw new NotImplementedException();
+            this.sum = sum;
+            this.max = max;
+            this.sumDps = sumDps;
+            this.maxDps = maxDps;
+            labelDamage.Content = sum;
+            labelDps.Content = sumDps;
         }
     }
 }
