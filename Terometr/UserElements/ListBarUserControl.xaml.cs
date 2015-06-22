@@ -30,6 +30,7 @@ namespace Detrav.Terometr.UserElements
             blue = (Brush)br.ConvertFrom("#FF1000AE");
             black = (Brush)br.ConvertFrom("#FF000000");
         }
+        public ulong selfId { get; set; }
 
         BrushConverter br = new BrushConverter();
         Brush green;
@@ -104,6 +105,13 @@ namespace Detrav.Terometr.UserElements
             (panelCrit.Children[num] as Label).Content = row.critRate;
             (panelDamage.Children[num] as Label).Content = row.value(sum);
             (panelDps.Children[num] as Label).Content = row.vps(sumDps);
+            ProgressBar b = (panelProgressBars.Children[num] as ProgressBar);
+            if (row.id == selfId) b.Foreground = green;
+            else b.Foreground = blue;
+            if()
+            if (progressValue > 100 || Double.IsInfinity(progressValue) || Double.IsNaN(progressValue)) progressBar.Value = 100;
+            else if (progressValue < 0) progressValue = 0;
+            else progressBar.Value = progressValue;
         }
         private void checkRows()
         {
@@ -122,6 +130,9 @@ namespace Detrav.Terometr.UserElements
 
             while (panelDps.Children.Count < rowCount) panelDps.Children.Add(getLabel());
             while (panelDps.Children.Count > rowCount) panelDps.Children.RemoveAt(rowCount);
+
+            while (panelProgressBars.Children.Count < rowCount) panelProgressBars.Children.Add(getProgressBar());
+            while (panelProgressBars.Children.Count > rowCount) panelProgressBars.Children.RemoveAt(rowCount);
         }
 
         private Label getLabel()
@@ -137,6 +148,13 @@ namespace Detrav.Terometr.UserElements
             img.Width = 16;
             img.Height = 16;
             return img;
+        }
+        private ProgressBar getProgressBar()
+        {
+            ProgressBar p = new ProgressBar();
+            p.BorderBrush = Brushes.Transparent;
+            p.Background = Brushes.Transparent;
+            return p;
         }
 
 

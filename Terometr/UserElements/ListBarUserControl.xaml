@@ -24,7 +24,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="1"
-                            x:Name="stackPanelProgressBars"></StackPanel>
+                            x:Name="panelProgressBars" />
                 <ProgressBar Grid.Row="2"
                              x:Name="progressBarEnd"
                              Value="100"
