@@ -45,7 +45,7 @@
                     <ColumnDefinition x:Name="columnDps"
                                       Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" x:Name="gridImage">
+                <Grid Grid.Column="0" x:Name="gridClass">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="16" />
                         <RowDefinition Height="Auto" />
@@ -56,7 +56,7 @@
                                   x:Name="toggleButtonClass"
                                   Click="ToggleButton_Click" />
                     <StackPanel Grid.Row="1"
-                                x:Name="panelImage" />
+                                x:Name="panelClass" />
                     <Label Grid.Row="2"
                            Style="{DynamicResource labelStyle}">t</Label>
                 </Grid>

@@ -41,6 +41,7 @@ namespace Detrav.Terometr.UserElements
         double max;
         double maxDps;
         double sumDps;
+        int rowCount;
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
@@ -75,17 +76,62 @@ namespace Detrav.Terometr.UserElements
                 result = db.Values.OrderBy(a => a.damage);
             else if (toggleButtonDps.IsChecked == true)
                 result = db.Values.OrderBy(a => a.dps);
+            if (result == null)
+            {
+                rowCount = 0;
+                checkRows();
+            }
             if(result!=null)
             {
-
+                rowCount = result.Count();
+                checkRows();
+                int i = 0;
+                foreach(var el in result)
+                {
+                    updateRow(i, el);
+                    i++;
+                }
             }
         }
+        private void updateRow(int num, LocalRow row)
+        {
+            (panelClass.Children[num] as Image).Source = row.cls;
+            (panelName.Children[num] as Label).Content = row.name;
+            (panelCrit.Children[num] as Label).Content = row.critRate;
+            (panelDamage.Children[num] as Label).Content = row.value;
+            (panelDps.Children[num] as Label).Content = row.vps;
+        }
+        private void checkRows()
+        {
+
+            while (panelClass.Children.Count < rowCount) panelClass.Children.Add(getImage());
+            while (panelClass.Children.Count > rowCount) panelClass.Children.RemoveAt(rowCount);
+
+            while (panelName.Children.Count < rowCount) panelName.Children.Add(getLabel());
+            while (panelName.Children.Count > rowCount) panelName.Children.RemoveAt(rowCount);
+
+            while (panelCrit.Children.Count < rowCount) panelCrit.Children.Add(getLabel());
+            while (panelCrit.Children.Count > rowCount) panelCrit.Children.RemoveAt(rowCount);
+
+            while (panelDamage.Children.Count < rowCount) panelDamage.Children.Add(getLabel());
+            while (panelDamage.Children.Count > rowCount) panelDamage.Children.RemoveAt(rowCount);
+
+            while (panelDps.Children.Count < rowCount) panelDps.Children.Add(getLabel());
+            while (panelDps.Children.Count > rowCount) panelDps.Children.RemoveAt(rowCount);
+        }
+
+        private Label getLabel();
+        private Image getImage();
+
 
         private class LocalRow
         {
             public ulong id;
             public ImageSource cls;
             public string name;
+            public string critRate { get; }
+            public string value { get; }
+            public string vps { get; }
             public double crit;
             public double damage;
             public double dps;
