@@ -29,13 +29,9 @@
                 Style="{DynamicResource labelStyle}"
                    Content="От:" />
             <ComboBox Grid.Column="1"
-                x:Name="comboBox"
-                      Padding="0" SelectionChanged="comboBox_SelectionChanged" />
-            <ToggleButton x:Name="toggleButtonDps"
-                          Grid.Column="2"
-                          Content="УВС"
-                          Width="30"
-                          ToolTip="В секунду" Click="toggleButtonDps_Click" />
+                      x:Name="comboBox"
+                      Padding="0"
+                      SelectionChanged="comboBox_SelectionChanged" />
         </Grid>
         <Detrav:ListBarUserControl Grid.Row="2"></Detrav:ListBarUserControl>
     </Grid>

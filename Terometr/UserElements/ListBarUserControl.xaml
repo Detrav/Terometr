@@ -17,38 +17,114 @@
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Visible"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden">
         <Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="16" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="1"
+                            x:Name="stackPanelProgressBars"></StackPanel>
+                <ProgressBar Grid.Row="2"
+                             x:Name="progressBarEnd"
+                             Value="100"
+                             Height="16"
+                             Foreground="Black"
+                             Background="Transparent"
+                             BorderBrush="Transparent" />
+            </Grid>
             <Grid x:Name="gridForData">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition x:Name="columnImage"
+                                      Width="16" />
+                    <ColumnDefinition x:Name="columnName" />
+                    <ColumnDefinition x:Name="columnCrit"
+                                      Width="Auto" />
+                    <ColumnDefinition x:Name="columnDamage"
+                                      Width="Auto" />
+                    <ColumnDefinition x:Name="columnDps"
+                                      Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <Button
-                            Content="Клс" />
-                </StackPanel>
-                <StackPanel Grid.Column="1">
-                    <Button
-                            Content="Имя" />
-                </StackPanel>
-                <StackPanel Grid.Column="2">
-                    <Button
-                            Content="Крит" />
-                </StackPanel>
-                <StackPanel Grid.Column="3">
-                    <Button 
-                            Content="Урон" />
-                </StackPanel>
-                <StackPanel Grid.Column="4">
-                    <Button
-                            Content="УВС" />
-                </StackPanel>
+                <Grid Grid.Column="0" x:Name="gridImage">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ToggleButton Grid.Row="0"
+                                  Content="К"
+                                  x:Name="toggleButtonClass"
+                                  Click="ToggleButton_Click" />
+                    <StackPanel Grid.Row="1"
+                                x:Name="panelImage" />
+                    <Label Grid.Row="2"
+                           Style="{DynamicResource labelStyle}">t</Label>
+                </Grid>
+                <Grid Grid.Column="1"
+                      x:Name="gridName">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ToggleButton Grid.Row="0"
+                                  Content="Имя"
+                                  x:Name="toggleButtonName"
+                                  Click="ToggleButton_Click" />
+                    <StackPanel Grid.Row="1"
+                                x:Name="panelName" />
+                    <Label Grid.Row="2"
+                           Style="{DynamicResource labelStyle}">Всего</Label>
+                </Grid>
+                <Grid Grid.Column="2"
+                      x:Name="gridCrit">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ToggleButton Grid.Row="0"
+                                  Content="Крит"
+                                  x:Name="toggleButtonCrit"
+                                  Click="ToggleButton_Click" />
+                    <StackPanel Grid.Row="1"
+                                x:Name="panelCrit" />
+                    <Label Grid.Row="2"
+                           Style="{DynamicResource labelStyle}">0%</Label>
+                </Grid>
+                <Grid Grid.Column="3"
+                      x:Name="gridDamage">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ToggleButton Grid.Row="0"
+                                  Content="Колич."
+                                  x:Name="toggleButtonDamage"
+                                  Click="ToggleButton_Click" />
+                    <StackPanel Grid.Row="1"
+                                x:Name="panelDamage" />
+                    <Label Grid.Row="2"
+                           Style="{DynamicResource labelStyle}">0(0%)</Label>
+                </Grid>
+                <Grid Grid.Column="4"
+                      x:Name="gridDps">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <ToggleButton Grid.Row="0"
+                                  Content="В сек."
+                                  x:Name="toggleButtonDps"
+                                  Click="ToggleButton_Click" />
+                    <StackPanel Grid.Row="1"
+                                x:Name="panelDps" />
+                    <Label Grid.Row="2"
+                           Style="{DynamicResource labelStyle}">0(0%)</Label>
+                </Grid>
             </Grid>
-            <StackPanel x:Name="stackPanelProgressBars">
-
-            </StackPanel>
         </Grid>
     </ScrollViewer>
 </UserControl>
