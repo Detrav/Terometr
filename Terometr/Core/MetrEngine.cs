@@ -19,7 +19,7 @@ namespace Detrav.Terometr.Core
         public static BitmapImage sorcerer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.sorcerer.png");
         public static BitmapImage warrior = Mod.ToImage("Detrav.Terometr.assets.player_class_images.warrior.png");
         private static string[] kilos = new string[] { "", "K", "M", "B", "T", "q", "Q", "s", "S", "O", "N", "d" };
-        public static string generateRight(double val, double sum)
+        public static string generateShort(double val, double sum)
         {
             /*
              * 100.00                       100    100.00

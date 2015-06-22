@@ -98,8 +98,8 @@ namespace Detrav.Terometr.UserElements
             (panelClass.Children[num] as Image).Source = row.cls;
             (panelName.Children[num] as Label).Content = row.name;
             (panelCrit.Children[num] as Label).Content = row.critRate;
-            (panelDamage.Children[num] as Label).Content = row.value;
-            (panelDps.Children[num] as Label).Content = row.vps;
+            (panelDamage.Children[num] as Label).Content = row.value(sum);
+            (panelDps.Children[num] as Label).Content = row.vps(sumDps);
         }
         private void checkRows()
         {
@@ -120,8 +120,20 @@ namespace Detrav.Terometr.UserElements
             while (panelDps.Children.Count > rowCount) panelDps.Children.RemoveAt(rowCount);
         }
 
-        private Label getLabel();
-        private Image getImage();
+        private Label getLabel()
+        {
+            Label l = new Label();
+            l.Style = labelAll.Style;
+            return l;
+        }
+        private Image getImage()
+        {
+            Image img = new Image();
+            img.Margin = new Thickness(0, 0, 0, 0);
+            img.Width = 16;
+            img.Height = 16;
+            return img;
+        }
 
 
         private class LocalRow
@@ -129,9 +141,9 @@ namespace Detrav.Terometr.UserElements
             public ulong id;
             public ImageSource cls;
             public string name;
-            public string critRate { get; }
-            public string value { get; }
-            public string vps { get; }
+            public string critRate { get { return String.Format("{0}%", (int)crit); } }
+            public string value(double sum) { return MetrEngine.generateShort(damage,sum); }
+            public string vps(double sum) { return MetrEngine.generateShort(dps, sum); } 
             public double crit;
             public double damage;
             public double dps;
