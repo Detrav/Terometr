@@ -38,7 +38,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="columnImage"
                                       Width="16" />
-                    <ColumnDefinition x:Name="columnName" />
+                    <ColumnDefinition x:Name="columnName" Width="Auto" />
                     <ColumnDefinition x:Name="columnCrit"
                                       Width="Auto" />
                     <ColumnDefinition x:Name="columnDamage"
