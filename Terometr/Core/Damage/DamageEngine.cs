@@ -104,7 +104,7 @@ namespace Detrav.Terometr.Core.Damage
                 max = Math.Max(max, dkv.value);
                 maxDps = Math.Max(maxDps, dkv.inSec);
                 sum += dkv.value;
-                sum += dkv.inSec;
+                sumDps += dkv.inSec;
             }
             return result.ToArray();
         }

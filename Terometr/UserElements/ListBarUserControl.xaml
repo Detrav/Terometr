@@ -71,7 +71,7 @@
                     <ToggleButton Grid.Row="0"
                                   Content="Имя"
                                   x:Name="toggleButtonName"
-                                  Click="ToggleButton_Click" />
+                                  Click="ToggleButton_Click" IsChecked="true" />
                     <StackPanel Grid.Row="1"
                                 x:Name="panelName" />
                     <Label x:Name="labelAll"

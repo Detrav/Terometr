@@ -53,6 +53,7 @@ namespace Detrav.Terometr.UserElements
 
             if (sender is ToggleButton)
                 (sender as ToggleButton).IsChecked = true;
+            updateLayout();
         }
 
         public void updateData(ulong id, PlayerClass cls, string name, double crit,double damage,double dps)

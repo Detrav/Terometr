@@ -64,6 +64,8 @@ namespace Detrav.Terometr.UserElements
             temp = selectDb.getList(out max, out sum,out maxDps,out sumDps);
             max = 0;
             sum = 0;
+            maxDps = 0;
+            sumDps = 0;
             foreach (var el in temp)
             {
                 switch(el.type)
@@ -71,6 +73,8 @@ namespace Detrav.Terometr.UserElements
                     case DamagePlayerType.party:
                         max = Math.Max(el.value,max);
                         sum += el.value;
+                        maxDps = Math.Max(el.inSec, maxDps);
+                        sumDps += el.inSec;
                         list.Add(el.value, el);
                         break;
                     case DamagePlayerType.player:
@@ -78,6 +82,8 @@ namespace Detrav.Terometr.UserElements
                         {
                             max = Math.Max(el.value, max);
                             sum += el.value;
+                            maxDps = Math.Max(el.inSec, maxDps);
+                            sumDps += el.inSec;
                             list.Add(el.value, el);
                         }
                         break;
@@ -87,6 +93,8 @@ namespace Detrav.Terometr.UserElements
                             {
                                 max = Math.Max(el.value, max);
                                 sum += el.value;
+                                maxDps = Math.Max(el.inSec, maxDps);
+                                sumDps += el.inSec;
                                 list.Add(el.value, el);
                             }
                         break;
@@ -96,6 +104,8 @@ namespace Detrav.Terometr.UserElements
                             {
                                 max = Math.Max(el.value, max);
                                 sum += el.value;
+                                maxDps = Math.Max(el.inSec, maxDps);
+                                sumDps += el.inSec;
                                 list.Add(el.value, el);
                             }
                         break;
@@ -104,6 +114,7 @@ namespace Detrav.Terometr.UserElements
             if (list.Count == 0)
             {
                 dataDamageGrid.clear();
+                dataDamageGrid.updateLayout();
             }
             else
             {
