@@ -28,11 +28,12 @@ namespace Detrav.Terometr.UserElements
         internal DamageEngineUserControl(IDpsUIEngineType myType,string left,ListBarUserControl dataDamageGrid)
         {
             InitializeComponent();
+            this.dataDamageGrid = dataDamageGrid;
             clear();
             this.myType = myType;
             this.labelText.Content = null;
             this.labelText.Content = left;
-            this.dataDamageGrid = dataDamageGrid;
+            
         }
         Dictionary<ulong, DamageEngine> db = new Dictionary<ulong, DamageEngine>();
         private TeraApi.Core.TeraPlayer self;
