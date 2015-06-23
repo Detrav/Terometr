@@ -125,6 +125,7 @@
                                 x:Name="panelCrit" />
                     <Label x:Name="labelCrt"
                            Grid.Row="2"
+                           HorizontalContentAlignment="Right"
                            Style="{DynamicResource labelStyle}">100%</Label>
                 </Grid>
                 <Grid Grid.Column="3"
@@ -143,6 +144,7 @@
                                 x:Name="panelDamage" />
                     <Label x:Name="labelDamage"
                            Grid.Row="2"
+                           HorizontalContentAlignment="Right"
                            Style="{DynamicResource labelStyle}">0(0%)</Label>
                 </Grid>
                 <Grid Grid.Column="4"
@@ -161,6 +163,7 @@
                                 x:Name="panelDps" />
                     <Label x:Name="labelDps"
                            Grid.Row="2"
+                           HorizontalContentAlignment="Right"
                            Style="{DynamicResource labelStyle}">0(0%)</Label>
                 </Grid>
             </Grid>
