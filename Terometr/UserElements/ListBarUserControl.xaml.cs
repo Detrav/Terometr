@@ -235,11 +235,12 @@ namespace Detrav.Terometr.UserElements
             if (result == null) return "Empty!";
             if (result.Count() == 0) return "Empty!";
             TableWriter tw = new TableWriter(5);
-            tw.addRow("#","Имя","Шанс Крита","Количетсво","Кол/В сеу.");
+            tw.addRow("#","Имя","Шанс Крита","Количетсво","Кол/В сек.");
             int i =0;
             foreach(var el in result)
             {
                 tw.addRow(i, el.name, el.critRate, el.value(sum), el.vps(sumDps));
+                i++;
             }
             tw.addRow(i, "Всего:", String.Format("{0}%", (int)this.sumCrt), MetrEngine.generateShort(sum), MetrEngine.generateShort(sumDps));
             return tw.ToString();
