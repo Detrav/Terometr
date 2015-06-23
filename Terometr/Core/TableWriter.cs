@@ -52,5 +52,25 @@ namespace Detrav.Terometr.Core
             }
             return result.ToString();
         }
+
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < widths.Length; i++)
+            {
+                sb.AppendFormat("{{{0},{1}}}", i, widths[i]);
+                if (i == widths.Length - 1)
+                    continue;
+                sb.Append("|");
+            }
+            string format = sb.ToString();
+            StringBuilder result = new StringBuilder();
+            foreach (var el in table)
+            {
+                result.AppendFormat(format, el);
+                result.Append(Environment.NewLine);
+            }
+            return result.ToString();
+        }
     }
 }

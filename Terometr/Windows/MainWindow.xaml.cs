@@ -195,9 +195,13 @@ namespace Detrav.Terometr.Windows
                 result = (tabControl.SelectedContent as IDpsUIEngine).generateTable();
             if (result == null)
                 result = "Ошибка";
-            result = String.Format("Terrometr - {0} - {1}{2}{3}", self.safeName, result, Environment.NewLine, @"https://github.com/Detrav");
+            result = String.Format("Terrometr - {0} - {1}{2}{3}{4}", self.safeName,this.Title, Environment.NewLine, result, @"https://github.com/Detrav");
             Clipboard.SetText(result);
+#if DEBUG
             MessageBox.Show(result, "Скопированно в буфер обмена");
+#else
+            MessageBox.Show("Скопированно в буфер обмена", "Скопированно в буфер обмена");
+#endif
         }
 
         
