@@ -58,10 +58,10 @@ namespace Detrav.Terometr.Windows
             ((buttonHide as Button).Content as Image).Source = up;
             self = new TeraPlayer(0, "unknown");
 
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Урон", Content = new DamageEngineUserControl(IDpsUIEngineType.damage,"Цель:") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.heal, "Цель:") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damageTaken, "От:") });
-            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.healTaken, "От:") });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Урон", Content = new DamageEngineUserControl(IDpsUIEngineType.damage,"Цель:",dataGridTable) });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.heal, "Цель:", dataGridTable) });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damageTaken, "От:", dataGridTable) });
+            tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.healTaken, "От:", dataGridTable) });
         }
 
         TeraPlayer self
@@ -140,6 +140,11 @@ namespace Detrav.Terometr.Windows
 
         private void tabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (tabControl.SelectedContent is DamageEngineUserControl)
+            {
+                dataGridTable.clear();
+                (tabControl.SelectedContent as DamageEngineUserControl).needToUpdate = true;
+            }
             changeTitle((tabControl.SelectedItem as TabItem).Header.ToString());
             /*if (tabControl.SelectedContent is IDpsEngine)
                 (tabControl.SelectedContent as IDpsEngine).updateData(history.ToArray());*/
