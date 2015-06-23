@@ -12,6 +12,32 @@
                 <ResourceDictionary Source="/Terometr;component/Themes/ElementsStyle.xaml" />
                 <ResourceDictionary Source="/Terometr;component/Themes/MainWindowStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <ContextMenu x:Key="mainContextMenu">
+                <MenuItem x:Name="checkClass"
+                          Header="Класс"
+                          IsCheckable="True"
+                          IsChecked="True"
+                          Checked="checkClass_Checked"
+                          Unchecked="checkClass_Unchecked" />
+                <MenuItem x:Name="checkCrit"
+                          Header="Шанс крита"
+                          IsCheckable="True"
+                          IsChecked="True"
+                          Checked="checkCrit_Checked"
+                          Unchecked="checkCrit_Unchecked" />
+                <MenuItem x:Name="checkDamage"
+                          Header="Количество"
+                          IsCheckable="True"
+                          IsChecked="True"
+                          Checked="checkDamage_Checked"
+                          Unchecked="checkDamage_Unchecked" />
+                <MenuItem x:Name="checkDps"
+                          Header="Количество в секунду"
+                          IsCheckable="True"
+                          IsChecked="True"
+                          Checked="checkDps_Checked"
+                          Unchecked="checkDps_Unchecked" />
+            </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -37,8 +63,9 @@
                   HorizontalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="columnImage"
-                                      Width="16" />
-                    <ColumnDefinition x:Name="columnName" Width="Auto" />
+                                      Width="Auto" />
+                    <ColumnDefinition x:Name="columnName"
+                                      Width="Auto" />
                     <ColumnDefinition x:Name="columnCrit"
                                       Width="Auto" />
                     <ColumnDefinition x:Name="columnDamage"
@@ -46,7 +73,8 @@
                     <ColumnDefinition x:Name="columnDps"
                                       Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" x:Name="gridClass">
+                <Grid Grid.Column="0"
+                      x:Name="gridClass">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="16" />
                         <RowDefinition Height="Auto" />
@@ -55,7 +83,8 @@
                     <ToggleButton Grid.Row="0"
                                   Content="К"
                                   x:Name="toggleButtonClass"
-                                  Click="ToggleButton_Click" />
+                                  Click="ToggleButton_Click"
+                                  ContextMenu="{DynamicResource mainContextMenu}"/>
                     <StackPanel Grid.Row="1"
                                 x:Name="panelClass" />
                     <Label Grid.Row="2"
@@ -71,11 +100,13 @@
                     <ToggleButton Grid.Row="0"
                                   Content="Имя"
                                   x:Name="toggleButtonName"
-                                  Click="ToggleButton_Click" IsChecked="true" />
+                                  Click="ToggleButton_Click"
+                                  IsChecked="true"
+                                  ContextMenu="{DynamicResource mainContextMenu}" />
                     <StackPanel Grid.Row="1"
                                 x:Name="panelName" />
                     <Label x:Name="labelAll"
-                        Grid.Row="2"
+                           Grid.Row="2"
                            Style="{DynamicResource labelStyle}">Всего</Label>
                 </Grid>
                 <Grid Grid.Column="2"
@@ -88,11 +119,12 @@
                     <ToggleButton Grid.Row="0"
                                   Content="Крит"
                                   x:Name="toggleButtonCrit"
-                                  Click="ToggleButton_Click" />
+                                  Click="ToggleButton_Click"
+                                  ContextMenu="{DynamicResource mainContextMenu}" />
                     <StackPanel Grid.Row="1"
                                 x:Name="panelCrit" />
                     <Label x:Name="labelCrt"
-                        Grid.Row="2"
+                           Grid.Row="2"
                            Style="{DynamicResource labelStyle}">100%</Label>
                 </Grid>
                 <Grid Grid.Column="3"
@@ -105,11 +137,12 @@
                     <ToggleButton Grid.Row="0"
                                   Content="Колич."
                                   x:Name="toggleButtonDamage"
-                                  Click="ToggleButton_Click" />
+                                  Click="ToggleButton_Click"
+                                  ContextMenu="{DynamicResource mainContextMenu}" />
                     <StackPanel Grid.Row="1"
                                 x:Name="panelDamage" />
                     <Label x:Name="labelDamage"
-                        Grid.Row="2"
+                           Grid.Row="2"
                            Style="{DynamicResource labelStyle}">0(0%)</Label>
                 </Grid>
                 <Grid Grid.Column="4"
@@ -122,10 +155,12 @@
                     <ToggleButton Grid.Row="0"
                                   Content="В сек."
                                   x:Name="toggleButtonDps"
-                                  Click="ToggleButton_Click" />
+                                  Click="ToggleButton_Click"
+                                  ContextMenu="{DynamicResource mainContextMenu}" />
                     <StackPanel Grid.Row="1"
                                 x:Name="panelDps" />
-                    <Label x:Name="labelDps" Grid.Row="2"
+                    <Label x:Name="labelDps"
+                           Grid.Row="2"
                            Style="{DynamicResource labelStyle}">0(0%)</Label>
                 </Grid>
             </Grid>

@@ -187,7 +187,6 @@ namespace Detrav.Terometr.UserElements
             public ulong id;
             public ImageSource cls;
             public string name;
-            public string nameLong;
             public string critRate { get { return String.Format("{0}%", (int)crit); } }
             public string value(double sum) { return MetrEngine.generateShort(damage,sum); }
             public string vps(double sum) { return MetrEngine.generateShort(dps, sum); } 
@@ -242,6 +241,46 @@ namespace Detrav.Terometr.UserElements
             labelDamage.Content = MetrEngine.generateShort(sum);
             labelDps.Content = MetrEngine.generateShort(sumDps);
             labelCrt.Content = String.Format("{0}%",(int)this.sumCrt);
+        }
+
+        private void checkClass_Checked(object sender, RoutedEventArgs e)
+        {
+            gridClass.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void checkClass_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gridClass.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void checkCrit_Checked(object sender, RoutedEventArgs e)
+        {
+            gridCrit.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void checkCrit_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gridCrit.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void checkDamage_Checked(object sender, RoutedEventArgs e)
+        {
+            gridDamage.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void checkDamage_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gridDamage.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void checkDps_Checked(object sender, RoutedEventArgs e)
+        {
+            gridDps.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void checkDps_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gridDps.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

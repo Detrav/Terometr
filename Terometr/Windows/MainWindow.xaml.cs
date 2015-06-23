@@ -153,6 +153,8 @@ namespace Detrav.Terometr.Windows
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Вы точно хотите очистить?", "Очистка", MessageBoxButton.YesNo) != MessageBoxResult.Yes) return;
+            dataGridTable.clear();
+            dataGridTable.endUpdate();
             foreach(var el in tabControl.Items)
                 if ((el as TabItem).Content is IDpsUIEngine)
                     ((el as TabItem).Content as IDpsUIEngine).clear();
