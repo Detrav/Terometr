@@ -68,5 +68,21 @@ namespace Detrav.Terometr.Core
         /// По истечению 10.1с можно не следить за показателем
         /// </summary>
         public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
+
+        internal static string generateShort(double val)
+        {
+            int num = 0;
+            double res = val;
+            while (res >= 100000) { res /= 1000.0; num++; }
+            if (res < 1000)
+            {
+                return String.Format("{0:0.00}{1}", res, kilos[num]);
+            }
+            if (res < 10000)
+            {
+                return String.Format("{0:0.0}{1}", res, kilos[num]);
+            }
+            return String.Format("{0:0}{1}", res, kilos[num]);
+        }
     }
 }

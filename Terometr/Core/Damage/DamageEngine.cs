@@ -84,12 +84,8 @@ namespace Detrav.Terometr.Core.Damage
             return result.ToArray();
         }*/
 
-        public DamageKeyValue[] getList(out double max, out double sum,out double maxDps,out double sumDps)
+        public DamageKeyValue[] getList()
         {
-            max = 0;
-            sum = 0;
-            maxDps = 0;
-            sumDps = 0;
             List<DamageKeyValue> result = new List<DamageKeyValue>();
             foreach (var pair in elements)
             {
@@ -101,10 +97,6 @@ namespace Detrav.Terometr.Core.Damage
                     pair.Value.playerClass,
                     pair.Value.type);
                 result.Add(dkv);
-                max = Math.Max(max, dkv.value);
-                maxDps = Math.Max(maxDps, dkv.inSec);
-                sum += dkv.value;
-                sumDps += dkv.inSec;
             }
             return result.ToArray();
         }

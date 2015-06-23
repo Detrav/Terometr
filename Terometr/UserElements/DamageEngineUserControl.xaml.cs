@@ -55,35 +55,26 @@ namespace Detrav.Terometr.UserElements
             //если оба равны нулю то необновляем
             if (!selectDb.isActive && !needToUpdate) return;
 
+
+            SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
+            DamageKeyValue[] temp;
+            temp = selectDb.getList();
             double max = 0;
             double sum = 0;
             double maxDps = 0;
             double sumDps = 0;
-            SortedList<double, DamageKeyValue> list = new SortedList<double, DamageKeyValue>(new DuplicateKeyComparer<double>());
-            DamageKeyValue[] temp;
-            temp = selectDb.getList(out max, out sum,out maxDps,out sumDps);
-            max = 0;
-            sum = 0;
-            maxDps = 0;
-            sumDps = 0;
+            double maxCrt = 0;
+            double sumCrt = 0;
             foreach (var el in temp)
             {
                 switch(el.type)
                 {
                     case DamagePlayerType.party:
-                        max = Math.Max(el.value,max);
-                        sum += el.value;
-                        maxDps = Math.Max(el.inSec, maxDps);
-                        sumDps += el.inSec;
                         list.Add(el.value, el);
                         break;
                     case DamagePlayerType.player:
                         if (!config.party)
                         {
-                            max = Math.Max(el.value, max);
-                            sum += el.value;
-                            maxDps = Math.Max(el.inSec, maxDps);
-                            sumDps += el.inSec;
                             list.Add(el.value, el);
                         }
                         break;
@@ -91,10 +82,6 @@ namespace Detrav.Terometr.UserElements
                         if(!config.player)
                             if (config.group)
                             {
-                                max = Math.Max(el.value, max);
-                                sum += el.value;
-                                maxDps = Math.Max(el.inSec, maxDps);
-                                sumDps += el.inSec;
                                 list.Add(el.value, el);
                             }
                         break;
@@ -102,10 +89,6 @@ namespace Detrav.Terometr.UserElements
                         if(!config.player)
                             if (!config.group)
                             {
-                                max = Math.Max(el.value, max);
-                                sum += el.value;
-                                maxDps = Math.Max(el.inSec, maxDps);
-                                sumDps += el.inSec;
                                 list.Add(el.value, el);
                             }
                         break;
@@ -114,16 +97,22 @@ namespace Detrav.Terometr.UserElements
             if (list.Count == 0)
             {
                 dataDamageGrid.clear();
-                dataDamageGrid.updateLayout();
+                dataDamageGrid.endUpdate();
             }
             else
             {
                 foreach (var pair in list)
                 {
+                    max = Math.Max(pair.Value.value, max);
+                    sum += pair.Value.value;
+                    maxDps = Math.Max(pair.Value.inSec, maxDps);
+                    sumDps += pair.Value.inSec;
+                    maxCrt = Math.Max(pair.Value.critRate, maxCrt);
+                    sumCrt += pair.Value.critRate;
                     dataDamageGrid.updateData(pair.Value.id, pair.Value.playerClass, pair.Value.name, pair.Value.critRate, pair.Value.value, pair.Value.inSec);
                 }
-                dataDamageGrid.updateSum(sum, max, sumDps, maxDps);
-                dataDamageGrid.updateLayout();
+                dataDamageGrid.updateSum(sum, max, sumDps, maxDps,sumCrt,maxCrt);
+                dataDamageGrid.endUpdate();
             }
             needToUpdate = false;
         }
@@ -134,12 +123,14 @@ namespace Detrav.Terometr.UserElements
         public void setSelf(TeraApi.Core.TeraPlayer self)
         {
             this.self = self;
+            dataDamageGrid.selfId = self.id;
             needToUpdate = true;
         }
 
         public void clear()
         {
             db.Clear();
+            dataDamageGrid.clear();
             comboBoxReMake();
             Logger.debug("clear, and add all row");
         }
@@ -310,6 +301,7 @@ namespace Detrav.Terometr.UserElements
 
         private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            dataDamageGrid.beginUpdate();
             needToUpdate = true;
         }
     }

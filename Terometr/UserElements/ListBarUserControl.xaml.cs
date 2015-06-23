@@ -42,6 +42,8 @@ namespace Detrav.Terometr.UserElements
         double max;
         double maxDps;
         double sumDps;
+        double sumCrt;
+        double maxCrt;
         int rowCount;
 
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
@@ -54,9 +56,12 @@ namespace Detrav.Terometr.UserElements
 
             if (sender is ToggleButton)
                 (sender as ToggleButton).IsChecked = true;
-            updateLayout();
+            endUpdate();
         }
-
+        public void beginUpdate()
+        {
+            db.Clear();
+        }
         public void updateData(ulong id, PlayerClass cls, string name, double crit,double damage,double dps)
         {
             LocalRow local;
@@ -68,19 +73,19 @@ namespace Detrav.Terometr.UserElements
             local.updateValue(crit,damage,dps);
         }
 
-        public void updateLayout()
+        public void endUpdate()
         {
             IOrderedEnumerable<LocalRow> result = null;
             if (toggleButtonClass.IsChecked == true)
-                result = db.Values.OrderBy(a => a.cls);
+                result = db.Values.OrderByDescending(a => a.cls);
             else if (toggleButtonName.IsChecked == true)
-                result = db.Values.OrderBy(a => a.name);
+                result = db.Values.OrderByDescending(a => a.name);
             else if (toggleButtonCrit.IsChecked == true)
-                result = db.Values.OrderBy(a => a.crit);
+                result = db.Values.OrderByDescending(a => a.crit);
             else if (toggleButtonDamage.IsChecked == true)
-                result = db.Values.OrderBy(a => a.damage);
+                result = db.Values.OrderByDescending(a => a.damage);
             else if (toggleButtonDps.IsChecked == true)
-                result = db.Values.OrderBy(a => a.dps);
+                result = db.Values.OrderByDescending(a => a.dps);
             if (result == null)
             {
                 rowCount = 0;
@@ -108,10 +113,13 @@ namespace Detrav.Terometr.UserElements
             ProgressBar b = (panelProgressBars.Children[num] as ProgressBar);
             if (row.id == selfId) b.Foreground = green;
             else b.Foreground = blue;
-            if()
-            if (progressValue > 100 || Double.IsInfinity(progressValue) || Double.IsNaN(progressValue)) progressBar.Value = 100;
+            double progressValue = 100;
+            if (toggleButtonDamage.IsChecked == true) progressValue = row.damage / max * 100.0;
+            else if (toggleButtonDps.IsChecked == true) progressValue = row.dps / maxDps * 100.0;
+            else if (toggleButtonCrit.IsChecked == true) progressValue = row.crit / maxCrt * 100.0;
+            if (progressValue > 100 || Double.IsInfinity(progressValue) || Double.IsNaN(progressValue)) progressValue = 100;
             else if (progressValue < 0) progressValue = 0;
-            else progressBar.Value = progressValue;
+            b.Value = progressValue;
         }
         private void checkRows()
         {
@@ -119,28 +127,43 @@ namespace Detrav.Terometr.UserElements
             while (panelClass.Children.Count < rowCount) panelClass.Children.Add(getImage());
             while (panelClass.Children.Count > rowCount) panelClass.Children.RemoveAt(rowCount);
 
-            while (panelName.Children.Count < rowCount) panelName.Children.Add(getLabel());
+            while (panelName.Children.Count < rowCount) panelName.Children.Add(getLabelLeft());
             while (panelName.Children.Count > rowCount) panelName.Children.RemoveAt(rowCount);
 
-            while (panelCrit.Children.Count < rowCount) panelCrit.Children.Add(getLabel());
+            while (panelCrit.Children.Count < rowCount) panelCrit.Children.Add(getLabelRight());
             while (panelCrit.Children.Count > rowCount) panelCrit.Children.RemoveAt(rowCount);
 
-            while (panelDamage.Children.Count < rowCount) panelDamage.Children.Add(getLabel());
+            while (panelDamage.Children.Count < rowCount) panelDamage.Children.Add(getLabelRight());
             while (panelDamage.Children.Count > rowCount) panelDamage.Children.RemoveAt(rowCount);
 
-            while (panelDps.Children.Count < rowCount) panelDps.Children.Add(getLabel());
+            while (panelDps.Children.Count < rowCount) panelDps.Children.Add(getLabelRight());
             while (panelDps.Children.Count > rowCount) panelDps.Children.RemoveAt(rowCount);
 
             while (panelProgressBars.Children.Count < rowCount) panelProgressBars.Children.Add(getProgressBar());
             while (panelProgressBars.Children.Count > rowCount) panelProgressBars.Children.RemoveAt(rowCount);
         }
 
-        private Label getLabel()
+        private Label getLabelLeft()
         {
             Label l = new Label();
             l.Style = labelAll.Style;
+            l.MaxWidth = 75;
+            l.Height = 16;
+            l.Margin = new Thickness(1, 0, 1, 0);
+            l.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Left;
             return l;
         }
+
+        private Label getLabelRight()
+        {
+            Label l = new Label();
+            l.Style = labelAll.Style;
+            l.Height = 16;
+            l.Margin = new Thickness(1, 0, 1, 0);
+            l.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Right;
+            return l;
+        }
+
         private Image getImage()
         {
             Image img = new Image();
@@ -149,20 +172,22 @@ namespace Detrav.Terometr.UserElements
             img.Height = 16;
             return img;
         }
+
         private ProgressBar getProgressBar()
         {
             ProgressBar p = new ProgressBar();
             p.BorderBrush = Brushes.Transparent;
             p.Background = Brushes.Transparent;
+            p.Height = 16;
             return p;
         }
-
 
         private class LocalRow
         {
             public ulong id;
             public ImageSource cls;
             public string name;
+            public string nameLong;
             public string critRate { get { return String.Format("{0}%", (int)crit); } }
             public string value(double sum) { return MetrEngine.generateShort(damage,sum); }
             public string vps(double sum) { return MetrEngine.generateShort(dps, sum); } 
@@ -189,7 +214,7 @@ namespace Detrav.Terometr.UserElements
             }
             public void updateValue(double crit,double damage,double dps)
             {
-                this.crit = crit;
+                this.crit = crit * 100;
                 this.damage = damage;
                 this.dps = dps;
             }
@@ -203,17 +228,20 @@ namespace Detrav.Terometr.UserElements
         internal void clear()
         {
             db.Clear();
-            updateSum(0, 0, 0, 0);
+            updateSum(0, 0, 0, 0,0,0);
         }
 
-        internal void updateSum(double sum, double max, double sumDps, double maxDps)
+        internal void updateSum(double sum, double max, double sumDps, double maxDps,double sumCrt, double maxCrt)
         {
             this.sum = sum;
             this.max = max;
             this.sumDps = sumDps;
             this.maxDps = maxDps;
-            labelDamage.Content = sum;
-            labelDps.Content = sumDps;
+            this.sumCrt = sumCrt*100;
+            this.maxCrt = maxCrt*100;
+            labelDamage.Content = MetrEngine.generateShort(sum);
+            labelDps.Content = MetrEngine.generateShort(sumDps);
+            labelCrt.Content = String.Format("{0}%",(int)this.sumCrt);
         }
     }
 }
