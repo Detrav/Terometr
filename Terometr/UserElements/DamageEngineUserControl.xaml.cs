@@ -264,16 +264,22 @@ namespace Detrav.Terometr.UserElements
             uint max = 0;
             foreach (ComboBoxHiddenItem el in comboBox.Items)
             {
-                if (db[el.id].isActive)
-                    if (db[el.id].npcHp > max)
+                DamageEngine de = db[el.id];
+                if (de.isActive)
+                    if (de.npcHp > max)
                     {
-                        max = db[el.id].npcHp;
-                        max_i = i;
+                        if (de.has(self.id))
+                        {
+                            max = de.npcHp;
+                            max_i = i;
+                        }
                     }
                 i++;
             }
-            if (max_i < 0) max_i = i-1;
-            comboBox.SelectedIndex = max_i;
+            if (max_i > 0)
+            {
+                comboBox.SelectedIndex = max_i;
+            }
         }
 
         private void toggleButtonDps_Click(object sender, RoutedEventArgs e)

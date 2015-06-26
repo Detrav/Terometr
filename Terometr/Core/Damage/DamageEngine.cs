@@ -100,6 +100,11 @@ namespace Detrav.Terometr.Core.Damage
             }
             return result.ToArray();
         }
+
+        internal bool has(ulong p)
+        {
+            return elements.ContainsKey(p);
+        }
     }
    
 }
