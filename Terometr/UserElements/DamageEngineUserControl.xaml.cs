@@ -276,7 +276,7 @@ namespace Detrav.Terometr.UserElements
                     }
                 i++;
             }
-            if (max_i > 0)
+            if (max_i >= 0)
             {
                 comboBox.SelectedIndex = max_i;
             }
