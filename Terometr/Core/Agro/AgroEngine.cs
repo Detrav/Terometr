@@ -25,9 +25,9 @@ namespace Detrav.Terometr.Core.Agro
             this.name = name;
             this.multi = multi;
         }
-        public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
+        public bool isActive { get { return DateTime.Now - lastActive < timeOutMetr; } }
         public bool isFullActive { get { return DateTime.Now - lastActive < AgroElement.timeOut; } }
-
+        public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
 
         internal void add(TeraPlayer player,uint value,DateTime time)
         {

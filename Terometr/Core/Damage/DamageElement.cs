@@ -33,6 +33,7 @@ namespace Detrav.Terometr.Core.Damage
         //public DateTime end = DateTime.MinValue;//Динамически расчитывается конецчный удар + timeOut
         static public TimeSpan timeOut = TimeSpan.FromSeconds(10.1);
         static public TimeSpan min = TimeSpan.FromSeconds(1);
+        public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
 
         public double critRate
         {
@@ -44,6 +45,7 @@ namespace Detrav.Terometr.Core.Damage
         }
         public int count = 0;
         public int critCount = 0;
+        
         public void add(uint v, DateTime now,bool self,bool crit)
         {
             if (now - last > timeOut)

@@ -13,7 +13,7 @@ namespace Detrav.Terometr.Core.Damage
         Dictionary<ulong, DamageElement> elements = new Dictionary<ulong, DamageElement>();
         public DateTime lastActive = DateTime.MinValue;
         public uint npcHp;
-        public bool isActive { get { return DateTime.Now - lastActive < MetrEngine.timeOutMetr; } }
+        public bool isActive { get { return DateTime.Now - lastActive < DamageElement.timeOutMetr; } }
         public string name;
         public bool? group;
         private ComboBoxHiddenItem item = null;

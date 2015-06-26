@@ -67,7 +67,7 @@ namespace Detrav.Terometr.Core
         /// <summary>
         /// По истечению 10.1с можно не следить за показателем
         /// </summary>
-        public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
+        //public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
 
         internal static string generateShort(double val)
         {
