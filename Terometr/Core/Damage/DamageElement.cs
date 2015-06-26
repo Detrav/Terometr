@@ -17,18 +17,21 @@ namespace Detrav.Terometr.Core.Damage
 
         public DamagePlayerType type;
 
-        public TimeSpan elapsedTime;
-        public TimeSpan fullElapsedTime
+        public TimeSpan elapsed;
+
+        public TimeSpan elapsedTime
         {
             get
             {
-                if (elapsedTime > timeOut)
-                    return elapsedTime.Add(DateTime.Now - last);
-                else if (elapsedTime < min)
+                TimeSpan delta = DateTime.Now - last;
+                if ( delta < timeOut)
+                    return elapsed.Add(delta);
+                else if (elapsed < min)
                     return min;
-                return elapsedTime;
+                return elapsed.Add(timeOut);
             }
         }
+        
         //public DateTime first = DateTime.MinValue;//Динамически расчитывается начальный удар - timeOut
         public DateTime last = DateTime.MinValue;//Когда был последний удар
         //public DateTime end = DateTime.MinValue;//Динамически расчитывается конецчный удар + timeOut
@@ -52,7 +55,7 @@ namespace Detrav.Terometr.Core.Damage
             TimeSpan delta = now - last;
             if (delta < timeOutMetr)
             {
-                elapsedTime += delta;
+                elapsed += delta;
             }
             value += v;
             last = now;
