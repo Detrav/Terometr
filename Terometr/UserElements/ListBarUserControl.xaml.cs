@@ -56,6 +56,7 @@ namespace Detrav.Terometr.UserElements
 
             if (sender is ToggleButton)
                 (sender as ToggleButton).IsChecked = true;
+            //if(toggleButtonClass.IsChecked == true)  
             endUpdate();
         }
         public void beginUpdate()

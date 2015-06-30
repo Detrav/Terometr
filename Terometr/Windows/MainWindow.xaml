@@ -104,6 +104,23 @@
                         <ToggleButton x:Name="toggleButtonAutoTarget"
                                       Click="buttonConfigSave_Click"
                                       Content="АвтоТаргет" />
+                        <Label Style="{DynamicResource labelStyle}" Content="Количество значимых цифр:"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Slider x:Name="dignCountSlider"
+                                Minimum="3"
+                                    Maximum="30"
+                                    Grid.Column="0" ValueChanged="Slider_ValueChanged" />
+                            <Label x:Name="dignCountLabel"
+                                Margin="5 0 0 0"
+                                   Grid.Column="1"
+                                   Content="10"
+                                   VerticalAlignment="Center"
+                                   Style="{DynamicResource labelStyle}" />
+                        </Grid>
                     </StackPanel>
                 </TabItem>
             </TabControl>

@@ -223,6 +223,7 @@ namespace Detrav.Terometr.Windows
             toggleButtonPlayer.IsChecked = config.player;
             toggleButtonGroup.IsChecked = config.group;
             toggleButtonAutoTarget.IsChecked = config.autoTarget;
+            dignCountSlider.Value = config.dignCount;
             foreach (var el in tabControl.Items)
                 if ((el as TabItem).Content is IDpsUIEngine)
                     ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
@@ -280,6 +281,19 @@ namespace Detrav.Terometr.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             UpdateLayout();
+        }
+
+        private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            config.dignCount = (int)dignCountSlider.Value;
+            dignCountLabel.Content = config.dignCount;
+            if (self.id > 0)
+            {
+                saveCurrentConfig();
+                foreach (var el in tabControl.Items)
+                    if ((el as TabItem).Content is IDpsUIEngine)
+                        ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
+            }
         }
     }
 }
