@@ -46,7 +46,8 @@ namespace Detrav.Terometr.Core
              *    1 000 000 000 000 000 000 000
              *   10 000 000 000 000 000 000 000
              */
-
+            if (double.IsInfinity(val)) return "Infinity";
+            if (double.IsNaN(val)) return "NaN";
             int num = 0;
             double res = val;
             while (res >= 100000) { res /= 1000.0; num++; }
@@ -71,6 +72,8 @@ namespace Detrav.Terometr.Core
 
         internal static string generateShort(double val)
         {
+            if (double.IsInfinity(val)) return "Infinity";
+            if (double.IsNaN(val)) return "NaN";
             int num = 0;
             double res = val;
             while (res >= 100000) { res /= 1000.0; num++; }
