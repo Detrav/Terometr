@@ -25,6 +25,13 @@ namespace Detrav.Terometr.Core
         public bool player = true;
         public bool autoTarget = false;
         public bool group = true;
+
+        public int dignCount = 3;
+        public int sortNumber = 4;
+        public bool classVisible = true;
+        public bool critVisible = true;
+        public bool damageVisible = true;
+        public bool dpsVisible = true;
         
 
         public void save(string playerName)
@@ -51,6 +58,13 @@ namespace Detrav.Terometr.Core
                 player = conf.player;
                 autoTarget = conf.autoTarget;
                 group = conf.group;
+
+                dignCount = conf.dignCount;
+                sortNumber = conf.sortNumber;
+                classVisible = conf.classVisible;
+                critVisible = conf.critVisible;
+                damageVisible = conf.damageVisible;
+                dpsVisible = conf.dpsVisible;
             }
         }
     }
