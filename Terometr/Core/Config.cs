@@ -23,7 +23,7 @@ namespace Detrav.Terometr.Core
         public bool party = true;
         public bool log = false;
         public bool player = true;
-        public bool autoTarget = false;
+        public bool autoTarget = true;
         public bool group = true;
 
         public int dignCount = 3;

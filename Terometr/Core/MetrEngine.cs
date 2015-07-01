@@ -19,7 +19,7 @@ namespace Detrav.Terometr.Core
         public static BitmapImage sorcerer = Mod.ToImage("Detrav.Terometr.assets.player_class_images.sorcerer.png");
         public static BitmapImage warrior = Mod.ToImage("Detrav.Terometr.assets.player_class_images.warrior.png");
         private static string[] kilos = new string[] { "", "K", "M", "B", "T", "q", "Q", "s", "S", "O", "N", "d" };
-        public static string generateShort(double val, double sum)
+        public static string generateShort(double val, double sum, int number = 5)
         {
             /*
              * 100.00                       100    100.00
@@ -50,42 +50,54 @@ namespace Detrav.Terometr.Core
             if (double.IsNaN(val)) return "NaN";
             int num = 0;
             double res = val;
-            while (res >= 100000) { res /= 1000.0; num++; }
+            double testVal = Math.Pow(10, number);
+            while (res > testVal) { res /= 1000.0; num++; }
             int procent = (int)(val / sum * 100.0);
             if (procent < 0) procent = 0;
             else if (procent > 100) procent = 100;
 
-            if (res < 1000)
+            int digitsCount = number - GetNumberOfDigits(res);
+            if(digitsCount <= 0)
             {
-                return String.Format("{0:0.00}{1}({2}%)", res, kilos[num], procent);
+                return String.Format("{0:0}{1}({2}%)", res, kilos[num], procent);
             }
-            if (res < 10000)
+            else
             {
-                return String.Format("{0:0.0}{1}({2}%)", res, kilos[num], procent);
+                string format = String.Format("{{0:F{0}}}{{1}}({{2}})%",digitsCount);
+                return String.Format(format, res, kilos[num], procent);
             }
-            return String.Format("{0:0}{1}({2}%)", res, kilos[num], procent);
+
         }
         /// <summary>
         /// По истечению 10.1с можно не следить за показателем
         /// </summary>
         //public static TimeSpan timeOutMetr = TimeSpan.FromSeconds(10.1);
 
-        internal static string generateShort(double val)
+        internal static string generateShort(double val, int number = 5)
         {
             if (double.IsInfinity(val)) return "Infinity";
             if (double.IsNaN(val)) return "NaN";
             int num = 0;
             double res = val;
-            while (res >= 100000) { res /= 1000.0; num++; }
-            if (res < 1000)
+            double testVal = Math.Pow(10, number);
+            while (res > testVal) { res /= 1000.0; num++; }
+
+            int digitsCount = number - GetNumberOfDigits(res);
+            if (digitsCount <= 0)
             {
-                return String.Format("{0:0.00}{1}", res, kilos[num]);
+                return String.Format("{0:0}{1}", res, kilos[num]);
             }
-            if (res < 10000)
+            else
             {
-                return String.Format("{0:0.0}{1}", res, kilos[num]);
+                string format = String.Format("{{0:F{0}}}{{1}}", digitsCount);
+                return String.Format(format, res, kilos[num]);
             }
-            return String.Format("{0:0}{1}", res, kilos[num]);
+        }
+
+        static int GetNumberOfDigits(double d)
+        {
+            double abs = Math.Abs(d);
+            return abs < 1 ? 0 : (int)(Math.Log10(abs) + 1);
         }
     }
 }

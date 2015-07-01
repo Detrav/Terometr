@@ -62,6 +62,8 @@ namespace Detrav.Terometr.Windows
             tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Лечение", Content = new DamageEngineUserControl(IDpsUIEngineType.heal, "Цель:", dataGridTable) });
             tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. урона", Content = new DamageEngineUserControl(IDpsUIEngineType.damageTaken, "От:", dataGridTable) });
             tabControl.Items.Insert(tabControl.Items.Count - 1, new TabItem() { Header = "Пол. леч.", Content = new DamageEngineUserControl(IDpsUIEngineType.healTaken, "От:", dataGridTable) });
+            dataGridTable.dignCount = (int)dignCountSlider.Value;
+            dignCountLabel.Content = (int)dignCountSlider.Value;
         }
 
         TeraPlayer self
@@ -295,14 +297,18 @@ namespace Detrav.Terometr.Windows
 
         private void Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            config.dignCount = (int)dignCountSlider.Value;
-            dignCountLabel.Content = config.dignCount;
-            if (self.id > 0)
+            if (config != null)
             {
-                saveCurrentConfig();
-                foreach (var el in tabControl.Items)
-                    if ((el as TabItem).Content is IDpsUIEngine)
-                        ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
+                dataGridTable.dignCount = config.dignCount;
+                dignCountLabel.Content = config.dignCount;
+                config.dignCount = (int)dignCountSlider.Value;
+                if (self.id > 0)
+                {
+                    saveCurrentConfig();
+                    foreach (var el in tabControl.Items)
+                        if ((el as TabItem).Content is IDpsUIEngine)
+                            ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
+                }
             }
         }
     }

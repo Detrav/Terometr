@@ -110,6 +110,8 @@ namespace Detrav.Terometr.UserElements
             }
         }
 
+        public int dignCount { get; set; }
+
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             toggleButtonClass.IsChecked = false;
@@ -173,8 +175,8 @@ namespace Detrav.Terometr.UserElements
             (panelClass.Children[num] as Image).Source = row.cls;
             (panelName.Children[num] as Label).Content = row.name;
             (panelCrit.Children[num] as Label).Content = row.critRate;
-            (panelDamage.Children[num] as Label).Content = row.value(sum);
-            (panelDps.Children[num] as Label).Content = row.vps(sumDps);
+            (panelDamage.Children[num] as Label).Content = row.value(sum, dignCount);
+            (panelDps.Children[num] as Label).Content = row.vps(sumDps, dignCount);
             ProgressBar b = (panelProgressBars.Children[num] as ProgressBar);
             if (row.id == selfId) b.Foreground = green;
             else b.Foreground = blue;
@@ -253,8 +255,8 @@ namespace Detrav.Terometr.UserElements
             public ImageSource cls;
             public string name;
             public string critRate { get { return String.Format("{0}%", (int)crit); } }
-            public string value(double sum) { return MetrEngine.generateShort(damage,sum); }
-            public string vps(double sum) { return MetrEngine.generateShort(dps, sum); } 
+            public string value(double sum,int dignCount) { return MetrEngine.generateShort(damage,sum,dignCount); }
+            public string vps(double sum,int dignCount) { return MetrEngine.generateShort(dps, sum, dignCount); } 
             public double crit;
             public double damage;
             public double dps;
@@ -304,10 +306,10 @@ namespace Detrav.Terometr.UserElements
             int i =0;
             foreach(var el in result)
             {
-                tw.addRow(i, el.name, el.critRate, el.value(sum), el.vps(sumDps));
+                tw.addRow(i, el.name, el.critRate, el.value(sum, dignCount), el.vps(sumDps, dignCount));
                 i++;
             }
-            tw.addRow(i, "Всего:", String.Format("{0}%", (int)this.sumCrt), MetrEngine.generateShort(sum), MetrEngine.generateShort(sumDps));
+            tw.addRow(i, "Всего:", String.Format("{0}%", (int)this.sumCrt), MetrEngine.generateShort(sum, dignCount), MetrEngine.generateShort(sumDps, dignCount));
             return tw.ToString();
         }
 
@@ -325,8 +327,8 @@ namespace Detrav.Terometr.UserElements
             this.maxDps = maxDps;
             this.sumCrt = sumCrt*100;
             this.maxCrt = maxCrt*100;
-            labelDamage.Content = MetrEngine.generateShort(sum);
-            labelDps.Content = MetrEngine.generateShort(sumDps);
+            labelDamage.Content = MetrEngine.generateShort(sum, dignCount);
+            labelDps.Content = MetrEngine.generateShort(sumDps, dignCount);
             labelCrt.Content = String.Format("{0}%",(int)this.sumCrt);
         }
 
@@ -358,9 +360,6 @@ namespace Detrav.Terometr.UserElements
             else gridDps.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }
