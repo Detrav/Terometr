@@ -180,6 +180,11 @@ namespace Detrav.Terometr.Windows
             config.player = toggleButtonPlayer.IsChecked == true;
             config.group = toggleButtonGroup.IsChecked == true;
             config.autoTarget = toggleButtonAutoTarget.IsChecked == true;
+            config.sortNumber = dataGridTable.rowNumber;
+            config.classVisible = dataGridTable.visibleClass;
+            config.critVisible = dataGridTable.visibleCrit;
+            config.damageVisible = dataGridTable.visibleDamage;
+            config.dpsVisible = dataGridTable.visibleDps;
             config.save(self.name);
         }
 
@@ -224,6 +229,11 @@ namespace Detrav.Terometr.Windows
             toggleButtonGroup.IsChecked = config.group;
             toggleButtonAutoTarget.IsChecked = config.autoTarget;
             dignCountSlider.Value = config.dignCount;
+            dataGridTable.rowNumber = config.sortNumber;
+            dataGridTable.visibleClass = config.classVisible;
+            dataGridTable.visibleCrit = config.critVisible;
+            dataGridTable.visibleDamage = config.damageVisible;
+            dataGridTable.visibleDps = config.dpsVisible;
             foreach (var el in tabControl.Items)
                 if ((el as TabItem).Content is IDpsUIEngine)
                     ((el as TabItem).Content as IDpsUIEngine).reSetting(config);
