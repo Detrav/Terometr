@@ -46,6 +46,70 @@ namespace Detrav.Terometr.UserElements
         double maxCrt;
         int rowCount;
 
+        public int rowNumber
+        {
+            get
+            {
+                if (toggleButtonClass.IsChecked == true) return 0;
+                if (toggleButtonName.IsChecked == true) return 1;
+                if (toggleButtonCrit.IsChecked == true) return 2;
+                if (toggleButtonDamage.IsChecked == true) return 3;
+                if (toggleButtonDps.IsChecked == true) return 4;
+                return 0;
+            }
+            set
+            {
+                toggleButtonClass.IsChecked = false;
+                toggleButtonName.IsChecked = false;
+                toggleButtonCrit.IsChecked = false;
+                toggleButtonDamage.IsChecked = false;
+                toggleButtonDps.IsChecked = false;
+                switch (value)
+                {
+                    case 0: toggleButtonClass.IsChecked = true; break;
+                    case 1: toggleButtonName.IsChecked = true; break;
+                    case 2: toggleButtonCrit.IsChecked = true; break;
+                    case 3: toggleButtonDamage.IsChecked = true; break;
+                    case 4: toggleButtonDps.IsChecked = true; break;
+                }
+            }
+        }
+        public bool visibleClass
+        {
+            get { return gridClass.Visibility == System.Windows.Visibility.Visible; }
+            set
+            {
+                if (value) gridClass.Visibility = System.Windows.Visibility.Visible; 
+                else gridClass.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+        public bool visibleCrit {
+            get { return gridCrit.Visibility == System.Windows.Visibility.Visible; }
+            set
+            {
+                if (value) gridCrit.Visibility = System.Windows.Visibility.Visible;
+                else gridCrit.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+        public bool visibleDamage
+        {
+            get { return gridDamage.Visibility == System.Windows.Visibility.Visible; }
+            set
+            {
+                if (value) gridDamage.Visibility = System.Windows.Visibility.Visible;
+                else gridDamage.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+        public bool visibleDps
+        {
+            get { return gridDps.Visibility == System.Windows.Visibility.Visible; }
+            set
+            {
+                if (value) gridDps.Visibility = System.Windows.Visibility.Visible;
+                else gridDps.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+
         private void ToggleButton_Click(object sender, RoutedEventArgs e)
         {
             toggleButtonClass.IsChecked = false;
@@ -266,44 +330,37 @@ namespace Detrav.Terometr.UserElements
             labelCrt.Content = String.Format("{0}%",(int)this.sumCrt);
         }
 
-        private void checkClass_Checked(object sender, RoutedEventArgs e)
+        private void checkClass_Click(object sender, RoutedEventArgs e)
         {
-            gridClass.Visibility = System.Windows.Visibility.Visible;
+            if (gridClass.Visibility == System.Windows.Visibility.Visible)
+                gridClass.Visibility = System.Windows.Visibility.Collapsed;
+            else gridClass.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void checkClass_Unchecked(object sender, RoutedEventArgs e)
+        private void checkCrit_Click(object sender, RoutedEventArgs e)
         {
-            gridClass.Visibility = System.Windows.Visibility.Collapsed;
+            if (gridCrit.Visibility == System.Windows.Visibility.Visible)
+                gridCrit.Visibility = System.Windows.Visibility.Collapsed;
+            else gridCrit.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void checkCrit_Checked(object sender, RoutedEventArgs e)
+        private void checkDamage_Click(object sender, RoutedEventArgs e)
         {
-            gridCrit.Visibility = System.Windows.Visibility.Visible;
+            if (gridDamage.Visibility == System.Windows.Visibility.Visible)
+                gridDamage.Visibility = System.Windows.Visibility.Collapsed;
+            else gridDamage.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void checkCrit_Unchecked(object sender, RoutedEventArgs e)
+        private void checkDps_Click(object sender, RoutedEventArgs e)
         {
-            gridCrit.Visibility = System.Windows.Visibility.Collapsed;
+            if (gridDps.Visibility == System.Windows.Visibility.Visible)
+                gridDps.Visibility = System.Windows.Visibility.Collapsed;
+            else gridDps.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void checkDamage_Checked(object sender, RoutedEventArgs e)
+        private void ContextMenu_Opened(object sender, RoutedEventArgs e)
         {
-            gridDamage.Visibility = System.Windows.Visibility.Visible;
-        }
 
-        private void checkDamage_Unchecked(object sender, RoutedEventArgs e)
-        {
-            gridDamage.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void checkDps_Checked(object sender, RoutedEventArgs e)
-        {
-            gridDps.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void checkDps_Unchecked(object sender, RoutedEventArgs e)
-        {
-            gridDps.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

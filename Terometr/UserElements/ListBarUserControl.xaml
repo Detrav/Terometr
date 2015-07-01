@@ -15,28 +15,16 @@
             <ContextMenu x:Key="mainContextMenu">
                 <MenuItem x:Name="checkClass"
                           Header="Класс"
-                          IsCheckable="True"
-                          IsChecked="True"
-                          Checked="checkClass_Checked"
-                          Unchecked="checkClass_Unchecked" />
+                          Click="checkClass_Click"/>
                 <MenuItem x:Name="checkCrit"
                           Header="Шанс крита"
-                          IsCheckable="True"
-                          IsChecked="True"
-                          Checked="checkCrit_Checked"
-                          Unchecked="checkCrit_Unchecked" />
+                          Click="checkCrit_Click" />
                 <MenuItem x:Name="checkDamage"
                           Header="Количество"
-                          IsCheckable="True"
-                          IsChecked="True"
-                          Checked="checkDamage_Checked"
-                          Unchecked="checkDamage_Unchecked" />
+                          Click="checkDamage_Click" />
                 <MenuItem x:Name="checkDps"
                           Header="Количество в секунду"
-                          IsCheckable="True"
-                          IsChecked="True"
-                          Checked="checkDps_Checked"
-                          Unchecked="checkDps_Unchecked" />
+                          Click="checkDps_Click" />
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
