@@ -63,7 +63,7 @@ namespace Detrav.Terometr.Core
             }
             else
             {
-                string format = String.Format("{{0:F{0}}}{{1}}({{2}})%",digitsCount);
+                string format = String.Format("{{0:F{0}}}{{1}}({{2}}%)", digitsCount);
                 return String.Format(format, res, kilos[num], procent);
             }
 
